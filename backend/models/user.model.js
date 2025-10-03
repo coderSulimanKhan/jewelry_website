@@ -9,7 +9,7 @@ const userSchema = new Schema({
   phone: String,
   wishlist: [{ type: Schema.Types.ObjectId, ref: "Product" }],
   image: { type: String, default: "avatar.png" }
-});
+}, { timestamps: true });
 
 const User = model("User", userSchema);
 
