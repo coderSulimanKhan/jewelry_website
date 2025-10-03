@@ -1,6 +1,11 @@
 import express from "express"
 //* Environment Variables
 import ENV_VARS from "./config/ENV_VARS.js"
+//* Database Function
+import connectDB from "./config/db.js"
+
+//* Making Database Connection
+connectDB();
 
 const app = express();
 
