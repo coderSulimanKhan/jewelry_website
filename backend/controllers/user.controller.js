@@ -117,6 +117,24 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.user._id);;
+    if (!user) return res.status(404).json({ success: false, message: "User not fouund" });
+    //todo: send email to verify before deleting the user
+    res.status(200).json({ success: true, message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+}
 
+const getAllUsers = async (req, res) => {
+  try {
+    const allUsers = await User.find();
+    res.status(200).json({ success: true, data: allUsers });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server errror" });
+  }
+}
 
-export { registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile };
+export { registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers };

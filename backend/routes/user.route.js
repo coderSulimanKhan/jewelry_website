@@ -1,9 +1,10 @@
 import { Router } from "express";
 //* Controllers
-import { getUserProfile, loginUser, registerUser, resendVerification, updateUserProfile, verifyEmail } from "../controllers/user.controller.js";
+import { deleteUser, getAllUsers, getUserProfile, loginUser, registerUser, resendVerification, updateUserProfile, verifyEmail } from "../controllers/user.controller.js";
 //* Middlewares
-import { rateLimiter } from "../middlewares/rateLimiter.js";
+import { adminRateLimit, adminRateLimiter, rateLimiter } from "../middlewares/rateLimiter.js";
 import protectRoute from "../middlewares/protectRoute.js";
+import { isAdmin } from "../middlewares/admin.js";
 //* Validation
 import { registerValidation } from "../validation/register.v.js";
 import { loginValidation } from "../validation/login.v.js";
@@ -28,5 +29,11 @@ router.get("/profile", rateLimiter, protectRoute, getUserProfile);
 
 //* update user profile
 router.put("/profile", rateLimiter, protectRoute, profileValidation, updateUserProfile);
+
+//* delete user account
+router.delete("/profile", rateLimiter, protectRoute, deleteUser);
+
+//* get all users (admin only)
+router.get("/", adminRateLimiter, protectRoute, isAdmin, getAllUsers);
 
 export default router;
