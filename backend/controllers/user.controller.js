@@ -34,7 +34,7 @@ const registerUser = async (req, res) => {
     //* Send email to verify
     // sendEmail(newUser.email);
     const token = generateTokenAndSetCookie(newUser._id, newUser.role, res);
-    res.status(201).json({ success: true, newUser, token });
+    res.status(201).json({ success: true, newUser: { ...newUser._doc, password: "" }, token });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
@@ -88,4 +88,15 @@ const loginUser = async (req, res) => {
   }
 };
 
-export { registerUser, verifyEmail, resendVerification, loginUser };
+const getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+    if (!user) return res.status(404).json({ success: false, message: "user not found" });
+    if (!user.isVerified) return res.status(403).json({ success: false, message: "user is not verified" });
+    res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+}
+
+export { registerUser, verifyEmail, resendVerification, loginUser, getUserProfile };
