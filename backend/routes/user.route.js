@@ -1,8 +1,8 @@
 import { Router } from "express";
 //* Controllers
-import { deleteUser, getAllUsers, getUserProfile, loginUser, registerUser, resendVerification, updateUserProfile, verifyEmail } from "../controllers/user.controller.js";
+import { deleteUser, getAllUsers, getUserById, getUserProfile, loginUser, registerUser, resendVerification, updateUserProfile, verifyEmail } from "../controllers/user.controller.js";
 //* Middlewares
-import { adminRateLimit, adminRateLimiter, rateLimiter } from "../middlewares/rateLimiter.js";
+import { adminRateLimiter, rateLimiter } from "../middlewares/rateLimiter.js";
 import protectRoute from "../middlewares/protectRoute.js";
 import { isAdmin } from "../middlewares/admin.js";
 //* Validation
@@ -35,5 +35,8 @@ router.delete("/profile", rateLimiter, protectRoute, deleteUser);
 
 //* get all users (admin only)
 router.get("/", adminRateLimiter, protectRoute, isAdmin, getAllUsers);
+
+//* get user by id
+router.get("/:id", adminRateLimiter, protectRoute, isAdmin, getUserById);
 
 export default router;

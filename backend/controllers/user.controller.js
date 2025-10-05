@@ -5,6 +5,7 @@ import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken"
 import ENV_VARS from "../config/ENV_VARS.js";
 import { sendEmail } from "../utils/sendEmail.js";
+import mongoose from "mongoose";
 
 const registerUser = async (req, res) => {
   try {
@@ -131,10 +132,22 @@ const deleteUser = async (req, res) => {
 const getAllUsers = async (req, res) => {
   try {
     const allUsers = await User.find();
-    res.status(200).json({ success: true, data: allUsers });
+    res.status(200).json({ success: true, message: allUsers.length ? "Users retrieved successfullu" : "Users not found", data: allUsers });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server errror" });
   }
 }
 
-export { registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers };
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ success: false, message: "Invalid id" });
+  try {
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    res.status(200).json({ success: true, data: user })
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export { registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getUserById };
