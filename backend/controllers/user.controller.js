@@ -97,6 +97,26 @@ const getUserProfile = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
-}
+};
 
-export { registerUser, verifyEmail, resendVerification, loginUser, getUserProfile };
+const updateUserProfile = async (req, res) => {
+  const { name, address, phone } = req.body;
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ success: false, errors: errors.array() });
+    const user = await User.findById(req.user._id).select("-password");
+    if (!user) return res.status(404).json({ success: false, message: "user not found" });
+    user.name = name || user.name;
+    user.address = address || user.address;
+    user.phone = phone || user.phone;
+    await user.save();
+    const updateUser = await User.findById(req.user._id);
+    res.status(200).json({ success: true, updateUser });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+
+
+export { registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile };
