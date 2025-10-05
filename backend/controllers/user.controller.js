@@ -2,9 +2,9 @@ import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
 import { validationResult } from "express-validator";
-import nodemailer from "nodemailer"
 import jwt from "jsonwebtoken"
 import ENV_VARS from "../config/ENV_VARS.js";
+import { sendEmail } from "../utils/sendEmail.js";
 
 const registerUser = async (req, res) => {
   try {
@@ -31,20 +31,8 @@ const registerUser = async (req, res) => {
       password: hashedPassword
     });
 
-    //* Verify email
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: { user: ENV_VARS.SMTP_EMAIL, pass: ENV_VARS.SMTP_PASSWORD }
-    });
-    const eToken = jwt.sign({ email }, ENV_VARS.JWT_EMAIL_SECRET, { expiresIn: "1h" });
-    const isSended = await transporter.sendMail({
-      to: newUser.email,
-      subject: "Verify your email",
-      html: `<a href="${ENV_VARS.PROD_BACKEND_URL}/api/v1/users/verify-email/${eToken}">Click to verify</a>`
-    });
-
-    if (!isSended) return res.status(400).json({ success: false, message: "Invalid credentials" });
-
+    //* Send email to verify
+    // sendEmail(newUser.email);
     const token = generateTokenAndSetCookie(newUser._id, newUser.role, res);
     res.status(201).json({ success: true, newUser, token });
   } catch (error) {
@@ -69,5 +57,35 @@ const verifyEmail = async (req, res) => {
   }
 };
 
+const resendVerification = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(404).json({ success: false, message: "user not found" });
+    if (user.isVerified) return res.status(200).json({ success: true, message: "email already verified" });
+    sendEmail(user.email);
+    res.status(200).send("Verification email resent");
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
 
-export { registerUser, verifyEmail };
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+  console.log(email, password);
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ success: false, error: errors.array() });
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ success: false, message: "user not found" });
+    if (!user.isVerified) return res.status(400).json({ success: false, message: "user is not verified" });
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) return res.status(400).json({ success: false, message: "password is not correct" });
+    const token = generateTokenAndSetCookie(user._id, user.role, res);
+    return res.status(200).json({ success: true, message: "Login successful", token });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export { registerUser, verifyEmail, resendVerification, loginUser };
