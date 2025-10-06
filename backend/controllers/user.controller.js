@@ -5,7 +5,7 @@ import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken"
 import ENV_VARS from "../config/ENV_VARS.js";
 import { sendEmail } from "../utils/sendEmail.js";
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 
 const registerUser = async (req, res) => {
   try {
@@ -49,6 +49,7 @@ const verifyEmail = async (req, res) => {
     if (!demail) return res.status(400).send("Invalid token");
     const user = await User.findOne({ email: demail });
     if (!user) return res.status(404).send("User not found.");
+    if (user.isDeleted) return res.status(404).json({ success: false, message: "User not found" });
     if (user.isVerified) return res.status(200).send("Email already verified");
     user.isVerified = true;
     await user.save();
@@ -63,6 +64,7 @@ const resendVerification = async (req, res) => {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json({ success: false, message: "user not found" });
     if (user.isVerified) return res.status(200).json({ success: true, message: "email already verified" });
+    if (user.isDeleted) return res.status(404).json({ success: false, message: "User not found" });
     sendEmail(user.email);
     res.status(200).send("Verification email resent");
   } catch (error) {
@@ -78,6 +80,7 @@ const loginUser = async (req, res) => {
     if (!errors.isEmpty()) return res.status(400).json({ success: false, error: errors.array() });
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ success: false, message: "user not found" });
+    if (user.isDeleted) return res.status(404).json({ success: false, message: "User not found" });
     if (!user.isVerified) return res.status(400).json({ success: false, message: "user is not verified" });
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) return res.status(400).json({ success: false, message: "password is not correct" });
@@ -94,6 +97,7 @@ const getUserProfile = async (req, res) => {
     const user = await User.findById(req.user._id).select("-password");
     if (!user) return res.status(404).json({ success: false, message: "user not found" });
     if (!user.isVerified) return res.status(403).json({ success: false, message: "user is not verified" });
+    if (user.isDeleted) return res.status(404).json({ success: false, message: "User not found" });
     res.status(200).json({ success: true, data: user });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
@@ -111,8 +115,8 @@ const updateUserProfile = async (req, res) => {
     user.address = address || user.address;
     user.phone = phone || user.phone;
     await user.save();
-    const updateUser = await User.findById(req.user._id);
-    res.status(200).json({ success: true, updateUser });
+    const updatedUser = await User.findById(req.user._id);
+    res.status(200).json({ success: true, updatedUser });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
@@ -120,14 +124,17 @@ const updateUserProfile = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.user._id);;
+    const user = await User.findById(req.user._id);;
     if (!user) return res.status(404).json({ success: false, message: "User not fouund" });
     //todo: send email to verify before deleting the user
+    if (user.isDeleted) return res.status(404).json({ success: false, message: "User already deleted" });
+    user.isDeleted = true;
+    await user.save();
     res.status(200).json({ success: true, message: "User deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
-}
+};
 
 const getAllUsers = async (req, res) => {
   try {
@@ -136,7 +143,7 @@ const getAllUsers = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: "Server errror" });
   }
-}
+};
 
 const getUserById = async (req, res) => {
   const { id } = req.params;
@@ -150,4 +157,39 @@ const getUserById = async (req, res) => {
   }
 };
 
-export { registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getUserById };
+const updateUserById = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(403).json({ success: false, message: "Invalid Id" });
+  const { name, address, phone } = req.body;
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ success: false, errors: errors.array() });
+    const user = await User.findById(id).select("-password");
+    if (!user) return res.status(404).json({ success: false, message: "user not found" });
+    user.name = name || user.name;
+    user.address = address || user.address;
+    user.phone = phone || user.phone;
+    await user.save();
+    const updatedUser = await User.findById(id);
+    res.status(200).json({ success: true, updatedUser });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const deleteUserById = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(403).json({ success: false, message: "Invalid id" });
+  try {
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    if (user.isDeleted) return res.status(404).json({ success: false, message: "User already deleted" });
+    user.isDeleted = true;
+    await user.save();
+    res.status(200).json({ success: true, message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export { registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getUserById, updateUserById, deleteUserById };

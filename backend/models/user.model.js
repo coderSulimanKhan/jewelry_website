@@ -9,7 +9,8 @@ const userSchema = new Schema({
   phone: { type: String, default: "" },
   wishlist: [{ type: Schema.Types.ObjectId, ref: "Product" }],
   image: { type: String, default: "avatar.png" },
-  isVerified: { type: Boolean, default: false }
+  isVerified: { type: Boolean, default: false },
+  isDeleted: { type: Boolean, default: "false" }
 }, { timestamps: true });
 
 const User = model("User", userSchema);

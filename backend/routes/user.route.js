@@ -1,6 +1,6 @@
 import { Router } from "express";
 //* Controllers
-import { deleteUser, getAllUsers, getUserById, getUserProfile, loginUser, registerUser, resendVerification, updateUserProfile, verifyEmail } from "../controllers/user.controller.js";
+import { deleteUser, deleteUserById, getAllUsers, getUserById, getUserProfile, loginUser, registerUser, resendVerification, updateUserById, updateUserProfile, verifyEmail } from "../controllers/user.controller.js";
 //* Middlewares
 import { adminRateLimiter, rateLimiter } from "../middlewares/rateLimiter.js";
 import protectRoute from "../middlewares/protectRoute.js";
@@ -36,7 +36,14 @@ router.delete("/profile", rateLimiter, protectRoute, deleteUser);
 //* get all users (admin only)
 router.get("/", adminRateLimiter, protectRoute, isAdmin, getAllUsers);
 
-//* get user by id
+//* get user by id (admin only)
 router.get("/:id", adminRateLimiter, protectRoute, isAdmin, getUserById);
+
+//* updat user by id (admin only)
+router.put("/:id", adminRateLimiter, protectRoute, isAdmin, profileValidation, updateUserById);
+
+//* delete user by id (admin only)
+router.delete("/:id", adminRateLimiter, protectRoute, isAdmin, deleteUserById);
+
 
 export default router;
