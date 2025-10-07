@@ -5,9 +5,11 @@ import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken"
 import ENV_VARS from "../config/ENV_VARS.js";
 import { sendEmail } from "../utils/sendEmail.js";
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
+import fs from "fs/promises";
+import path from "path";
 
-const registerUser = async (req, res) => {
+const registerCustomer = async (req, res) => {
   try {
     //* Getting the data from the request
     const { name, email, password, } = req.body;
@@ -30,6 +32,41 @@ const registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword
+    });
+
+    //* Send email to verify
+    // sendEmail(newUser.email);
+    const token = generateTokenAndSetCookie(newUser._id, newUser.role, res);
+    res.status(201).json({ success: true, newUser: { ...newUser._doc, password: "" }, token });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const registerUser = async (req, res) => {
+  try {
+    //* Getting the data from the request
+    const { name, email, password, role } = req.body;
+    //* Check validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, error: errors.array() });
+    }
+    //* Check for the email if already defined
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ success: false, message: "User already exists" });
+    }
+    //* Hashing the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    //* Registering the new user
+    const newUser = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      role
     });
 
     //* Send email to verify
@@ -107,17 +144,25 @@ const getUserProfile = async (req, res) => {
 const updateUserProfile = async (req, res) => {
   const { name, address, phone } = req.body;
   try {
+    const imageFileName = req.file?.filename;
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ success: false, errors: errors.array() });
     const user = await User.findById(req.user._id).select("-password");
     if (!user) return res.status(404).json({ success: false, message: "user not found" });
     user.name = name || user.name;
-    user.address = address || user.address;
+    user.address = JSON.parse(address) || user.address;
     user.phone = phone || user.phone;
+    if (imageFileName && user.image === "/avatar.png") {
+      user.image = imageFileName || user.image;
+    } else if (imageFileName && user.image !== "/avatar.png") {
+      await fs.unlink(path.resolve("backend", "uploads", user.image));
+      user.image = imageFileName || user.image;
+    }
     await user.save();
     const updatedUser = await User.findById(req.user._id);
-    res.status(200).json({ success: true, updatedUser });
+    res.status(200).json({ success: true, updatedUser: { ...updatedUser._doc, password: "" } });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
@@ -160,19 +205,28 @@ const getUserById = async (req, res) => {
 const updateUserById = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(403).json({ success: false, message: "Invalid Id" });
+  console.log(req.body);
   const { name, address, phone } = req.body;
   try {
+    const imageFileName = req.file?.filename;
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ success: false, errors: errors.array() });
     const user = await User.findById(id).select("-password");
     if (!user) return res.status(404).json({ success: false, message: "user not found" });
     user.name = name || user.name;
-    user.address = address || user.address;
+    user.address = JSON.parse(address) || user.address;
     user.phone = phone || user.phone;
+    if (imageFileName && user.image === "/avatar.png") {
+      user.image = imageFileName || user.image;
+    } else if (imageFileName && user.image !== "/avatar.png") {
+      await fs.unlink(path.resolve("backend", "uploads", user.image));
+      user.image = imageFileName || user.image;
+    }
     await user.save();
     const updatedUser = await User.findById(id);
     res.status(200).json({ success: true, updatedUser });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
@@ -192,4 +246,4 @@ const deleteUserById = async (req, res) => {
   }
 };
 
-export { registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getUserById, updateUserById, deleteUserById };
+export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getUserById, updateUserById, deleteUserById };
