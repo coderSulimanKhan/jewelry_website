@@ -6,12 +6,19 @@ const productSchema = new Schema({
   category: { type: String, required: true, enum: ["ring", "necklace", "bracelet", "earrings", "pendant", "anklet", "other"] },
   material: { type: [String], required: true, enum: ["silver", "gold", "diamond"] },
   price: { type: Number, required: true },
+  discountPercentage: Number,
   color: { type: String, required: true },
   stock: { type: Number, required: true, min: 0 },
   weight: { value: Number, unit: { type: String, enum: ["ct", "g", "oz"], required: true, default: "g" } },
   size: { value: Number, unit: { type: String, enum: ["inch", "cm"], default: "inch" } },
   images: [String],
-  stone: { type: [String], enum: ["agate", "amethyst", "apatite", "aquamarine", "adventurine", "carnelian", "chrysoprase", "citrine", "diamond", "emerald", "garnet", "honey quartz", "jade", "lab grown blue sapphire", "lab grown diamond", "lab grown emerald", "lab grown ruby", "lab grown white sapphire", "multi", "neon apatite", "onyx", "opal", "pearl", "peridot", "prasiolite", "quartz", "ruby", "sapphire", "sodalite", "swiss blue topaz", "tiger eye", "topaz", "tourmaline", "tsavorite", "turquoise", "none"], default: "none" },
+  stone: [{
+    type: { type: String, enum: ["agate", "amethyst", "apatite", "aquamarine", "adventurine", "carnelian", "chrysoprase", "citrine", "diamond", "emerald", "garnet", "honey quartz", "jade", "lab grown blue sapphire", "lab grown diamond", "lab grown emerald", "lab grown ruby", "lab grown white sapphire", "multi", "neon apatite", "onyx", "opal", "pearl", "peridot", "prasiolite", "quartz", "ruby", "sapphire", "sodalite", "swiss blue topaz", "tiger eye", "topaz", "tourmaline", "tsavorite", "turquoise", "none"], default: "none" },
+    quantity: { type: Number, min: 1 },
+    shape: String,
+    color: String,
+    weight: { type: String, enum: ["ct", "g", "oz"], defult: "g" }
+  }],
   qrCode: String,
   barCode: String,
 }, { timestamps: true });
