@@ -7,13 +7,33 @@
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: #f2fb9d;
-  --color-secondary: #614900;
+  /* background */
+  --color-primary: var(--color-orange-200);
+  /* text */
+  --color-secondary: var(--color-orange-950);
+  /* gradient middle */
+  --color-warning: var(--color-yellow-200);
+  /* navbar */
+  --color-accent: var(--color-orange-500);
+  /* navbar gradient middle */
+  --color-neutral: var(--color-orange-300);
+  /* hover */
+  --color-info: var(--color-orange-600);
 }
 
 @plugin "daisyui/theme" {
   name: "dark";
   default: true;
-  --color-primary: #614900;
-  --color-secondary: #f2fb9d;
+  /* background */
+  --color-primary: var(--color-orange-950);
+  /* text */
+  --color-secondary: var(--color-orange-200);
+  /* gradient middle */
+  --color-warning: var(--color-yellow-950);
+  /* navbar */
+  --color-accent: var(--color-gray-950);
+  /* navbar gradient middle */
+  --color-neutral: var(--color-orange-950);
+  /* hover */
+  --color-info: var(--color-orange-400);
 }
