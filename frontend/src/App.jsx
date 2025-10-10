@@ -3,12 +3,13 @@ import Footer from "../components/common/Footer"
 import Navbar from "../components/common/Navbar"
 import HomePage from "../pages/HomePage"
 import LoginPage from "../pages/LoginPage"
-// import RegisterPage from "../pages/RegisterPage"
 import { useEffect, useState } from "react"
+// employee dashboard
+import EmployeeDashboard from "../dashboards/employee/EmployeeDashboard"
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);
-  const role = "general";
+  const role = "employee";
   useEffect(() => {
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     setIsDark(prefersDark);
@@ -29,8 +30,10 @@ const App = () => {
       {/* navbar */}
       <Navbar toggleTheme={toggleTheme} isDark={isDark} role={role} />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage role={role} />} />
         <Route path="/login" element={<LoginPage />} />
+        {/* routes for employee */}
+        <Route path="/employee/dashboard" element={<EmployeeDashboard role={role} />} />
       </Routes>
       {/* footer */}
       <Footer />
