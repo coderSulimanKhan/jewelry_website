@@ -12,11 +12,10 @@ import AdminDashboard from "../dashboards/admin/AdminDashboard"
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);
-  const role = "general";
+  const role = "admin";
   useEffect(() => {
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     setIsDark(prefersDark);
-    // document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
   }, []);
 
   useEffect(() => {
