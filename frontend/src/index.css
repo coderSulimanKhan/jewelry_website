@@ -8,7 +8,7 @@
   name: "light";
   default: true;
   /* background */
-  --color-primary: var(--color-gray-300);
+  --color-primary: var(--color-gray-200);
   /* text */
   --color-secondary: var(--color-orange-200);
   /* link color */
@@ -39,7 +39,7 @@
 }
 
 .myBtn {
-  @apply px-5 py-2 bg-gradient-to-r from-warning to-secondary text-neutral rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition
+  @apply px-5 py-2 bg-gradient-to-r from-warning to-secondary text-neutral rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition flex gap-1 items-center justify-center
 }
 
 .textField {

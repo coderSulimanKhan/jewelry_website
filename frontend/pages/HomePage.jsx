@@ -13,12 +13,16 @@ const HomePage = ({ role }) => {
         <div className="flex flex-col gap-4 w-fit">
           <Link to={"/all"} className="px-7 py-3 bg-gradient-to-r from-warning to-secondary text-neutral rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition flex gap-1"><Layers />Explore Collections</Link>
           {
-            role === "general" &&
-            <Link to={"/login"} className="px-7 py-3  bg-gradient-to-r from-warning to-secondary text-neutral rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition text-center">Login</Link>
+            (role !== "employee" && role !== "admin") &&
+            <Link to={"/login"} className="px-7 py-3 bg-gradient-to-r from-warning to-secondary text-neutral rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition text-center">Login</Link>
           }
           {
             role === "employee" &&
             <Link to={"/employee/dashboard"} className="px-7 py-3  bg-gradient-to-r from-warning to-secondary text-neutral rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition text-center flex gap-1 items-center justify-center"><Settings /> Dashboard</Link>
+          }
+          {
+            role === "admin" &&
+            <Link to={"/admin/dashboard"} className="px-7 py-3  bg-gradient-to-r from-warning to-secondary text-neutral rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition text-center flex gap-1 items-center justify-center"><Settings /> Dashboard</Link>
           }
         </div>
         {/* buttons end */}

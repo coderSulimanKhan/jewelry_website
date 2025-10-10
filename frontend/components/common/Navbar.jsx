@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router"
-import { Sun, Moon, Home, Layers, ThumbsUp, Star, LogIn, Settings } from "lucide-react"
+import { Sun, Moon, Home, Layers, ThumbsUp, Star, LogIn, Settings, UserCircle } from "lucide-react"
 
 const Navbar = ({ toggleTheme, isDark, role }) => {
   return (
@@ -32,15 +32,24 @@ const Navbar = ({ toggleTheme, isDark, role }) => {
               <NavLink to={"/employee/dashboard"} className={({ isActive }) => isActive ? "text-info flex gap-1" : "flex gap-1"}> <Settings /> Dashboard</NavLink>
             </li>
           }
+          {
+            role === "admin" && <li className="hover:scale-110 transition active:scale-90 text-warning">
+              <NavLink to={"/admin/dashboard"} className={({ isActive }) => isActive ? "text-info flex gap-1" : "flex gap-1"}> <Settings /> Dashboard</NavLink>
+            </li>
+          }
         </ul>
       </div>
       {/* navigation menu ends */}
       {/* login/profile starts */}
       <div className="flex gap-2">
-        <button onClick={toggleTheme} className="myBtn flex gap-1">Theme{isDark ? <Moon /> : <Sun />}</button>
+        <button onClick={toggleTheme} className="myBtn">Theme{isDark ? <Moon /> : <Sun />}</button>
         {
-          role === "general" &&
-          <Link to={"/login"} className="myBtn flex gap-1">Login <LogIn /></Link>
+          (role !== "employee" && role !== "admin") &&
+          <Link to={"/login"} className="myBtn">Login <LogIn /></Link>
+        }
+        {
+          (role === "employee" || role === "admin") &&
+          <Link className="myBtn" to={"/profile"}>Profile <UserCircle /> </Link>
         }
         {/* <Link to={"/register"} className="px-5 py-2 bg-secondary text-primary rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition">Register</Link> */}
       </div>

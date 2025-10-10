@@ -3,13 +3,16 @@ import Footer from "../components/common/Footer"
 import Navbar from "../components/common/Navbar"
 import HomePage from "../pages/HomePage"
 import LoginPage from "../pages/LoginPage"
+import Profile from "../components/common/Profile"
 import { useEffect, useState } from "react"
 // employee dashboard
 import EmployeeDashboard from "../dashboards/employee/EmployeeDashboard"
+// admin dashboard
+import AdminDashboard from "../dashboards/admin/AdminDashboard"
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);
-  const role = "employee";
+  const role = "general";
   useEffect(() => {
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     setIsDark(prefersDark);
@@ -31,9 +34,12 @@ const App = () => {
       <Navbar toggleTheme={toggleTheme} isDark={isDark} role={role} />
       <Routes>
         <Route path="/" element={<HomePage role={role} />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage role={role} />} />
+        <Route path="/profile" element={<Profile />} />
         {/* routes for employee */}
         <Route path="/employee/dashboard" element={<EmployeeDashboard role={role} />} />
+        {/* routes for admin */}
+        <Route path="/admin/dashboard" element={<AdminDashboard role={role} />} />
       </Routes>
       {/* footer */}
       <Footer />

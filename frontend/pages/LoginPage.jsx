@@ -1,6 +1,11 @@
 import { Lock, LogIn, LucideUserX2, User, User2, UserX2 } from "lucide-react"
+import { useNavigate } from "react-router"
 
-const LoginPage = () => {
+const LoginPage = ({ role }) => {
+  const navigate = useNavigate();
+  if (role === "employee" || role === "admin") {
+    navigate("/");
+  }
   return (
     // login starts
     <div className="w-1/3 border bg-primary shadow-2xl shadow-warning border-warning flex flex-col gap-6 p-4 items-center rounded">
@@ -34,7 +39,7 @@ const LoginPage = () => {
       {/* fields ends */}
       {/* button starts */}
       <div className="">
-        <button className="myBtn flex gap-2">Login <LogIn /></button>
+        <button className="myBtn">Login <LogIn /></button>
       </div>
       {/* button ends */}
     </div>
