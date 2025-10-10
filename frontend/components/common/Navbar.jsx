@@ -1,7 +1,7 @@
 import { Link, NavLink } from "react-router"
-import { Sun, Moon } from "lucide-react"
+import { Sun, Moon, Home, Layers, ThumbsUp, Star, LogIn } from "lucide-react"
 
-const Navbar = ({ toggleTheme, isDark }) => {
+const Navbar = ({ toggleTheme, isDark, role }) => {
   return (
     // navigation bar starts
     <div className="max-w-[95%] mt-3 pl-10 pr-5 py-2 w-full flex items-center justify-between rounded-full bg-primary backdrop-brightness-150 border border-warning">
@@ -16,24 +16,24 @@ const Navbar = ({ toggleTheme, isDark }) => {
       <div>
         <ul className="flex gap-10 text-xl tracking-wider">
           <li className="hover:scale-110 transition active:scale-90 text-warning">
-            <NavLink to={"/"} className={({ isActive }) => isActive ? "text-info" : ""}>Home</NavLink>
+            <NavLink to={"/"} className={({ isActive }) => isActive ? "text-info flex gap-1" : "flex gap-1"}><Home /> Home</NavLink>
           </li>
           <li className="hover:scale-110 transition active:scale-90 text-warning">
-            <NavLink to={"/all"} className={({ isActive }) => isActive ? "text-info" : ""}>All</NavLink>
+            <NavLink to={"/all"} className={({ isActive }) => isActive ? "text-info flex gap-1" : "flex gap-1"}><Layers />All</NavLink>
           </li>
           <li className="hover:scale-110 transition active:scale-90 text-warning">
-            <NavLink to={"/new"} className={({ isActive }) => isActive ? "text-info" : ""}>New</NavLink>
+            <NavLink to={"/new"} className={({ isActive }) => isActive ? "text-info flex gap-1" : "flex gap-1"}><Star />New</NavLink>
           </li>
           <li className="hover:scale-110 transition active:scale-90 text-warning">
-            <NavLink to={"/best"} className={({ isActive }) => isActive ? "text-info" : ""}>Best</NavLink>
+            <NavLink to={"/best"} className={({ isActive }) => isActive ? "text-info flex gap-1" : "flex gap-1"}> <ThumbsUp /> Best</NavLink>
           </li>
         </ul>
       </div>
       {/* navigation menu ends */}
       {/* login/profile starts */}
       <div className="flex gap-2">
-        <button onClick={toggleTheme} className="myBtn">{isDark ? <Moon /> : <Sun />}</button>
-        <Link to={"/login"} className="myBtn">Login</Link>
+        <button onClick={toggleTheme} className="myBtn flex gap-1">Theme{isDark ? <Moon /> : <Sun />}</button>
+        <Link to={"/login"} className="myBtn flex gap-1">Login <LogIn /></Link>
         {/* <Link to={"/register"} className="px-5 py-2 bg-secondary text-primary rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition">Register</Link> */}
       </div>
       {/* login/rpofile ends */}
