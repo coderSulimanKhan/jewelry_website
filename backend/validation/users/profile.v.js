@@ -2,6 +2,7 @@ import { body } from "express-validator";
 
 const profileValidation = [
   body("name").optional().trim().escape().isLength({ min: 2 }).withMessage("Name must be at least 2 characters"),
+  body("username").optional().trim().escape().isLength({ min: 2 }).withMessage("Username must be lowercase and at least 2 characters"),
 
   body("address.country").optional().trim().escape().isLength({ min: 5 }).withMessage("Country must be at least 2 characters"),
   body("address.city").optional().trim().escape().isLength({ min: 2 }).withMessage("City must be at least 2 characters"),

@@ -8,32 +8,36 @@
   name: "light";
   default: true;
   /* background */
-  --color-primary: var(--color-orange-200);
+  --color-primary: var(--color-gray-300);
   /* text */
-  --color-secondary: var(--color-orange-950);
-  /* gradient middle */
-  --color-warning: var(--color-yellow-200);
-  /* navbar */
-  --color-accent: var(--color-orange-500);
-  /* navbar gradient middle */
-  --color-neutral: var(--color-orange-300);
-  /* hover */
-  --color-info: var(--color-orange-600);
+  --color-secondary: var(--color-orange-200);
+  /* link color */
+  --color-warning: var(--color-orange-400);
+  /* homepage h1 */
+  --color-accent: var(--color-orange-950);
+  /* button text */
+  --color-neutral: var(--color-orange-950);
+  /* active link */
+  --color-info: var(--color-orange-950);
 }
 
 @plugin "daisyui/theme" {
   name: "dark";
   default: true;
   /* background */
-  --color-primary: var(--color-orange-950);
+  --color-primary: var(--color-gray-950);
   /* text */
   --color-secondary: var(--color-orange-200);
-  /* gradient middle */
-  --color-warning: var(--color-yellow-950);
-  /* navbar */
-  --color-accent: var(--color-gray-950);
-  /* navbar gradient middle */
+  /* link color */
+  --color-warning: var(--color-orange-400);
+  /* homepage h1 */
+  --color-accent: var(--color-orange-200);
+  /* button text */
   --color-neutral: var(--color-orange-950);
-  /* hover */
-  --color-info: var(--color-orange-400);
+  /* active link */
+  --color-info: var(--color-orange-200);
+}
+
+.myBtn {
+  @apply px-5 py-2 bg-gradient-to-r from-warning to-secondary text-neutral rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition
 }

@@ -12,7 +12,7 @@ import path from "path";
 const registerCustomer = async (req, res) => {
   try {
     //* Getting the data from the request
-    const { name, email, password, } = req.body;
+    const { name, username, email, password, } = req.body;
     //* Check validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -30,6 +30,7 @@ const registerCustomer = async (req, res) => {
     //* Registering the new user
     const newUser = await User.create({
       name,
+      username,
       email,
       password: hashedPassword
     });
@@ -46,7 +47,7 @@ const registerCustomer = async (req, res) => {
 const registerUser = async (req, res) => {
   try {
     //* Getting the data from the request
-    const { name, email, password, role } = req.body;
+    const { name, username, email, password, role } = req.body;
     //* Check validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -64,6 +65,7 @@ const registerUser = async (req, res) => {
     //* Registering the new user
     const newUser = await User.create({
       name,
+      username,
       email,
       password: hashedPassword,
       role
@@ -110,15 +112,14 @@ const resendVerification = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
-  console.log(email, password);
+  const { username, password } = req.body;
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ success: false, error: errors.array() });
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ username });
     if (!user) return res.status(404).json({ success: false, message: "user not found" });
     if (user.isDeleted) return res.status(404).json({ success: false, message: "User not found" });
-    if (!user.isVerified) return res.status(400).json({ success: false, message: "user is not verified" });
+    // if (!user.isVerified) return res.status(400).json({ success: false, message: "user is not verified" });
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) return res.status(400).json({ success: false, message: "password is not correct" });
     const token = generateTokenAndSetCookie(user._id, user.role, res);
@@ -142,7 +143,7 @@ const getUserProfile = async (req, res) => {
 };
 
 const updateUserProfile = async (req, res) => {
-  const { name, address, phone } = req.body;
+  const { name, username, address, phone } = req.body;
   try {
     const imageFileName = req.file?.filename;
     const errors = validationResult(req);
@@ -152,6 +153,7 @@ const updateUserProfile = async (req, res) => {
     user.name = name || user.name;
     user.address = JSON.parse(address) || user.address;
     user.phone = phone || user.phone;
+    user.username = username || user.username;
     if (imageFileName && user.image === "/avatar.png") {
       user.image = imageFileName || user.image;
     } else if (imageFileName && user.image !== "/avatar.png") {
