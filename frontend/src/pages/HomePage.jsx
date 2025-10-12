@@ -14,7 +14,7 @@ const HomePage = ({ role }) => {
           <Link to={"/all"} className="px-7 py-3 bg-gradient-to-r from-warning to-secondary text-neutral rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition flex gap-1"><Layers />Explore Collections</Link>
           {
             (role !== "employee" && role !== "admin") &&
-            <Link to={"/login"} className="px-7 py-3 bg-gradient-to-r from-warning to-secondary text-neutral rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition text-center flex gap-1 items-center justify-center">Login <LogIn /></Link>
+            <Link to={"/login"} className="px-7 py-3 bg-gradient-to-r from-warning to-secondary text-neutral rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition text-center flex gap-1 items-center justify-center"> <LogIn /> Login</Link>
           }
           {
             role === "employee" &&

@@ -42,14 +42,14 @@ const Navbar = ({ toggleTheme, isDark, role }) => {
       {/* navigation menu ends */}
       {/* login/profile starts */}
       <div className="flex gap-2">
-        <button onClick={toggleTheme} className="myBtn">Theme{isDark ? <Moon /> : <Sun />}</button>
+        <button onClick={toggleTheme} className="myBtn">{isDark ? <Moon /> : <Sun />}Theme</button>
         {
           (role !== "employee" && role !== "admin") &&
-          <Link to={"/login"} className="myBtn">Login <LogIn /></Link>
+          <Link to={"/login"} className="myBtn"> <LogIn /> Login</Link>
         }
         {
           (role === "employee" || role === "admin") &&
-          <Link className="myBtn" to={"/profile"}>Profile <UserCircle /> </Link>
+          <Link className="myBtn" to={"/profile"}> <UserCircle /> Profile </Link>
         }
         {/* <Link to={"/register"} className="px-5 py-2 bg-secondary text-primary rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition">Register</Link> */}
       </div>

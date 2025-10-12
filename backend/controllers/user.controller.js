@@ -123,7 +123,7 @@ const loginUser = async (req, res) => {
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) return res.status(400).json({ success: false, message: "password is not correct" });
     const token = generateTokenAndSetCookie(user._id, user.role, res);
-    return res.status(200).json({ success: true, message: "Login successful", token });
+    return res.status(200).json({ success: true, message: "Login successful", user: { ...user._doc, password: "" }, token });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Server error" });

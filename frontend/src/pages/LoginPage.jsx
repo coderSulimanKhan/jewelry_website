@@ -1,9 +1,21 @@
 import { Lock, LogIn, LucideUserX2, User, User2, UserX2 } from "lucide-react"
+import { useState } from "react";
 import { useNavigate } from "react-router"
+import { useDispatch, useSelector } from "react-redux"
+import { loginUser } from "../store/slices/user.slice"
 
 const LoginPage = ({ role }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { user, loading, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   if (role === "employee" || role === "admin") {
+    navigate("/");
+  }
+  const handleLogin = async () => {
+    dispatch(loginUser({ username, password }));
+    console.log(user, loading, error);
     navigate("/");
   }
   return (
@@ -22,7 +34,7 @@ const LoginPage = ({ role }) => {
           <label htmlFor="username" className="text-blue-500">Username</label>
           <div className="flex items-center">
             <User className="size-8 ml-2" />
-            <input className="textField" type="text" id="username" placeholder="@ sulimankhan" />
+            <input value={username} onChange={(e) => setUsername(e.target.value)} className="textField" type="text" id="username" placeholder="@ sulimankhan" />
           </div>
         </div>
         {/* username ends */}
@@ -31,7 +43,7 @@ const LoginPage = ({ role }) => {
           <label className="text-blue-500" htmlFor="passowrd">Password</label>
           <div className="flex items-center">
             <Lock className="size-8 ml-2" />
-            <input className="textField" type="text" id="password" placeholder="@ strong password" />
+            <input value={password} onChange={(e) => setPassword(e.target.value)} className="textField" type="password" id="password" placeholder="@ strong password" />
           </div>
         </div>
         {/* password ends */}
@@ -39,7 +51,7 @@ const LoginPage = ({ role }) => {
       {/* fields ends */}
       {/* button starts */}
       <div className="">
-        <button className="myBtn">Login <LogIn /></button>
+        <button onClick={handleLogin} className="myBtn">Login <LogIn /></button>
       </div>
       {/* button ends */}
     </div>

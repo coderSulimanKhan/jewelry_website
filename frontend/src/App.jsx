@@ -1,18 +1,30 @@
 import { Route, Routes } from "react-router"
-import Footer from "../components/common/Footer"
-import Navbar from "../components/common/Navbar"
-import HomePage from "../pages/HomePage"
-import LoginPage from "../pages/LoginPage"
-import Profile from "../components/common/Profile"
+import Footer from "./components/common/Footer"
+import Navbar from "./components/common/Navbar"
+import HomePage from "./pages/HomePage"
+import LoginPage from "./pages/LoginPage"
+import Profile from "./components/common/Profile"
 import { useEffect, useState } from "react"
 // employee dashboard
-import EmployeeDashboard from "../dashboards/employee/EmployeeDashboard"
+import EmployeeDashboard from "./dashboards/employee/EmployeeDashboard"
 // admin dashboard
-import AdminDashboard from "../dashboards/admin/AdminDashboard"
+import AdminDashboard from "./dashboards/admin/AdminDashboard"
+import CustomersPage from "./dashboards/admin/pages/CustomersPage"
+import EmployeesPage from "./dashboards/admin/pages/EmployeesPage"
+import AdminHomePage from "./dashboards/admin/pages/AdminHomePage"
+import ProductsPage from "./dashboards/admin/pages/ProductsPage"
+import SalesPage from "./dashboards/admin/pages/SalesPage"
+import CutsPage from "./dashboards/admin/pages/CutsPages"
+import OrdersPage from "./dashboards/admin/pages/OrdersPage"
+import AdminsPage from "./dashboards/admin/pages/AdminsPage"
+import BillsPage from "./dashboards/admin/pages/BillsPage"
+import { useSelector } from "react-redux"
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);
-  const role = "admin";
+  const user = useSelector(state => state.user.user);
+  const role = user?.role;
+  console.log(user);
   useEffect(() => {
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     setIsDark(prefersDark);
@@ -38,7 +50,17 @@ const App = () => {
         {/* routes for employee */}
         <Route path="/employee/dashboard" element={<EmployeeDashboard role={role} />} />
         {/* routes for admin */}
-        <Route path="/admin/dashboard" element={<AdminDashboard role={role} />} />
+        <Route path="/admin/dashboard" element={<AdminDashboard role={role} />}>
+          <Route index element={<AdminHomePage />} />
+          <Route path="customers" element={<CustomersPage />} />
+          <Route path="employees" element={<EmployeesPage />} />
+          <Route path="products" element={<ProductsPage />} />
+          <Route path="sales" element={<SalesPage />} />
+          <Route path="cuts" element={<CutsPage />} />
+          <Route path="orders" element={<OrdersPage />} />
+          <Route path="admins" element={<AdminsPage />} />
+          <Route path="bills" element={<BillsPage />} />
+        </Route>
       </Routes>
       {/* footer */}
       <Footer />

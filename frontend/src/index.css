@@ -4,6 +4,10 @@
   theme: light, dark;
 }
 
+/* *{
+  border: 1px solid red;
+} */
+
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
@@ -19,6 +23,7 @@
   --color-neutral: var(--color-orange-950);
   /* active link */
   --color-info: var(--color-orange-950);
+  --color-success: var(--color-blue-600);
 }
 
 @plugin "daisyui/theme" {
@@ -36,12 +41,35 @@
   --color-neutral: var(--color-orange-950);
   /* active link */
   --color-info: var(--color-orange-200);
+  /* admin dashboard links */
+  --color-success: var(--color-blue-600);
 }
 
 .myBtn {
-  @apply px-5 py-2 bg-gradient-to-r from-warning to-secondary text-neutral rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition flex gap-1 items-center justify-center
+  @apply px-5 py-2 bg-gradient-to-r from-warning to-secondary text-neutral rounded-4xl font-bold shadow-xl hover:scale-110 active:scale-90 transition flex gap-1 items-center justify-center;
 }
 
 .textField {
-  @apply border border-warning absolute pl-10 text-3xl p-2 w-[31%] text-warning rounded
+  @apply border border-warning absolute pl-10 text-3xl p-2 w-[31%] text-warning rounded;
+}
+
+/* admin styles */
+.adminCardLink {
+  @apply h-full flex items-center justify-center rounded-lg shadow-lg shadow-warning hover:scale-110 transition active:scale-90;
+}
+
+.adminCardInsideDiv {
+  @apply flex flex-col items-center justify-center gap-2;
+}
+
+.adminCardH1 {
+  @apply text-4xl font-bold text-warning;
+}
+
+.adminCardP {
+  @apply text-xl flex items-center gap-1 font-bold;
+}
+
+.adminCardSpan {
+  @apply text-sm bg-success/20 text-success px-2 rounded-full;
 }
