@@ -1,6 +1,6 @@
 import { Router } from "express";
 //* Controllers
-import { deleteUser, deleteUserById, getAllUsers, getUserById, getUserProfile, loginUser, registerCustomer, registerUser, resendVerification, updateUserById, updateUserProfile, verifyEmail } from "../controllers/user.controller.js";
+import { deleteUser, deleteUserById, getAllUsers, getMe, getUserById, getUserProfile, loginUser, registerCustomer, registerUser, resendVerification, updateUserById, updateUserProfile, verifyEmail } from "../controllers/user.controller.js";
 //* Middlewares
 import { adminRateLimiter, rateLimiter } from "../middlewares/rateLimiter.js";
 import protectRoute from "../middlewares/protectRoute.js";
@@ -24,7 +24,10 @@ router.get("/verify-email/:token", verifyEmail);
 router.post("/resend-verification", rateLimiter, protectRoute, resendVerification);
 
 //* login existing user
-router.post("/login", rateLimiter, loginValidation, loginUser);
+router.post("/login", /*rateLimiter, */ loginValidation, loginUser);
+
+//* get user from cookie
+router.get("/me", rateLimiter, protectRoute, getMe);
 
 //* get loged in user profile
 router.get("/profile", rateLimiter, protectRoute, getUserProfile);

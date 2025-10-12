@@ -7,7 +7,7 @@ import { loginUser } from "../store/slices/user.slice"
 const LoginPage = ({ role }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { user, loading, error } = useSelector((state) => state.user);
+  const { loading, error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   if (role === "employee" || role === "admin") {
@@ -15,8 +15,9 @@ const LoginPage = ({ role }) => {
   }
   const handleLogin = async () => {
     dispatch(loginUser({ username, password }));
-    console.log(user, loading, error);
-    navigate("/");
+    if (!error && !loading) {
+      navigate("/");
+    }
   }
   return (
     // login starts
@@ -51,7 +52,7 @@ const LoginPage = ({ role }) => {
       {/* fields ends */}
       {/* button starts */}
       <div className="">
-        <button onClick={handleLogin} className="myBtn">Login <LogIn /></button>
+        <button onClick={handleLogin} disabled={loading} className="myBtn"> {loading ? <div className="loading" /> : <>Login < LogIn /></>}</button>
       </div>
       {/* button ends */}
     </div>

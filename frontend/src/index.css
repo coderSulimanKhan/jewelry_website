@@ -14,15 +14,15 @@
   /* background */
   --color-primary: var(--color-gray-200);
   /* text */
-  --color-secondary: var(--color-orange-200);
+  --color-secondary: var(--color-orange-400);
   /* link color */
-  --color-warning: var(--color-orange-400);
+  --color-warning: var(--color-orange-950);
   /* homepage h1 */
   --color-accent: var(--color-orange-950);
   /* button text */
-  --color-neutral: var(--color-orange-950);
+  --color-neutral: var(--color-gray-200);
   /* active link */
-  --color-info: var(--color-orange-950);
+  --color-info: var(--color-orange-400);
   --color-success: var(--color-blue-600);
 }
 

@@ -119,7 +119,7 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ username });
     if (!user) return res.status(404).json({ success: false, message: "user not found" });
     if (user.isDeleted) return res.status(404).json({ success: false, message: "User not found" });
-    // if (!user.isVerified) return res.status(400).json({ success: false, message: "user is not verified" });
+    if (!user.isVerified) return res.status(400).json({ success: false, message: "user is not verified" });
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) return res.status(400).json({ success: false, message: "password is not correct" });
     const token = generateTokenAndSetCookie(user._id, user.role, res);
@@ -129,6 +129,15 @@ const loginUser = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+const getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    res.status(200).json({ success: true, user: { ...user._doc, password: "" } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server errror" });
+  }
+}
 
 const getUserProfile = async (req, res) => {
   try {
@@ -248,4 +257,4 @@ const deleteUserById = async (req, res) => {
   }
 };
 
-export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getUserById, updateUserById, deleteUserById };
+export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getUserById, updateUserById, deleteUserById, getMe };

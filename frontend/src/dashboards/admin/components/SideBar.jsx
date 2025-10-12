@@ -8,7 +8,7 @@ const SideBar = () => {
       {/* admin header starts */}
       <div>
         <Link to={"/admin/dashboard"}>
-          <h1 className="text-3xl flex items-center gap-2 font-bold text-warning"><Settings />Dashboard <span className="text-xs font-normal bg-green-300 text-primary p-1 rounded-full">Admin</span></h1>
+          <h1 className="text-3xl flex items-center gap-2 font-bold text-warning"><Settings />Dashboard <span className="text-xs font-normal bg-green-300/20 text-accent p-1 rounded-full">Admin</span></h1>
         </Link>
       </div>
       {/* admin header ends */}

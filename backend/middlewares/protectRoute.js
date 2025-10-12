@@ -9,6 +9,7 @@ const protectRoute = async (req, res, next) => {
     const decode = jwt.verify(token, ENV_VARS.JWT_SECRET);
     const user = await User.findById(decode.userId);
     if (!user) return res.status(404).json({ success: false, message: "user not found" });
+    if (user.isDeleted) return res.status(403).json({ success: false, message: "user not found" });
     if (!user.isVerified) return res.status(403).json({ success: false, message: "email is not verified" });
     req.user = user;
     next();
