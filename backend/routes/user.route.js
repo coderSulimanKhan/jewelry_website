@@ -14,20 +14,20 @@ import upload from "../middlewares/upload.js";
 
 const router = Router();
 
+//* get user from cookie
+router.get("/me", rateLimiter, protectRoute, getMe);
+
+//* login existing user
+router.post("/login", /*rateLimiter, */ loginValidation, loginUser);
+
 //* register a new customer
-router.post("/register-c", rateLimiter, registerCustomerValidation, registerCustomer);
+router.post("/register-c", /*rateLimiter,*/ protectRoute, isAdmin, upload.single("image"), registerCustomerValidation, registerCustomer);
 
 //* verify email
 router.get("/verify-email/:token", verifyEmail);
 
 //* resend verification email
 router.post("/resend-verification", rateLimiter, protectRoute, resendVerification);
-
-//* login existing user
-router.post("/login", /*rateLimiter, */ loginValidation, loginUser);
-
-//* get user from cookie
-router.get("/me", rateLimiter, protectRoute, getMe);
 
 //* get loged in user profile
 router.get("/profile", rateLimiter, protectRoute, getUserProfile);

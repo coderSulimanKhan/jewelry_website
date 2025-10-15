@@ -23,7 +23,10 @@
   --color-neutral: var(--color-gray-200);
   /* active link */
   --color-info: var(--color-orange-400);
+  /* admin dashboard links */
   --color-success: var(--color-blue-600);
+  /* admin update btn */
+  --color-error: var(--color-green-600);
 }
 
 @plugin "daisyui/theme" {
@@ -43,6 +46,8 @@
   --color-info: var(--color-orange-200);
   /* admin dashboard links */
   --color-success: var(--color-blue-600);
+  /* admin update btn */
+  --color-error: var(--color-green-600);
 }
 
 .myBtn {
@@ -50,7 +55,7 @@
 }
 
 .textField {
-  @apply border border-warning absolute pl-10 text-3xl p-2 w-[31%] text-warning rounded;
+  @apply border border-warning absolute pl-11 text-3xl p-2 w-[31%] text-warning rounded;
 }
 
 /* admin styles */
@@ -72,4 +77,25 @@
 
 .adminCardSpan {
   @apply text-sm bg-success/20 text-success px-2 rounded-full;
+}
+
+.myAdminBtn {
+  @apply px-5 py-2 bg-warning/20 text-warning rounded font-bold hover:scale-110 active:scale-90 transition flex gap-1 items-center justify-center;
+}
+
+.adminCustomerTitle {
+  @apply bg-success/20 text-warning px-3 text-sm font-bold py-1 rounded;
+}
+
+.adminTextField {
+  @apply border border-warning text-warning p-2 rounded
+}
+
+.successBtn {
+  @apply text-error bg-error/20 w-fit px-3 py-1 rounded text-2xl hover:scale-110 active:scale-90 transition;
+}
+
+/* table */
+.tableSpan {
+  @apply text-lg bg-success/20 text-success px-4 rounded-full;
 }

@@ -21,7 +21,7 @@ const loginUser = createAsyncThunk("user/loginUser", async (credentials, { rejec
       },
       body: JSON.stringify(credentials)
     });
-    if (!res.ok) throw new Error("Invalid credentials");
+    if (!res.ok) throw new Error("Failed...");
     const data = await res.json();
     return data.user;
   } catch (error) {

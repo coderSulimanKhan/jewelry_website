@@ -9,15 +9,45 @@ import mongoose from "mongoose";
 import fs from "fs/promises";
 import path from "path";
 
+const getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    res.status(200).json({ success: true, user: { ...user._doc, password: "" } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server errror" });
+  }
+}
+
+const loginUser = async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ success: false, error: errors.array() });
+    const user = await User.findOne({ username });
+    if (!user) return res.status(404).json({ success: false, message: "user not found" });
+    if (user.isDeleted) return res.status(404).json({ success: false, message: "User not found" });
+    if (!user.isVerified) return res.status(400).json({ success: false, message: "user is not verified" });
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect) return res.status(400).json({ success: false, message: "password is not correct" });
+    const token = generateTokenAndSetCookie(user._id, user.role, res);
+    return res.status(200).json({ success: true, message: "Login successful", user: { ...user._doc, password: "" }, token });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
 const registerCustomer = async (req, res) => {
   try {
-    //* Getting the data from the request
-    const { name, username, email, password, } = req.body;
     //* Check validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ success: false, error: errors.array() });
     }
+
+    //* Getting the data from the request
+    const { fullname: name, username, email, password, country, city, street, postalCode, phone } = req.body;
+
     //* Check for the email if already defined
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -32,13 +62,18 @@ const registerCustomer = async (req, res) => {
       name,
       username,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      address: {
+        country,
+        city,
+        street,
+        postalCode
+      },
+      phone,
+      image: req.file ? req.file.path : "/avatar.png"
     });
 
-    //* Send email to verify
-    // sendEmail(newUser.email);
-    const token = generateTokenAndSetCookie(newUser._id, newUser.role, res);
-    res.status(201).json({ success: true, newUser: { ...newUser._doc, password: "" }, token });
+    res.status(201).json({ success: true, newUser: { ...newUser._doc, password: "" } });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
@@ -110,34 +145,6 @@ const resendVerification = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
-
-const loginUser = async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) return res.status(400).json({ success: false, error: errors.array() });
-    const user = await User.findOne({ username });
-    if (!user) return res.status(404).json({ success: false, message: "user not found" });
-    if (user.isDeleted) return res.status(404).json({ success: false, message: "User not found" });
-    if (!user.isVerified) return res.status(400).json({ success: false, message: "user is not verified" });
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
-    if (!isPasswordCorrect) return res.status(400).json({ success: false, message: "password is not correct" });
-    const token = generateTokenAndSetCookie(user._id, user.role, res);
-    return res.status(200).json({ success: true, message: "Login successful", user: { ...user._doc, password: "" }, token });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-};
-
-const getMe = async (req, res) => {
-  try {
-    const user = await User.findById(req.user._id);
-    res.status(200).json({ success: true, user: { ...user._doc, password: "" } });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Server errror" });
-  }
-}
 
 const getUserProfile = async (req, res) => {
   try {

@@ -1,4 +1,4 @@
-import { Settings } from "lucide-react"
+import { Settings, Store } from "lucide-react"
 import { Link, NavLink } from "react-router"
 
 const SideBar = () => {
@@ -15,7 +15,7 @@ const SideBar = () => {
       {/* siderbar links starts */}
       <ul className="flex flex-col gap-4">
         <NavLink to={"/"} className={({ isActive }) => isActive ? "bg-success/20 text-warning p-2 rounded text-xl" : "bg-warning/15 text-warning p-2 rounded text-xl hover:scale-110 active:scale-90 transition"}>
-          <span className="font-bold">Shop</span>
+          <span className="font-bold flex gap-1"><Store />Shop</span>
         </NavLink>
         <NavLink to={"/admin/dashboard/customers"} className={({ isActive }) => isActive ? "bg-success/20 text-warning p-2 rounded text-xl" : "bg-warning/15 text-warning p-2 rounded text-xl hover:scale-110 active:scale-90 transition"}>
           Manage <span className="font-bold">Customers</span>

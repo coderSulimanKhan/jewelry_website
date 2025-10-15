@@ -21,6 +21,7 @@ import AdminsPage from "./dashboards/admin/pages/AdminsPage"
 import BillsPage from "./dashboards/admin/pages/BillsPage"
 import { useDispatch, useSelector } from "react-redux"
 import { getMe } from "./store/slices/user.slice.js"
+import CreateCustomer from "./dashboards/admin/components/CreateCustomer.jsx"
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);
@@ -58,6 +59,7 @@ const App = () => {
           <Route path="/admin/dashboard" element={<AdminDashboard role={role} />}>
             <Route index element={<AdminHomePage />} />
             <Route path="customers" element={<CustomersPage />} />
+            <Route path="customers/create" element={<CreateCustomer />} />
             <Route path="employees" element={<EmployeesPage />} />
             <Route path="products" element={<ProductsPage />} />
             <Route path="sales" element={<SalesPage />} />
@@ -70,7 +72,7 @@ const App = () => {
         {/* footer */}
         <Footer />
       </div>
-      <ToastContainer position="top-right" />
+      <ToastContainer position="top-right" toastClassName={"!bg-accent"} />
     </>
     // landing pages ends
   )
