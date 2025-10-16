@@ -70,12 +70,31 @@ const registerCustomer = async (req, res) => {
         postalCode
       },
       phone,
-      image: req.file ? req.file.path : "/avatar.png"
+      image: req.file ? req.file.path : "/avatar.png",
+      createdBy: req.user._id
     });
 
     res.status(201).json({ success: true, newUser: { ...newUser._doc, password: "" } });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const getAllCustomers = async (req, res) => {
+  try {
+    const allCustomers = await User.find({ role: "customer" });
+    res.status(200).json({ success: true, message: allCustomers.length ? "Users retrieved successfully" : "Users not found", data: allCustomers });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server errror" });
+  }
+};
+
+const getAllUsers = async (req, res) => {
+  try {
+    const allUsers = await User.find();
+    res.status(200).json({ success: true, message: allUsers.length ? "Users retrieved successfullu" : "Users not found", data: allUsers });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server errror" });
   }
 };
 
@@ -199,15 +218,6 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const getAllUsers = async (req, res) => {
-  try {
-    const allUsers = await User.find();
-    res.status(200).json({ success: true, message: allUsers.length ? "Users retrieved successfullu" : "Users not found", data: allUsers });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Server errror" });
-  }
-};
-
 const getUserById = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ success: false, message: "Invalid id" });
@@ -264,4 +274,4 @@ const deleteUserById = async (req, res) => {
   }
 };
 
-export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getUserById, updateUserById, deleteUserById, getMe };
+export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getUserById, updateUserById, deleteUserById, getMe, getAllCustomers };

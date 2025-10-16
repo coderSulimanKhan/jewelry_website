@@ -9,6 +9,7 @@ const userSchema = new Schema({
   address: { country: { type: String, default: "" }, city: { type: String, default: "" }, street: { type: String, default: "" }, postalCode: { type: String, default: "" } },
   phone: { type: String, default: "" },
   image: { type: String, default: "/avatar.png" },
+  createdBy: { type: Schema.Types.ObjectId, ref: "User" },
   isVerified: { type: Boolean, default: false },
   isDeleted: { type: Boolean, default: "false" }
 }, { timestamps: true });

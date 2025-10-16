@@ -1,6 +1,6 @@
 import { Router } from "express";
 //* Controllers
-import { deleteUser, deleteUserById, getAllUsers, getMe, getUserById, getUserProfile, loginUser, registerCustomer, registerUser, resendVerification, updateUserById, updateUserProfile, verifyEmail } from "../controllers/user.controller.js";
+import { deleteUser, deleteUserById, getAllCustomers, getAllUsers, getMe, getUserById, getUserProfile, loginUser, registerCustomer, registerUser, resendVerification, updateUserById, updateUserProfile, verifyEmail } from "../controllers/user.controller.js";
 //* Middlewares
 import { adminRateLimiter, rateLimiter } from "../middlewares/rateLimiter.js";
 import protectRoute from "../middlewares/protectRoute.js";
@@ -23,6 +23,12 @@ router.post("/login", /*rateLimiter, */ loginValidation, loginUser);
 //* register a new customer
 router.post("/register-c", /*rateLimiter,*/ protectRoute, isAdmin, upload.single("image"), registerCustomerValidation, registerCustomer);
 
+//* get all customers (admin only)
+router.get("/customers", /*adminRateLimiter,*/ protectRoute, isAdmin, getAllCustomers);
+
+//* get all users (admin only)
+router.get("/", adminRateLimiter, protectRoute, isAdmin, getAllUsers);
+
 //* verify email
 router.get("/verify-email/:token", verifyEmail);
 
@@ -40,9 +46,6 @@ router.delete("/profile", rateLimiter, protectRoute, deleteUser);
 
 //* register a new (customer, employee, admin) (admin only)
 router.post("/register", rateLimiter, protectRoute, isAdmin, registerValidation, registerUser);
-
-//* get all users (admin only)
-router.get("/", adminRateLimiter, protectRoute, isAdmin, getAllUsers);
 
 //* get user by id (admin only)
 router.get("/:id", adminRateLimiter, protectRoute, isAdmin, getUserById);

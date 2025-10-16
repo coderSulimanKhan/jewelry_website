@@ -43,7 +43,7 @@ const CreateCustomer = () => {
       {/* first section starts */}
       <div className="flex items-center justify-between pr-10">
         <h1 className="adminCardH1">Create Customer</h1>
-        <Link to={"/admin/dashboard/customers"}><X className="size-10 text-red-500 hover:scale-110 active:scale-90 transition" /></Link>
+        <Link to={"/admin/dashboard/customers"}><X className="size-10 text-warning hover:scale-110 active:scale-90 transition" /></Link>
       </div>
       {/* first section ends */}
       {/* second section starts */}
