@@ -21,7 +21,7 @@ import AdminsPage from "./dashboards/admin/pages/AdminsPage"
 import BillsPage from "./dashboards/admin/pages/BillsPage"
 import { useDispatch, useSelector } from "react-redux"
 import { getMe } from "./store/slices/user.slice.js"
-import CreateCustomer from "./dashboards/admin/components/CreateCustomer.jsx"
+import CreateCustomer from "./dashboards/admin/components/customer/CreateCustomer"
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);
@@ -72,7 +72,7 @@ const App = () => {
         {/* footer */}
         <Footer />
       </div>
-      <ToastContainer position="top-right" toastClassName={"!bg-accent"} />
+      <ToastContainer position="top-right" toastClassName={"!bg-accent !text-primary"} />
     </>
     // landing pages ends
   )

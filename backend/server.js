@@ -1,6 +1,9 @@
 import express from "express"
 import cors from "cors"
 import cookieParser from "cookie-parser"
+import path from "path"
+import { fileURLToPath } from "url"
+
 //* Environment Variables
 import ENV_VARS from "./config/ENV_VARS.js"
 //* Database Function
@@ -18,6 +21,11 @@ const app = express();
 app.use(express.json({ limit: "3mb" }));
 app.use(cors());
 app.use(cookieParser());
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use("/api/v1/uploads", express.static(path.join(__dirname, "uploads")));
 // app.use(express.urlencoded());
 
 //* Routes

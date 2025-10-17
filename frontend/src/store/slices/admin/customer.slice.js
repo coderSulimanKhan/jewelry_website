@@ -39,14 +39,32 @@ const getAllCustomers = createAsyncThunk("user/getAllCustomers", async (_, { rej
   }
 });
 
+const deleteCustomer = createAsyncThunk("user/deleteCustomer", async (id, { rejectWithValue }) => {
+  try {
+    const res = await fetch(`/api/v1/users/${id}`, {
+      method: "DELETE"
+    });
+    if (!res.ok) throw new Error("Failed to delete customer");
+    const { message } = await res.json();
+    return message;
+  } catch (error) {
+    return rejectWithValue(error.message);
+  }
+});
+
 const customerSlice = createSlice({
   name: "customer",
   initialState: {
+    // getAllCustomers
     allCustomers: [],
+    allCLoading: false,
+    // createCustomer
     newCustomer: null,
     loading: false,
-    allCLoading: false,
-    error: null
+    error: null,
+    // deleteCustomer
+    deleteCustomerMessage: "",
+    loadingDeleteCustomer: false
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -80,8 +98,23 @@ const customerSlice = createSlice({
         state.error = action.payload;
         toast.error("Failed to get all customers")
       })
+      // delete customer
+      .addCase(deleteCustomer.pending, (state) => {
+        state.loadingDeleteCustomer = true;
+        state.error = null;
+      })
+      .addCase(deleteCustomer.fulfilled, (state, action) => {
+        state.loadingDeleteCustomer = false;
+        state.deleteCustomerMessage = action.payload;
+        toast.success("User deleted successfully");
+      })
+      .addCase(deleteCustomer.rejected, (state, action) => {
+        state.loadingDeleteCustomer = false;
+        state.error = action.payload;
+        toast.error("Failed to get all customers")
+      })
   }
 });
 
-export { createCustomer, getAllCustomers };
+export { createCustomer, getAllCustomers, deleteCustomer };
 export default customerSlice.reducer;

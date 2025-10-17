@@ -1,6 +1,6 @@
 import { Router } from "express";
 //* Controllers
-import { deleteUser, deleteUserById, getAllCustomers, getAllUsers, getMe, getUserById, getUserProfile, loginUser, registerCustomer, registerUser, resendVerification, updateUserById, updateUserProfile, verifyEmail } from "../controllers/user.controller.js";
+import { deleteCustomerById, deleteUser, getAllCustomers, getAllUsers, getMe, getUserById, getUserProfile, loginUser, registerCustomer, registerUser, resendVerification, updateUserById, updateUserProfile, verifyEmail } from "../controllers/user.controller.js";
 //* Middlewares
 import { adminRateLimiter, rateLimiter } from "../middlewares/rateLimiter.js";
 import protectRoute from "../middlewares/protectRoute.js";
@@ -25,6 +25,9 @@ router.post("/register-c", /*rateLimiter,*/ protectRoute, isAdmin, upload.single
 
 //* get all customers (admin only)
 router.get("/customers", /*adminRateLimiter,*/ protectRoute, isAdmin, getAllCustomers);
+
+//* delete customer by id (admin only)
+router.delete("/:id", /*adminRateLimiter,*/ protectRoute, isAdmin, deleteCustomerById);
 
 //* get all users (admin only)
 router.get("/", adminRateLimiter, protectRoute, isAdmin, getAllUsers);
@@ -52,8 +55,5 @@ router.get("/:id", adminRateLimiter, protectRoute, isAdmin, getUserById);
 
 //* update user by id (admin only)
 router.put("/:id", adminRateLimiter, protectRoute, isAdmin, profileValidation, upload.single("image"), updateUserById);
-
-//* delete user by id (admin only)
-router.delete("/:id", adminRateLimiter, protectRoute, isAdmin, deleteUserById);
 
 export default router;

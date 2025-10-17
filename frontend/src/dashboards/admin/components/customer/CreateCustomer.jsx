@@ -1,7 +1,7 @@
 import { X } from "lucide-react"
 import { useState } from "react"
 import { Link } from "react-router"
-import { createCustomer } from "../../../store/slices/admin/customer.slice.js";
+import { createCustomer } from "../../../../store/slices/admin/customer.slice.js";
 import { useDispatch, useSelector } from "react-redux"
 
 const CreateCustomer = () => {

@@ -1,9 +1,10 @@
-import { Plus, Search, SquarePen, Trash, X } from "lucide-react"
+import { Plus, Search, X } from "lucide-react"
 import { Link } from "react-router"
 import { useState } from "react"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getAllCustomers } from "../../../store/slices/admin/customer.slice.js"
+import Customer from "../components/customer/Customer"
 
 const CustomersPage = () => {
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
@@ -31,9 +32,6 @@ const CustomersPage = () => {
     const term = e.target.value;
     setSearchTerm(term);
     const filteredCustomers = customers.filter(customer => {
-      if (customer.name.toLowerCase().startsWith(term.toLowerCase())) {
-        return customer;
-      }
       if (customer.name.toLowerCase().includes(term.toLowerCase())) {
         return customer;
       }
@@ -82,26 +80,14 @@ const CustomersPage = () => {
                   fCustomers.length > 0 ?
                     fCustomers.map(customer => (
                       <tr key={customer._id} className="border-b">
-                        <td align="center"><img src="/avatar.png" alt="" className="w-20" /></td>
-                        <td align="center" className="p-2 adminCardH1">{customer?.name}</td>
-                        <td align="center"><span className="tableSpan">100</span></td>
-                        <td align="center"><span className="tableSpan">40</span></td>
-                        <td align="center"><span className="tableSpan">70</span></td>
-                        <td align="center" className="p-2"><SquarePen className="bg-error/10 size-10 text-error px-2 py-1 rounded hover:scale-110 active:scale-90 transition" /></td>
-                        <td align="center" className="p-2"><Trash className="bg-red-600/10 size-10 text-red-600 px-2 py-1 rounded hover:scale-110 active:scale-90 transition" /></td>
+                        <Customer customer={customer} />
                       </tr>
                     ))
                     :
                     customers.length > 0 ?
                       customers.map(customer => (
                         <tr key={customer._id} className="border-b">
-                          <td align="center"><img src="/avatar.png" alt="" className="w-20" /></td>
-                          <td align="center" className="p-2 adminCardH1">{customer?.name}</td>
-                          <td align="center"><span className="tableSpan">100</span></td>
-                          <td align="center"><span className="tableSpan">40</span></td>
-                          <td align="center"><span className="tableSpan">70</span></td>
-                          <td align="center" className="p-2"><SquarePen className="bg-error/10 size-10 text-error px-2 py-1 rounded hover:scale-110 active:scale-90 transition" /></td>
-                          <td align="center" className="p-2"><Trash className="bg-red-600/10 size-10 text-red-600 px-2 py-1 rounded hover:scale-110 active:scale-90 transition" /></td>
+                          <Customer customer={customer} />
                         </tr>
                       ))
                       :

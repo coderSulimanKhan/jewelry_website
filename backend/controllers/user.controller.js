@@ -70,9 +70,10 @@ const registerCustomer = async (req, res) => {
         postalCode
       },
       phone,
-      image: req.file ? req.file.path : "/avatar.png",
+      image: req.file ? `/api/v1/uploads/${req.file.filename}` : "/avatar.png",
       createdBy: req.user._id
     });
+    console.log(req.file);
 
     res.status(201).json({ success: true, newUser: { ...newUser._doc, password: "" } });
   } catch (error) {
@@ -82,10 +83,26 @@ const registerCustomer = async (req, res) => {
 
 const getAllCustomers = async (req, res) => {
   try {
-    const allCustomers = await User.find({ role: "customer" });
+    const allCustomers = await User.find({ role: "customer", isDeleted: false });
     res.status(200).json({ success: true, message: allCustomers.length ? "Users retrieved successfully" : "Users not found", data: allCustomers });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server errror" });
+  }
+};
+
+const deleteCustomerById = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(403).json({ success: false, message: "Invalid id" });
+  try {
+    console.log(id);
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    if (user.isDeleted) return res.status(404).json({ success: false, message: "User already deleted" });
+    user.isDeleted = true;
+    await user.save();
+    res.status(200).json({ success: true, message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
@@ -259,19 +276,4 @@ const updateUserById = async (req, res) => {
   }
 };
 
-const deleteUserById = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(403).json({ success: false, message: "Invalid id" });
-  try {
-    const user = await User.findById(id);
-    if (!user) return res.status(404).json({ success: false, message: "User not found" });
-    if (user.isDeleted) return res.status(404).json({ success: false, message: "User already deleted" });
-    user.isDeleted = true;
-    await user.save();
-    res.status(200).json({ success: true, message: "User deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-};
-
-export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getUserById, updateUserById, deleteUserById, getMe, getAllCustomers };
+export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getUserById, updateUserById, deleteCustomerById, getMe, getAllCustomers };
