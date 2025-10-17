@@ -84,16 +84,21 @@ const CustomersPage = () => {
                       </tr>
                     ))
                     :
-                    customers.length > 0 ?
-                      customers.map(customer => (
-                        <tr key={customer._id} className="border-b">
-                          <Customer customer={customer} />
-                        </tr>
-                      ))
-                      :
+                    fCustomers.length === 0 ?
                       <tr className="text-xl text-center">
                         <td colSpan={6} className="pt-3">No customers found <Link to={"/admin/dashboard/customers/create"} className="text-warning hover:text-success transition">Create One</Link></td>
                       </tr>
+                      :
+                      customers.length > 0 ?
+                        customers.map(customer => (
+                          <tr key={customer._id} className="border-b">
+                            <Customer customer={customer} />
+                          </tr>
+                        ))
+                        :
+                        <tr className="text-xl text-center">
+                          <td colSpan={6} className="pt-3">No customers found <Link to={"/admin/dashboard/customers/create"} className="text-warning hover:text-success transition">Create One</Link></td>
+                        </tr>
                 }
               </tbody>
             </table>
