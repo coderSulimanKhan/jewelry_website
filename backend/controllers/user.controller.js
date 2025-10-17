@@ -8,6 +8,7 @@ import { sendEmail } from "../utils/sendEmail.js";
 import mongoose from "mongoose";
 import fs from "fs/promises";
 import path from "path";
+import { fileURLToPath } from "url";
 
 const getMe = async (req, res) => {
   try {
@@ -73,7 +74,6 @@ const registerCustomer = async (req, res) => {
       image: req.file ? `/api/v1/uploads/${req.file.filename}` : "/avatar.png",
       createdBy: req.user._id
     });
-    console.log(req.file);
 
     res.status(201).json({ success: true, newUser: { ...newUser._doc, password: "" } });
   } catch (error) {
@@ -105,6 +105,68 @@ const deleteCustomerById = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+const getCustomerById = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ success: false, message: "Invalid id" });
+  try {
+    const user = await User.findOne({ _id: id, role: "customer", isDeleted: false });
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    res.status(200).json({ success: true, data: user })
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const updateCustomerById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    //* Check validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, error: errors.array() });
+    }
+
+    //* Getting the data from the request
+    const { fullname: name, username, email, country, city, street, postalCode, phone } = req.body;
+
+    //* Check for the email if already defined
+    const user = await User.findOne({ _id: id, isDeleted: false });
+    if (!user) {
+      return res.status(400).json({ success: false, message: "User not found" });
+    }
+
+    const image = req.file;
+
+    //* Update the user
+    // delete the image from file system if it updates
+    if (image && user.image !== "/avatar.png") {
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = path.dirname(__filename);
+      await fs.unlink(path.join(__dirname, "uploads/" + user.image.split("/")[4]).replace("/controllers", ""));
+    }
+
+    user.name = name || user.name;
+    user.username = username || user.username;
+    user.email = email || user.email;
+    user.address = {
+      country: country || user.address.country,
+      city: city || user.address.city,
+      street: street || user.address.street,
+      postalCode: postalCode || user.address.postalCode
+    },
+      user.phone = phone || user.phone;
+    user.image = image ? `/api/v1/uploads/${image.filename}` : user.image;
+    user.save();
+
+    res.status(200).json({ success: true, updatedCustomer: { ...user._doc, password: "" } });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// todo: used to here
 
 const getAllUsers = async (req, res) => {
   try {
@@ -235,18 +297,6 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const getUserById = async (req, res) => {
-  const { id } = req.params;
-  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ success: false, message: "Invalid id" });
-  try {
-    const user = await User.findById(id);
-    if (!user) return res.status(404).json({ success: false, message: "User not found" });
-    res.status(200).json({ success: true, data: user })
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-};
-
 const updateUserById = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(403).json({ success: false, message: "Invalid Id" });
@@ -276,4 +326,4 @@ const updateUserById = async (req, res) => {
   }
 };
 
-export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getUserById, updateUserById, deleteCustomerById, getMe, getAllCustomers };
+export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getCustomerById, updateUserById, deleteCustomerById, getMe, getAllCustomers, updateCustomerById };

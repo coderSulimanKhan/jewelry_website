@@ -22,6 +22,7 @@ import BillsPage from "./dashboards/admin/pages/BillsPage"
 import { useDispatch, useSelector } from "react-redux"
 import { getMe } from "./store/slices/user.slice.js"
 import CreateCustomer from "./dashboards/admin/components/customer/CreateCustomer"
+import UpdateCustomer from "./dashboards/admin/components/customer/UpdateCustomer.jsx"
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);
@@ -58,8 +59,10 @@ const App = () => {
           {/* routes for admin */}
           <Route path="/admin/dashboard" element={<AdminDashboard role={role} />}>
             <Route index element={<AdminHomePage />} />
+            {/* customers */}
             <Route path="customers" element={<CustomersPage />} />
             <Route path="customers/create" element={<CreateCustomer />} />
+            <Route path="customers/update/:id" element={<UpdateCustomer />} />
             <Route path="employees" element={<EmployeesPage />} />
             <Route path="products" element={<ProductsPage />} />
             <Route path="sales" element={<SalesPage />} />

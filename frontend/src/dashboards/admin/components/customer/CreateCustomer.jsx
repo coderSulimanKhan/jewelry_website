@@ -53,7 +53,7 @@ const CreateCustomer = () => {
             {/* fullname */}
             <div className="flex flex-col w-full">
               <label htmlFor="fullname" className="text-success">Full Name<span className="text-red-600 text-xl">*</span></label>
-              <input type="text" id="fullname" name="fullname" className="adminTextField" placeholder="e.g Suliman Khan" />
+              <input type="text" id="fullname" className="adminTextField" placeholder="e.g Suliman Khan" />
             </div>
             {/* useranme */}
             <div className="flex flex-col">
