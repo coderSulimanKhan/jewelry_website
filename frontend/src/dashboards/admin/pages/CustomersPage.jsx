@@ -77,14 +77,14 @@ const CustomersPage = () => {
               </thead>
               <tbody>
                 {
-                  fCustomers.length > 0 ?
+                  fCustomers.length > 0 && isSearchBarOpen ?
                     fCustomers.map(customer => (
                       <tr key={customer._id} className="border-b">
                         <Customer customer={customer} />
                       </tr>
                     ))
                     :
-                    fCustomers.length === 0 ?
+                    fCustomers.length === 0 && isSearchBarOpen ?
                       <tr className="text-xl text-center">
                         <td colSpan={6} className="pt-3">No customers found <Link to={"/admin/dashboard/customers/create"} className="text-warning hover:text-success transition">Create One</Link></td>
                       </tr>
