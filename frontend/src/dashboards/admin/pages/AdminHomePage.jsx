@@ -15,12 +15,18 @@ const AdminHomePage = () => {
           <div className="adminCardInsideDiv">
             <h1 className="adminCardH1">Customers</h1>
             <p className="adminCardP">Total <span className="adminCardSpan">10</span></p>
-          </div> 
+          </div>
         </Link>
         <Link to={"/admin/dashboard/employees"} className="adminCardLink">
           <div className="adminCardInsideDiv">
             <h1 className="adminCardH1">Employees</h1>
             <p className="adminCardP">Total <span className="adminCardSpan">3</span></p>
+          </div>
+        </Link>
+        <Link to={"/admin/dashboard/admins"} className="adminCardLink">
+          <div className="adminCardInsideDiv">
+            <h1 className="adminCardH1">Admins</h1>
+            <p className="adminCardP">Total <span className="adminCardSpan">2</span></p>
           </div>
         </Link>
         <Link to={"/admin/dashboard/products"} className="adminCardLink">
@@ -29,14 +35,14 @@ const AdminHomePage = () => {
             <p className="adminCardP">Total <span className="adminCardSpan">200</span></p>
           </div>
         </Link>
+        <Link to={"/"} className="adminCardLink">
+          <h1 className="adminCardH1">Shop</h1>
+        </Link>
         <Link to={"/admin/dashboard/sales"} className="adminCardLink">
           <div className="adminCardInsideDiv">
             <h1 className="adminCardH1">Sales</h1>
             <p className="adminCardP">Total <span className="adminCardSpan">10</span></p>
           </div>
-        </Link>
-        <Link to={"/"} className="adminCardLink">
-          <h1 className="adminCardH1">Shop</h1>
         </Link>
         <Link to={"/admin/dashboard/cuts"} className="adminCardLink">
           <div className="adminCardInsideDiv">
@@ -48,12 +54,6 @@ const AdminHomePage = () => {
           <div className="adminCardInsideDiv">
             <h1 className="adminCardH1">Orders</h1>
             <p className="adminCardP">Total <span className="adminCardSpan">50</span></p>
-          </div>
-        </Link>
-        <Link to={"/admin/dashboard/admins"} className="adminCardLink">
-          <div className="adminCardInsideDiv">
-            <h1 className="adminCardH1">Admins</h1>
-            <p className="adminCardP">Total <span className="adminCardSpan">2</span></p>
           </div>
         </Link>
         <Link to={"/admin/dashboard/bills"} className="adminCardLink">

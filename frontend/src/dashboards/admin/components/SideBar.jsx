@@ -23,6 +23,9 @@ const SideBar = () => {
         <NavLink to={"/admin/dashboard/employees"} className={({ isActive }) => isActive ? "bg-success/20 text-warning p-2 rounded text-xl" : "bg-warning/15 text-warning p-2 rounded text-xl hover:scale-110 active:scale-90 transition"}>
           Manage <span className="font-bold">Employees</span>
         </NavLink>
+         <NavLink to={"/admin/dashboard/admins"} className={({ isActive }) => isActive ? "bg-success/20 text-warning p-2 rounded text-xl" : "bg-warning/15 text-warning p-2 rounded text-xl hover:scale-110 active:scale-90 transition"}>
+          Manage <span className="font-bold">Admins</span>
+        </NavLink>
         <NavLink to={"/admin/dashboard/products"} className={({ isActive }) => isActive ? "bg-success/20 text-warning p-2 rounded text-xl" : "bg-warning/15 text-warning p-2 rounded text-xl hover:scale-110 active:scale-90 transition"}>
           Manage <span className="font-bold">Products</span>
         </NavLink>
@@ -34,9 +37,6 @@ const SideBar = () => {
         </NavLink>
         <NavLink to={"/admin/dashboard/orders"} className={({ isActive }) => isActive ? "bg-success/20 text-warning p-2 rounded text-xl" : "bg-warning/15 text-warning p-2 rounded text-xl hover:scale-110 active:scale-90 transition"}>
           Manage <span className="font-bold">Orders</span>
-        </NavLink>
-        <NavLink to={"/admin/dashboard/admins"} className={({ isActive }) => isActive ? "bg-success/20 text-warning p-2 rounded text-xl" : "bg-warning/15 text-warning p-2 rounded text-xl hover:scale-110 active:scale-90 transition"}>
-          Manage <span className="font-bold">Admins</span>
         </NavLink>
         <NavLink to={"/admin/dashboard/bills"} className={({ isActive }) => isActive ? "bg-success/20 text-warning p-2 rounded text-xl" : "bg-warning/15 text-warning p-2 rounded text-xl hover:scale-110 active:scale-90 transition"}>
           Manage <span className="font-bold">Bills</span>
