@@ -44,7 +44,7 @@ const deleteEmployee = createAsyncThunk("employee/deleteEmployee", async (id, { 
     const res = await fetch(`/api/v1/users/employee/${id}`, {
       method: "DELETE"
     });
-    if (!res.ok) throw new Error("Failed to delete customer");
+    if (!res.ok) throw new Error("Failed to delete employee");
     const { message } = await res.json();
     return message;
   } catch (error) {
@@ -181,7 +181,7 @@ const employeeSlice = createSlice({
         toast.success("Employee updated successfully");
       })
       .addCase(updateEmployeeById.rejected, (state, action) => {
-        state.loading = false;
+        state.isUpdatingEmployee = false;
         state.error = action.payload;
         toast.error(action.payload);
       })

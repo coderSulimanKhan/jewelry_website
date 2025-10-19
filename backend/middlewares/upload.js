@@ -33,4 +33,20 @@ const uploadEmployee = multer({
   }
 });
 
-export { uploadCustomer, uploadEmployee };
+const adminStorage = multer.diskStorage({
+  destination: "backend/uploads/admins/",
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const uploadAdmin = multer({
+  storage: adminStorage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const allowed = ["image/jpeg", "image/png", "image/webp"];
+    cb(null, allowed.includes(file.mimetype));
+  }
+});
+
+export { uploadCustomer, uploadEmployee, uploadAdmin };

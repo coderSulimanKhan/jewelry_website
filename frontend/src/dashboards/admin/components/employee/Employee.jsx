@@ -7,7 +7,7 @@ const Employee = ({ employee }) => {
   const dispatch = useDispatch();
   const { loadingDeleteEmployee } = useSelector(state => state.employee);
 
-  const handleDeleteCustomer = id => {
+  const handleDeleteEmployee = id => {
     dispatch(deleteEmployee(id));
   }
 
@@ -19,7 +19,7 @@ const Employee = ({ employee }) => {
       <td align="center"><span className="tableSpan">40</span></td>
       <td align="center"><span className="tableSpan">70</span></td>
       <td align="center" className="p-2"><Link to={`/admin/dashboard/employees/update/${employee._id}`}><SquarePen className="bg-error/10 size-10 text-error px-2 py-1 rounded hover:scale-110 active:scale-90 transition" /></Link></td>
-      <td align="center" className="p-2"><button onClick={() => handleDeleteCustomer(employee._id)} disabled={loadingDeleteEmployee}><Trash className="bg-red-600/10 size-10 text-red-600 px-2 py-1 rounded hover:scale-110 active:scale-90 transition" /></button></td>
+      <td align="center" className="p-2"><button onClick={() => handleDeleteEmployee(employee._id)} disabled={loadingDeleteEmployee}><Trash className="bg-red-600/10 size-10 text-red-600 px-2 py-1 rounded hover:scale-110 active:scale-90 transition" /></button></td>
     </>
   )
 }

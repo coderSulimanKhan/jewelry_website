@@ -1,11 +1,11 @@
 import { Router } from "express";
 //* Controllers
-import { deleteCustomerById, deleteEmployeeById, deleteUser, getAllCustomers, getAllEmployees, getAllUsers, getCustomerById, getEmployeeById, getMe, getUserProfile, loginUser, registerCustomer, registerEmployee, registerUser, resendVerification, updateCustomerById, updateEmployeeById, updateUserById, updateUserProfile, verifyEmail } from "../controllers/user.controller.js";
+import { deleteAdminById, deleteCustomerById, deleteEmployeeById, getAdminById, getAllAdmins, getAllCustomers, getAllEmployees, getAllUsers, getCustomerById, getEmployeeById, getMe, getUserProfile, loginUser, registerAdmin, registerCustomer, registerEmployee, updateAdminById, updateCustomerById, updateEmployeeById } from "../controllers/user.controller.js";
 //* Middlewares
 import { adminRateLimiter, rateLimiter } from "../middlewares/rateLimiter.js";
 import protectRoute from "../middlewares/protectRoute.js";
 import { isAdmin } from "../middlewares/admin.js";
-import { uploadCustomer, uploadEmployee } from "../middlewares/upload.js";
+import { uploadAdmin, uploadCustomer, uploadEmployee } from "../middlewares/upload.js";
 //* Validation
 import { registerCustomerValidation } from "../validation/users/register-c.v.js";
 import { loginValidation } from "../validation/users/login.v.js";
@@ -37,6 +37,10 @@ router.delete("/:id", /*adminRateLimiter,*/ protectRoute, isAdmin, deleteCustome
 //* get all employees (admin only)
 router.get("/employee", /*adminRateLimiter,*/ protectRoute, isAdmin, getAllEmployees);
 
+// for admin
+//* get all admins (admin only)
+router.get("/admin", /*adminRateLimiter,*/ protectRoute, isAdmin, getAllAdmins);
+
 // for customer
 //* get user by id (admin only)
 router.get("/:id", /*adminRateLimiter,*/ protectRoute, isAdmin, getCustomerById);
@@ -53,7 +57,7 @@ router.post("/register-e", /*rateLimiter,*/ protectRoute, isAdmin, uploadEmploye
 //* delete employee by id (admin only)
 router.delete("/employee/:id", /*adminRateLimiter,*/ protectRoute, isAdmin, deleteEmployeeById);
 
-// for employee// for employee
+// for employee/
 
 //* get employee by id (admin only)
 router.get("/employee/:id", /*adminRateLimiter,*/ protectRoute, isAdmin, getEmployeeById);
@@ -61,6 +65,22 @@ router.get("/employee/:id", /*adminRateLimiter,*/ protectRoute, isAdmin, getEmpl
 // for employee
 //* update employee by id (admin only)
 router.put("/employee/:id", /*adminRateLimiter,*/ protectRoute, isAdmin, uploadEmployee.single("image"), updateCustomerValidation, updateEmployeeById);
+
+// for admin
+//* register a new admin
+router.post("/register-a", /*rateLimiter,*/ protectRoute, isAdmin, uploadAdmin.single("image"), registerCustomerValidation, registerAdmin);
+
+// for admin
+//* delete admin by id (admin only)
+router.delete("/admin/:id", /*adminRateLimiter,*/ protectRoute, isAdmin, deleteAdminById);
+
+// for admin
+//* get admin by id (admin only)
+router.get("/admin/:id", /*adminRateLimiter,*/ protectRoute, isAdmin, getAdminById);
+
+// for admin
+//* update admin by id (admin only)
+router.put("/admin/:id", /*adminRateLimiter,*/ protectRoute, isAdmin, uploadAdmin.single("image"), updateCustomerValidation, updateAdminById);
 
 // todo : used to here
 

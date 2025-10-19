@@ -86,7 +86,7 @@ const getAllCustomers = async (req, res) => {
   try {
     const allCustomers = await User.find({ role: "customer", isDeleted: false });
     if (!allCustomers) return res.status(404).json({ success: false, message: "Customers not found" });
-    res.status(200).json({ success: true, message: allCustomers.length ? "Customers retrieved successfully" : "Users not found", data: allCustomers });
+    res.status(200).json({ success: true, message: allCustomers.length ? "Customers retrieved successfully" : "Customers not found", data: allCustomers });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
@@ -98,11 +98,11 @@ const deleteCustomerById = async (req, res) => {
   try {
     console.log(id);
     const user = await User.findById(id);
-    if (!user) return res.status(404).json({ success: false, message: "User not found" });
-    if (user.isDeleted) return res.status(404).json({ success: false, message: "User already deleted" });
+    if (!user) return res.status(404).json({ success: false, message: "Customer not found" });
+    if (user.isDeleted) return res.status(404).json({ success: false, message: "Customer already deleted" });
     user.isDeleted = true;
     await user.save();
-    res.status(200).json({ success: true, message: "User deleted successfully" });
+    res.status(200).json({ success: true, message: "Customer deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
@@ -113,7 +113,7 @@ const getCustomerById = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ success: false, message: "Invalid id" });
   try {
     const user = await User.findOne({ _id: id, role: "customer", isDeleted: false });
-    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    if (!user) return res.status(404).json({ success: false, message: "Customer not found" });
     res.status(200).json({ success: true, data: user })
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
@@ -217,7 +217,7 @@ const getAllEmployees = async (req, res) => {
   try {
     const allEmployees = await User.find({ role: "employee", isDeleted: false });
     if (!allEmployees) return res.status(404).json({ success: false, message: "Employees not found" });
-    res.status(200).json({ success: true, message: allEmployees.length ? "Employees retrieved successfully" : "Users not found", data: allEmployees });
+    res.status(200).json({ success: true, message: allEmployees.length ? "Employees retrieved successfully" : "Employees not found", data: allEmployees });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
@@ -227,13 +227,12 @@ const deleteEmployeeById = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(403).json({ success: false, message: "Invalid id" });
   try {
-    console.log(id);
     const user = await User.findById(id);
-    if (!user) return res.status(404).json({ success: false, message: "User not found" });
-    if (user.isDeleted) return res.status(404).json({ success: false, message: "User already deleted" });
+    if (!user) return res.status(404).json({ success: false, message: "Employee not found" });
+    if (user.isDeleted) return res.status(404).json({ success: false, message: "Employee already deleted" });
     user.isDeleted = true;
     await user.save();
-    res.status(200).json({ success: true, message: "User deleted successfully" });
+    res.status(200).json({ success: true, message: "Employee deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
@@ -244,7 +243,7 @@ const getEmployeeById = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ success: false, message: "Invalid id" });
   try {
     const user = await User.findOne({ _id: id, role: "employee", isDeleted: false });
-    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    if (!user) return res.status(404).json({ success: false, message: "Employee not found" });
     res.status(200).json({ success: true, data: user })
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
@@ -297,6 +296,137 @@ const updateEmployeeById = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+// for admin
+const registerAdmin = async (req, res) => {
+  try {
+    //* Check validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, error: errors.array() });
+    }
+
+    //* Getting the data from the request
+    const { fullname: name, username, email, password, country, city, street, postalCode, phone } = req.body;
+
+    //* Check for the email if already defined
+    const existingUser = await User.findOne({ email, username });
+    if (existingUser) {
+      return res.status(400).json({ success: false, message: "Admin already exists" });
+    }
+    //* Hashing the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    //* Registering the new employee
+    const newAdmin = await User.create({
+      name,
+      username,
+      email,
+      password: hashedPassword,
+      address: {
+        country,
+        city,
+        street,
+        postalCode
+      },
+      phone,
+      image: req.file ? `/api/v1/uploads/admins/${req.file.filename}` : "/avatar.png",
+      createdBy: req.user._id,
+      role: "admin"
+    });
+
+    res.status(201).json({ success: true, newAdmin: { ...newAdmin._doc, password: "" } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const getAllAdmins = async (req, res) => {
+  try {
+    const allAdmins = await User.find({ role: "admin", isDeleted: false });
+    if (!allAdmins) return res.status(404).json({ success: false, message: "Admins not found" });
+    res.status(200).json({ success: true, message: allAdmins.length ? "Admins retrieved successfully" : "Admins not found", data: allAdmins });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const deleteAdminById = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(403).json({ success: false, message: "Invalid id" });
+  try {
+    console.log(id);
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json({ success: false, message: "Admin not found" });
+    if (user.isDeleted) return res.status(404).json({ success: false, message: "Admin already deleted" });
+    user.isDeleted = true;
+    await user.save();
+    res.status(200).json({ success: true, message: "Admin deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const getAdminById = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ success: false, message: "Invalid id" });
+  try {
+    const user = await User.findOne({ _id: id, role: "admin", isDeleted: false });
+    if (!user) return res.status(404).json({ success: false, message: "Admin not found" });
+    res.status(200).json({ success: true, data: user })
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const updateAdminById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    //* Check validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, error: errors.array() });
+    }
+
+    //* Getting the data from the request
+    const { fullname: name, username, email, country, city, street, postalCode, phone } = req.body;
+
+    const user = await User.findOne({ _id: id, isDeleted: false });
+    if (!user) {
+      return res.status(400).json({ success: false, message: "Admin not found" });
+    }
+
+    const image = req.file;
+
+    //* Update the user
+    // delete the image from file system if it updates
+    if (image && user.image !== "/avatar.png") {
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = path.dirname(__filename);
+      await fs.unlink(path.join(__dirname, "uploads/admins/" + user.image.split("/")[5]).replace("/controllers", ""));
+    }
+
+    user.name = name || user.name;
+    user.username = username || user.username;
+    user.email = email || user.email;
+    user.address = {
+      country: country || user.address.country,
+      city: city || user.address.city,
+      street: street || user.address.street,
+      postalCode: postalCode || user.address.postalCode
+    },
+      user.phone = phone || user.phone;
+    user.image = image ? `/api/v1/uploads/admins/${image.filename}` : user.image;
+    user.save();
+
+    res.status(200).json({ success: true, updatedEmployee: { ...user._doc, password: "" } });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
 
 // todo: used to here
 
@@ -458,4 +588,4 @@ const updateUserById = async (req, res) => {
   }
 };
 
-export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getCustomerById, updateUserById, deleteCustomerById, getMe, getAllCustomers, updateCustomerById, deleteEmployeeById, getAllEmployees, getEmployeeById, updateEmployeeById, registerEmployee };
+export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getCustomerById, updateUserById, deleteCustomerById, getMe, getAllCustomers, updateCustomerById, deleteEmployeeById, getAllEmployees, getEmployeeById, updateEmployeeById, registerEmployee, deleteAdminById, getAllAdmins, getAdminById, updateAdminById, registerAdmin };

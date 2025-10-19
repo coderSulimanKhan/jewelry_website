@@ -181,7 +181,7 @@ const customerSlice = createSlice({
         toast.success("Customer updated successfully");
       })
       .addCase(updateCustomerById.rejected, (state, action) => {
-        state.loading = false;
+        state.isUpdatingCustomer = false;
         state.error = action.payload;
         toast.error(action.payload);
       })

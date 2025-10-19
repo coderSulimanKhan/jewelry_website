@@ -3,8 +3,8 @@ import { Link } from "react-router"
 import { useState } from "react"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getAllCustomers } from "../../../store/slices/admin/customer.slice.js"
-import Customer from "../components/customer/Customer"
+import { getAllAdmins } from "../../../store/slices/admin/admin.slice.js"
+import Admin from "../components/admin/Admin"
 
 const AdminsPage = () => {
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
@@ -17,26 +17,26 @@ const AdminsPage = () => {
   const openSearchBar = () => {
     setIsSearchBarOpen(true);
   }
-  const [customers, setCustomers] = useState([]);
-  const [fCustomers, setFCustomers] = useState([]);
+  const [admins, setAdmins] = useState([]);
+  const [fAdmins, setFAdmins] = useState([]);
 
   const dispatch = useDispatch();
-  const { allCloading: loading, allCustomers } = useSelector(state => state.customer);
+  const { allAloading: loading, allAdmins } = useSelector(state => state.admin);
 
   useEffect(() => {
-    dispatch(getAllCustomers());
-    setCustomers(allCustomers);
-  }, [dispatch, allCustomers]);
+    dispatch(getAllAdmins());
+    setAdmins(allAdmins);
+  }, [dispatch, allAdmins]);
 
   const handleSearchChange = e => {
     const term = e.target.value;
     setSearchTerm(term);
-    const filteredCustomers = customers.filter(customer => {
-      if (customer.name.toLowerCase().includes(term.toLowerCase())) {
-        return customer;
+    const filteredAdmins = admins.filter(admin => {
+      if (admin.name.toLowerCase().includes(term.toLowerCase())) {
+        return admin;
       }
     });
-    setFCustomers(filteredCustomers);
+    setFAdmins(filteredAdmins);
   }
 
   return (
@@ -44,16 +44,16 @@ const AdminsPage = () => {
     <div className="flex flex-col gap-5 p-4 w-full">
       {/* first section starts */}
       <div className="flex items-center justify-between">
-        <h1 className="adminCardH1">Customers</h1>
+        <h1 className="adminCardH1">Admins</h1>
         <div className="flex gap-2">
           <button className="myAdminBtn" onClick={openSearchBar}><Search className="size-5" />Search</button>
-          <Link to={"/admin/dashboard/customers/create"} className="myAdminBtn"><Plus className="size-5" />Create</Link>
+          <Link to={"/admin/dashboard/admins/create"} className="myAdminBtn"><Plus className="size-5" />Create</Link>
         </div>
         {
           isSearchBarOpen &&
           <div className="absolute left-1/2 right-4 flex items-center justify-around p-2 bg-primary gap-5">
             <input type="text" value={searchTerm} autoFocus onChange={handleSearchChange} placeholder="Search by name..." className="adminTextField w-full" />
-            <Link to={"/admin/dashboard/customers"}><X onClick={closeSearchBar} className="size-10 text-warning hover:scale-110 active:scale-90 transition" /></Link>
+            <Link to={"/admin/dashboard/admins"}><X onClick={closeSearchBar} className="size-10 text-warning hover:scale-110 active:scale-90 transition" /></Link>
           </div>
         }
       </div>
@@ -77,27 +77,27 @@ const AdminsPage = () => {
               </thead>
               <tbody>
                 {
-                  fCustomers.length > 0 && isSearchBarOpen ?
-                    fCustomers.map(customer => (
-                      <tr key={customer._id} className="border-b">
-                        <Customer customer={customer} />
+                  fAdmins.length > 0 && isSearchBarOpen ?
+                    fAdmins.map(admin => (
+                      <tr key={admin._id} className="border-b">
+                        <Admin admin={admin} />
                       </tr>
                     ))
                     :
-                    fCustomers.length === 0 && isSearchBarOpen ?
+                    fAdmins.length === 0 && isSearchBarOpen ?
                       <tr className="text-xl text-center">
-                        <td colSpan={6} className="pt-3">No customers found <Link to={"/admin/dashboard/customers/create"} className="text-warning hover:text-success transition">Create One</Link></td>
+                        <td colSpan={6} className="pt-3">No admins found <Link to={"/admin/dashboard/admins/create"} className="text-warning hover:text-success transition">Create One</Link></td>
                       </tr>
                       :
-                      customers.length > 0 ?
-                        customers.map(customer => (
-                          <tr key={customer._id} className="border-b">
-                            <Customer customer={customer} />
+                      admins.length > 0 ?
+                        admins.map(admin => (
+                          <tr key={admin._id} className="border-b">
+                            <Admin admin={admin} />
                           </tr>
                         ))
                         :
                         <tr className="text-xl text-center">
-                          <td colSpan={6} className="pt-3">No customers found <Link to={"/admin/dashboard/customers/create"} className="text-warning hover:text-success transition">Create One</Link></td>
+                          <td colSpan={6} className="pt-3">No admins found <Link to={"/admin/dashboard/admins/create"} className="text-warning hover:text-success transition">Create One</Link></td>
                         </tr>
                 }
               </tbody>

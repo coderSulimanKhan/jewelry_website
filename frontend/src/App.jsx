@@ -25,6 +25,8 @@ import CreateCustomer from "./dashboards/admin/components/customer/CreateCustome
 import UpdateCustomer from "./dashboards/admin/components/customer/UpdateCustomer"
 import CreateEmployee from "./dashboards/admin/components/employee/CreateEmployee"
 import UpdateEmployee from "./dashboards/admin/components/employee/UpdateEmployee"
+import CreateAdmin from "./dashboards/admin/components/admin/CreateAdmin"
+import UpdateAdmin from "./dashboards/admin/components/admin/UpdateAdmin"
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);
@@ -65,15 +67,19 @@ const App = () => {
             <Route path="customers" element={<CustomersPage />} />
             <Route path="customers/create" element={<CreateCustomer />} />
             <Route path="customers/update/:id" element={<UpdateCustomer />} />
-            {/* emmloyees */}
+            {/* employees */}
             <Route path="employees" element={<EmployeesPage />} />
             <Route path="employees/create" element={<CreateEmployee />} />
             <Route path="employees/update/:id" element={<UpdateEmployee />} />
+            {/* admins */}
+            <Route path="admins" element={<AdminsPage />} />
+            <Route path="admins/create" element={<CreateAdmin />} />
+            <Route path="admins/update/:id" element={<UpdateAdmin />} />
+
             <Route path="products" element={<ProductsPage />} />
             <Route path="sales" element={<SalesPage />} />
             <Route path="cuts" element={<CutsPage />} />
             <Route path="orders" element={<OrdersPage />} />
-            <Route path="admins" element={<AdminsPage />} />
             <Route path="bills" element={<BillsPage />} />
           </Route>
         </Routes>
