@@ -1,6 +1,13 @@
 import { Link } from "react-router"
+import { useSelector } from "react-redux"
 
 const AdminHomePage = () => {
+  const { allCustomers } = useSelector(state => state.customer);
+  const { allEmployees } = useSelector(state => state.employee);
+  const { allAdmins } = useSelector(state => state.admin);
+  const customerLength = allCustomers?.length || "--";
+  const employeeLength = allEmployees?.length || "--";
+  const adminLength = allAdmins?.length || "--";
   return (
     // homepage starts
     <div className="flex flex-col p-2 gap-5 items-center w-full">
@@ -14,19 +21,19 @@ const AdminHomePage = () => {
         <Link to={"/admin/dashboard/customers"} className="adminCardLink">
           <div className="adminCardInsideDiv">
             <h1 className="adminCardH1">Customers</h1>
-            <p className="adminCardP">Total <span className="adminCardSpan">10</span></p>
+            <p className="adminCardP">Total <span className="adminCardSpan">{customerLength}</span></p>
           </div>
         </Link>
         <Link to={"/admin/dashboard/employees"} className="adminCardLink">
           <div className="adminCardInsideDiv">
             <h1 className="adminCardH1">Employees</h1>
-            <p className="adminCardP">Total <span className="adminCardSpan">3</span></p>
+            <p className="adminCardP">Total <span className="adminCardSpan">{employeeLength}</span></p>
           </div>
         </Link>
         <Link to={"/admin/dashboard/admins"} className="adminCardLink">
           <div className="adminCardInsideDiv">
             <h1 className="adminCardH1">Admins</h1>
-            <p className="adminCardP">Total <span className="adminCardSpan">2</span></p>
+            <p className="adminCardP">Total <span className="adminCardSpan">{adminLength}</span></p>
           </div>
         </Link>
         <Link to={"/admin/dashboard/products"} className="adminCardLink">
