@@ -38,6 +38,7 @@ const loginUser = async (req, res) => {
   }
 };
 
+// for customer
 const registerCustomer = async (req, res) => {
   try {
     //* Check validation
@@ -50,7 +51,7 @@ const registerCustomer = async (req, res) => {
     const { fullname: name, username, email, password, country, city, street, postalCode, phone } = req.body;
 
     //* Check for the email if already defined
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email, username });
     if (existingUser) {
       return res.status(400).json({ success: false, message: "User already exists" });
     }
@@ -59,7 +60,7 @@ const registerCustomer = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     //* Registering the new user
-    const newUser = await User.create({
+    const newCustomer = await User.create({
       name,
       username,
       email,
@@ -71,11 +72,11 @@ const registerCustomer = async (req, res) => {
         postalCode
       },
       phone,
-      image: req.file ? `/api/v1/uploads/${req.file.filename}` : "/avatar.png",
+      image: req.file ? `/api/v1/uploads/customers/${req.file.filename}` : "/avatar.png",
       createdBy: req.user._id
     });
 
-    res.status(201).json({ success: true, newUser: { ...newUser._doc, password: "" } });
+    res.status(201).json({ success: true, newUser: { ...newCustomer._doc, password: "" } });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
@@ -84,9 +85,10 @@ const registerCustomer = async (req, res) => {
 const getAllCustomers = async (req, res) => {
   try {
     const allCustomers = await User.find({ role: "customer", isDeleted: false });
-    res.status(200).json({ success: true, message: allCustomers.length ? "Users retrieved successfully" : "Users not found", data: allCustomers });
+    if (!allCustomers) return res.status(404).json({ success: false, message: "Customers not found" });
+    res.status(200).json({ success: true, message: allCustomers.length ? "Customers retrieved successfully" : "Users not found", data: allCustomers });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Server errror" });
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
@@ -130,10 +132,9 @@ const updateCustomerById = async (req, res) => {
     //* Getting the data from the request
     const { fullname: name, username, email, country, city, street, postalCode, phone } = req.body;
 
-    //* Check for the email if already defined
     const user = await User.findOne({ _id: id, isDeleted: false });
     if (!user) {
-      return res.status(400).json({ success: false, message: "User not found" });
+      return res.status(400).json({ success: false, message: "Customer not found" });
     }
 
     const image = req.file;
@@ -143,7 +144,7 @@ const updateCustomerById = async (req, res) => {
     if (image && user.image !== "/avatar.png") {
       const __filename = fileURLToPath(import.meta.url);
       const __dirname = path.dirname(__filename);
-      await fs.unlink(path.join(__dirname, "uploads/" + user.image.split("/")[4]).replace("/controllers", ""));
+      await fs.unlink(path.join(__dirname, "uploads/customers/" + user.image.split("/")[5]).replace("/controllers", ""));
     }
 
     user.name = name || user.name;
@@ -156,10 +157,141 @@ const updateCustomerById = async (req, res) => {
       postalCode: postalCode || user.address.postalCode
     },
       user.phone = phone || user.phone;
-    user.image = image ? `/api/v1/uploads/${image.filename}` : user.image;
+    user.image = image ? `/api/v1/uploads/customers/${image.filename}` : user.image;
     user.save();
 
     res.status(200).json({ success: true, updatedCustomer: { ...user._doc, password: "" } });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// for employee
+
+const registerEmployee = async (req, res) => {
+  try {
+    //* Check validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, error: errors.array() });
+    }
+
+    //* Getting the data from the request
+    const { fullname: name, username, email, password, country, city, street, postalCode, phone } = req.body;
+
+    //* Check for the email if already defined
+    const existingUser = await User.findOne({ email, username });
+    if (existingUser) {
+      return res.status(400).json({ success: false, message: "Employee already exists" });
+    }
+    //* Hashing the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    //* Registering the new employee
+    const newEmployee = await User.create({
+      name,
+      username,
+      email,
+      password: hashedPassword,
+      address: {
+        country,
+        city,
+        street,
+        postalCode
+      },
+      phone,
+      image: req.file ? `/api/v1/uploads/employees/${req.file.filename}` : "/avatar.png",
+      createdBy: req.user._id,
+      role: "employee"
+    });
+
+    res.status(201).json({ success: true, newUser: { ...newEmployee._doc, password: "" } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const getAllEmployees = async (req, res) => {
+  try {
+    const allEmployees = await User.find({ role: "employee", isDeleted: false });
+    if (!allEmployees) return res.status(404).json({ success: false, message: "Employees not found" });
+    res.status(200).json({ success: true, message: allEmployees.length ? "Employees retrieved successfully" : "Users not found", data: allEmployees });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const deleteEmployeeById = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(403).json({ success: false, message: "Invalid id" });
+  try {
+    console.log(id);
+    const user = await User.findById(id);
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    if (user.isDeleted) return res.status(404).json({ success: false, message: "User already deleted" });
+    user.isDeleted = true;
+    await user.save();
+    res.status(200).json({ success: true, message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const getEmployeeById = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ success: false, message: "Invalid id" });
+  try {
+    const user = await User.findOne({ _id: id, role: "employee", isDeleted: false });
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    res.status(200).json({ success: true, data: user })
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const updateEmployeeById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    //* Check validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, error: errors.array() });
+    }
+
+    //* Getting the data from the request
+    const { fullname: name, username, email, country, city, street, postalCode, phone } = req.body;
+
+    const user = await User.findOne({ _id: id, isDeleted: false });
+    if (!user) {
+      return res.status(400).json({ success: false, message: "Employee not found" });
+    }
+
+    const image = req.file;
+
+    //* Update the user
+    // delete the image from file system if it updates
+    if (image && user.image !== "/avatar.png") {
+      const __filename = fileURLToPath(import.meta.url);
+      const __dirname = path.dirname(__filename);
+      await fs.unlink(path.join(__dirname, "uploads/employees/" + user.image.split("/")[5]).replace("/controllers", ""));
+    }
+
+    user.name = name || user.name;
+    user.username = username || user.username;
+    user.email = email || user.email;
+    user.address = {
+      country: country || user.address.country,
+      city: city || user.address.city,
+      street: street || user.address.street,
+      postalCode: postalCode || user.address.postalCode
+    },
+      user.phone = phone || user.phone;
+    user.image = image ? `/api/v1/uploads/employees/${image.filename}` : user.image;
+    user.save();
+
+    res.status(200).json({ success: true, updatedEmployee: { ...user._doc, password: "" } });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Server error" });
@@ -326,4 +458,4 @@ const updateUserById = async (req, res) => {
   }
 };
 
-export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getCustomerById, updateUserById, deleteCustomerById, getMe, getAllCustomers, updateCustomerById };
+export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getCustomerById, updateUserById, deleteCustomerById, getMe, getAllCustomers, updateCustomerById, deleteEmployeeById, getAllEmployees, getEmployeeById, updateEmployeeById, registerEmployee };

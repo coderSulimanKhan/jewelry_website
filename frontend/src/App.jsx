@@ -6,6 +6,8 @@ import LoginPage from "./pages/LoginPage"
 import Profile from "./components/common/Profile"
 import { useEffect, useState } from "react"
 import { ToastContainer } from "react-toastify"
+import { useDispatch, useSelector } from "react-redux"
+import { getMe } from "./store/slices/user.slice.js"
 // employee dashboard
 import EmployeeDashboard from "./dashboards/employee/EmployeeDashboard"
 // admin dashboard
@@ -19,10 +21,10 @@ import CutsPage from "./dashboards/admin/pages/CutsPages"
 import OrdersPage from "./dashboards/admin/pages/OrdersPage"
 import AdminsPage from "./dashboards/admin/pages/AdminsPage"
 import BillsPage from "./dashboards/admin/pages/BillsPage"
-import { useDispatch, useSelector } from "react-redux"
-import { getMe } from "./store/slices/user.slice.js"
 import CreateCustomer from "./dashboards/admin/components/customer/CreateCustomer"
-import UpdateCustomer from "./dashboards/admin/components/customer/UpdateCustomer.jsx"
+import UpdateCustomer from "./dashboards/admin/components/customer/UpdateCustomer"
+import CreateEmployee from "./dashboards/admin/components/employee/CreateEmployee"
+import UpdateEmployee from "./dashboards/admin/components/employee/UpdateEmployee"
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);
@@ -63,7 +65,10 @@ const App = () => {
             <Route path="customers" element={<CustomersPage />} />
             <Route path="customers/create" element={<CreateCustomer />} />
             <Route path="customers/update/:id" element={<UpdateCustomer />} />
+            {/* emmloyees */}
             <Route path="employees" element={<EmployeesPage />} />
+            <Route path="employees/create" element={<CreateEmployee />} />
+            <Route path="employees/update/:id" element={<UpdateEmployee />} />
             <Route path="products" element={<ProductsPage />} />
             <Route path="sales" element={<SalesPage />} />
             <Route path="cuts" element={<CutsPage />} />

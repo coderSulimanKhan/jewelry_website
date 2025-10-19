@@ -22,7 +22,7 @@ const createCustomer = createAsyncThunk("user/createCustomer", async (formData, 
       }
       throw new Error("Failed to create customer");
     };
-    return data.newUser;
+    return data.newCustomer;
   } catch (error) {
     return rejectWithValue(error.message);
   }
@@ -150,7 +150,7 @@ const customerSlice = createSlice({
       .addCase(deleteCustomer.fulfilled, (state, action) => {
         state.loadingDeleteCustomer = false;
         state.deleteCustomerMessage = action.payload;
-        toast.success("User deleted successfully");
+        toast.success("Customer deleted successfully");
       })
       .addCase(deleteCustomer.rejected, (state, action) => {
         state.loadingDeleteCustomer = false;
