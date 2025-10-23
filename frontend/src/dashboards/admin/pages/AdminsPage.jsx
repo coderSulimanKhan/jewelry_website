@@ -40,7 +40,7 @@ const AdminsPage = () => {
   }
 
   return (
-    // customers page starts
+    // admins page starts
     <div className="flex flex-col gap-5 p-4 w-full">
       {/* first section starts */}
       <div className="flex items-center justify-between">
@@ -106,7 +106,7 @@ const AdminsPage = () => {
       </div>
       {/* second section ends */}
     </div >
-    // customers page ends
+    // admins page ends
   )
 }
 
