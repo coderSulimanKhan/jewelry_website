@@ -4,6 +4,7 @@ import { Link } from "react-router"
 import { createProduct } from "../../../../store/slices/admin/product.slice";
 import { useDispatch, useSelector } from "react-redux"
 import { useMemo } from "react";
+import { toast } from "react-toastify";
 
 const CreateProduct = () => {
   const categories = useMemo(() => {
@@ -90,10 +91,14 @@ const CreateProduct = () => {
       formData.append("stones", JSON.stringify(allStones));
     }
     if (stoneImageFiles) {
-      formData.append("stoneImages", stoneImageFiles);
+      stoneImageFiles.forEach(stone => {
+        formData.append("stoneImageFiles", stone);
+      });
     }
     if (imageFiles) {
-      formData.append("imageFiles", imageFiles);
+      imageFiles.forEach(image => {
+        formData.append("imageFiles", image);
+      })
     }
     dispatch(createProduct(formData));
     // for (const [key, value] of formData.entries()) {
@@ -217,7 +222,7 @@ const CreateProduct = () => {
                     ))
                     : <p className="text-warning">No stones added</p>
                 }
-                <button className="successBtn " type="button" onClick={() => setIsStoneModelOpen(true)}>Add Stone</button>
+                <button className="successBtn" type="button" onClick={() => setIsStoneModelOpen(true)}>Add Stone</button>
               </div>
             </div>
             {/* stone */}

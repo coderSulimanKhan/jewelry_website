@@ -49,4 +49,22 @@ const uploadAdmin = multer({
   }
 });
 
-export { uploadCustomer, uploadEmployee, uploadAdmin };
+const productStorage = multer.diskStorage({
+  destination: "backend/uploads/products/",
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const uploadProduct = multer({
+  storage: productStorage,
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const allowed = ["image/jpeg", "image/png", "image/webp"];
+    cb(null, allowed.includes(file.mimetype));
+  }
+});
+
+const uploadProductImages = uploadProduct.fields([{ name: "imageFiles", maxCount: 20 }, { name: "stoneImageFiles", maxCount: 20 }]);
+
+export { uploadCustomer, uploadEmployee, uploadAdmin, uploadProductImages };
