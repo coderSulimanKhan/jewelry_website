@@ -15,6 +15,7 @@ const productValidation = [
   body("stones").optional().trim(),
   body("discountPrice").optional().isInt({ min: 0 }).withMessage("Discount price must be greater than 0"),
   body("discountPercentage").optional().isInt({ min: 0 }).withMessage("Discount percentage must be greater than 0"),
+  body("images").optional(),
 ];
 
 export { productValidation };

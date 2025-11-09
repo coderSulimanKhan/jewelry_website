@@ -24,7 +24,8 @@ const productSchema = new Schema({
   images: [{ type: String, required: true }],
   isSoldOut: { type: Boolean, default: false },
   ratings: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  createdBy: { type: Schema.Types.ObjectId, ref: "User" }
+  createdBy: { type: Schema.Types.ObjectId, ref: "User" },
+  isDeleted: { type: Boolean, default: false }
 }, { timestamps: true });
 
 const Product = model("Product", productSchema);

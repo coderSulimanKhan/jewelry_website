@@ -1,5 +1,6 @@
 /planning
 /backend/uploads
+/.VSCodeCounter
 # Logs
 logs
 *.log

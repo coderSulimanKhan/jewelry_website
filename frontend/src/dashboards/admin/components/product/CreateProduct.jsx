@@ -14,17 +14,13 @@ const CreateProduct = () => {
     return ["agate", "amethyst", "apatite", "aquamarine", "adventurine", "carnelian", "chrysoprase", "citrine", "diamond", "emerald", "garnet", "honey quartz", "jade", "lab grown blue sapphire", "lab grown diamond", "lab grown emerald", "lab grown ruby", "lab grown white sapphire", "multi", "neon apatite", "onyx", "opal", "pearl", "peridot", "prasiolite", "quartz", "ruby", "sapphire", "sodalite", "swiss blue topaz", "tiger eye", "topaz", "tourmaline", "tsavorite", "turquoise", "none"];
   }, []);
   const [previewImages, setPreviewImages] = useState([]);
-  console.log(previewImages);
   const [imageFiles, setImageFiles] = useState([]);
-  console.log(imageFiles);
 
   const [stonePreviewImages, setStonePreviewImages] = useState([]);
   const [stonePreviewImage, setStonePreviewImage] = useState(null);
   const [stoneImageFiles, setStoneImageFiles] = useState([]);
   const [allStones, setAllStones] = useState([]);
   const [id, setId] = useState(0);
-  console.log(allStones[0]?.uniqueId);
-  console.log(stonePreviewImages);
   const [isStoneModelOpen, setIsStoneModelOpen] = useState(false);
   const dispatch = useDispatch();
 
@@ -47,7 +43,6 @@ const CreateProduct = () => {
       setStonePreviewImages([...stonePreviewImages, imageUrl]);
       setStonePreviewImage(imageUrl);
     }
-    console.log(stoneImageFiles);
   }
 
   const [stoneProperties, setStoneProperties] = useState({
@@ -60,10 +55,21 @@ const CreateProduct = () => {
   });
 
   const handleAddStone = () => {
+    // check fields validation for stone
+    if (!stonePreviewImage || !stoneProperties.color || !stoneProperties.quantity || !stoneProperties.shape || !stoneProperties.type || !stoneProperties.weight.unit || !stoneProperties.weight.value) {
+      return toast.error("Inavlid credentials");
+    }
     setAllStones([...allStones, { ...stoneProperties, uniqueId: id }]);
-    console.log(stoneProperties);
     setId(p => p + stonePreviewImages?.length);
-    console.log(allStones);
+    setStoneProperties({
+      type: "agate",
+      quantity: 1,
+      shape: "",
+      color: "",
+      weight: { value: 0, unit: "g" },
+      uniqueId: null
+    });
+    setIsStoneModelOpen(false);
   }
 
   const handleDeleteStone = stoneId => {
@@ -101,9 +107,6 @@ const CreateProduct = () => {
       })
     }
     dispatch(createProduct(formData));
-    // for (const [key, value] of formData.entries()) {
-    //   console.log(`${key}: ${value}`);
-    // }
   }
   return (
     // create product form start
@@ -196,12 +199,12 @@ const CreateProduct = () => {
             {/* discount price */}
             <div className="flex flex-col w-full">
               <label htmlFor="discountFee" className="text-success">Discount Fee</label>
-              <input type="number" id="discountFee" className="adminTextField" placeholder="e.g 10" min={1} />
+              <input type="number" id="discountFee" className="adminTextField" placeholder="e.g 10" min={0} />
             </div>
             {/* discount percentage */}
             <div className="flex flex-col w-full">
               <label htmlFor="discountPercentage" className="text-success">Discount Percentage</label>
-              <input type="number" id="discountPercentage" className="adminTextField" placeholder="e.g 2" min={1} />
+              <input type="number" id="discountPercentage" className="adminTextField" placeholder="e.g 2" min={0} />
             </div>
             {/* add stone */}
             <div className="flex flex-col w-full">
@@ -217,7 +220,7 @@ const CreateProduct = () => {
                         <p className="adminCardSpan">{stone?.weight?.value + stone?.weight?.unit}</p>
                         <p className="adminCardSpan">{stone?.shape}</p>
                         <p></p>
-                        <X onClick={() => handleDeleteStone(stone?.uniqueId)} className="bg-red-900/20 text-red-500 rounded-full p-1 size-7" />
+                        <X onClick={() => handleDeleteStone(stone?.uniqueId)} className="bg-red-900/20 text-red-500 rounded-full p-1 size-7 hover:scale-110 transition active:scale-90" />
                       </div>
                     ))
                     : <p className="text-warning">No stones added</p>

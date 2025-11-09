@@ -3,8 +3,8 @@ import { Link } from "react-router"
 import { useState } from "react"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getAllAdmins } from "../../../store/slices/admin/admin.slice.js"
-import Admin from "../components/admin/Admin"
+import { getAllProducts } from "../../../store/slices/admin/product.slice.js"
+import Product from "../components/product/Product"
 
 const ProductsPage = () => {
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
@@ -17,26 +17,26 @@ const ProductsPage = () => {
   const openSearchBar = () => {
     setIsSearchBarOpen(true);
   }
-  const [admins, setAdmins] = useState([]);
-  const [fAdmins, setFAdmins] = useState([]);
+  const [allproducts, setAllProducts] = useState([]);
+  const [fProducts, setFProducts] = useState([]);
 
   const dispatch = useDispatch();
-  const { allAloading: loading, allAdmins } = useSelector(state => state.admin);
+  const { allPloading: loading, allProducts } = useSelector(state => state.product);
 
   useEffect(() => {
-    dispatch(getAllAdmins());
-    setAdmins(allAdmins);
-  }, [dispatch, allAdmins]);
+    dispatch(getAllProducts());
+    setAllProducts(allProducts);
+  }, [dispatch, allProducts]);
 
   const handleSearchChange = e => {
     const term = e.target.value;
     setSearchTerm(term);
-    const filteredAdmins = admins.filter(admin => {
-      if (admin.name.toLowerCase().includes(term.toLowerCase())) {
-        return admin;
+    const filteredProducts = allproducts.filter(product => {
+      if (product.name.toLowerCase().includes(term.toLowerCase())) {
+        return product;
       }
     });
-    setFAdmins(filteredAdmins);
+    setFProducts(filteredProducts);
   }
 
   return (
@@ -53,7 +53,7 @@ const ProductsPage = () => {
           isSearchBarOpen &&
           <div className="absolute left-1/2 right-4 flex items-center justify-around p-2 bg-primary gap-5">
             <input type="text" value={searchTerm} autoFocus onChange={handleSearchChange} placeholder="Search by name..." className="adminTextField w-full" />
-            <Link to={"/admin/dashboard/admins"}><X onClick={closeSearchBar} className="size-10 text-warning hover:scale-110 active:scale-90 transition" /></Link>
+            <Link to={"/admin/dashboard/products"}><X onClick={closeSearchBar} className="size-10 text-warning hover:scale-110 active:scale-90 transition" /></Link>
           </div>
         }
       </div>
@@ -68,36 +68,38 @@ const ProductsPage = () => {
               <thead className="border-b border-warning/50 p-3 rounded">
                 <tr className="text-accent text-lg font-bold">
                   <th>Image</th>
-                  <th>Name</th>
-                  <th>Orders</th>
-                  <th>Cuts</th>
-                  <th>Bills</th>
+                  <th>Name + Description</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th className="text-sm">Discount Fee</th>
+                  <th className="text-sm">Discount Percentage</th>
+                  <th className="text-sm">Total Price</th>
                   <th colSpan={2}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {
-                  fAdmins.length > 0 && isSearchBarOpen ?
-                    fAdmins.map(admin => (
-                      <tr key={admin._id} className="border-b">
-                        <Admin admin={admin} />
+                  fProducts.length > 0 && isSearchBarOpen ?
+                    fProducts.map(product => (
+                      <tr key={product._id} className="border-b">
+                        <Product product={product} />
                       </tr>
                     ))
                     :
-                    fAdmins.length === 0 && isSearchBarOpen ?
+                    fProducts.length === 0 && isSearchBarOpen ?
                       <tr className="text-xl text-center">
-                        <td colSpan={6} className="pt-3">No admins found <Link to={"/admin/dashboard/admins/create"} className="text-warning hover:text-success transition">Create One</Link></td>
+                        <td colSpan={8} className="pt-3">No products found <Link to={"/admin/dashboard/products/create"} className="text-warning hover:text-success transition">Create One</Link></td>
                       </tr>
                       :
-                      admins.length > 0 ?
-                        admins.map(admin => (
-                          <tr key={admin._id} className="border-b">
-                            <Admin admin={admin} />
+                      allproducts.length > 0 ?
+                        allproducts.map(product => (
+                          <tr key={product._id} className="border-b">
+                            <Product product={product} />
                           </tr>
                         ))
                         :
                         <tr className="text-xl text-center">
-                          <td colSpan={6} className="pt-3">No admins found <Link to={"/admin/dashboard/admins/create"} className="text-warning hover:text-success transition">Create One</Link></td>
+                          <td colSpan={8} className="pt-3">No products found <Link to={"/admin/dashboard/products/create"} className="text-warning hover:text-success transition">Create One</Link></td>
                         </tr>
                 }
               </tbody>

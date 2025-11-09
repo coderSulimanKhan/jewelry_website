@@ -5,9 +5,11 @@ const AdminHomePage = () => {
   const { allCustomers } = useSelector(state => state.customer);
   const { allEmployees } = useSelector(state => state.employee);
   const { allAdmins } = useSelector(state => state.admin);
+  const { allProducts } = useSelector(state => state.product);
   const customerLength = allCustomers?.length || "--";
   const employeeLength = allEmployees?.length || "--";
   const adminLength = allAdmins?.length || "--";
+  const productLength = allProducts?.length || "--";
   return (
     // homepage starts
     <div className="flex flex-col p-2 gap-5 items-center w-full">
@@ -39,7 +41,7 @@ const AdminHomePage = () => {
         <Link to={"/admin/dashboard/products"} className="adminCardLink">
           <div className="adminCardInsideDiv">
             <h1 className="adminCardH1">Products</h1>
-            <p className="adminCardP">Total <span className="adminCardSpan">200</span></p>
+            <p className="adminCardP">Total <span className="adminCardSpan">{productLength}</span></p>
           </div>
         </Link>
         <Link to={"/"} className="adminCardLink">
