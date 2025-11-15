@@ -99,3 +99,11 @@
 .tableSpan {
   @apply text-lg bg-success/20 text-success px-4 rounded-full;
 }
+
+.myCardShadow {
+  box-shadow: 0px 0px 10px 1px goldenrod;
+}
+
+.productCardTag{
+  @apply text-lg text-error bg-error/20 px-2 rounded;
+}

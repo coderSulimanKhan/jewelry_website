@@ -1,6 +1,6 @@
 import { Router } from "express";
 //* Controllers
-import { deleteAdminById, deleteCustomerById, deleteEmployeeById, getAdminById, getAllAdmins, getAllCustomers, getAllEmployees, getAllUsers, getCustomerById, getEmployeeById, getMe, getUserProfile, loginUser, registerAdmin, registerCustomer, registerEmployee, updateAdminById, updateCustomerById, updateEmployeeById } from "../controllers/user.controller.js";
+import { deleteAdminById, deleteCustomerById, deleteEmployeeById, getAdminById, getAllAdmins, getAllCustomers, getAllEmployees, getAllUsers, getCustomerById, getEmployeeById, getMe, getUserProfile, loginUser, logoutUser, registerAdmin, registerCustomer, registerEmployee, updateAdminById, updateCustomerById, updateEmployeeById } from "../controllers/user.controller.js";
 //* Middlewares
 import { adminRateLimiter, rateLimiter } from "../middlewares/rateLimiter.js";
 import protectRoute from "../middlewares/protectRoute.js";
@@ -81,6 +81,10 @@ router.get("/admin/:id", /*adminRateLimiter,*/ protectRoute, isAdmin, getAdminBy
 // for admin
 //* update admin by id (admin only)
 router.put("/admin/:id", /*adminRateLimiter,*/ protectRoute, isAdmin, uploadAdmin.single("image"), updateCustomerValidation, updateAdminById);
+
+// for every user
+//* logout
+router.post("/logout", protectRoute, logoutUser);
 
 // todo : used to here
 

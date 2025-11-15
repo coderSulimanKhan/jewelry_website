@@ -427,6 +427,16 @@ const updateAdminById = async (req, res) => {
   }
 };
 
+const logoutUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(400).json({ success: false, message: "Failed to logout" });
+    res.cookie("jwt-jewelry", { maxAge: 0 }).status(200).json({ succes: true, message: "Logout successfully" });
+    // res.status(200).json({ success: true, message: "Logout successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+}
 
 // todo: used to here
 
@@ -588,4 +598,4 @@ const updateUserById = async (req, res) => {
   }
 };
 
-export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getCustomerById, updateUserById, deleteCustomerById, getMe, getAllCustomers, updateCustomerById, deleteEmployeeById, getAllEmployees, getEmployeeById, updateEmployeeById, registerEmployee, deleteAdminById, getAllAdmins, getAdminById, updateAdminById, registerAdmin };
+export { registerCustomer, registerUser, verifyEmail, resendVerification, loginUser, getUserProfile, updateUserProfile, deleteUser, getAllUsers, getCustomerById, updateUserById, deleteCustomerById, getMe, getAllCustomers, updateCustomerById, deleteEmployeeById, getAllEmployees, getEmployeeById, updateEmployeeById, registerEmployee, deleteAdminById, getAllAdmins, getAdminById, updateAdminById, registerAdmin, logoutUser };

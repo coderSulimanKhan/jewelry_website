@@ -29,12 +29,28 @@ const loginUser = createAsyncThunk("user/loginUser", async (credentials, { rejec
   }
 });
 
+const logoutUser = createAsyncThunk("user/logout", async (_, { rejectWithValue }) => {
+  try {
+    const res = await fetch("/api/v1/users/logout", {
+      method: "POST"
+    });
+    const data = await res.json();
+    console.log(data);
+    if (!res.ok) throw new Error(data?.message || "Failed to logout");
+    return data;
+  } catch (error) {
+    return rejectWithValue(error?.message || "Failed to logout");
+  }
+});
+
 const userSlice = createSlice({
   name: "user",
   initialState: {
     user: JSON.parse(localStorage.getItem("user")),
     loading: false,
-    error: null
+    error: null,
+    // logout
+    isLoggingOut: false
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -67,8 +83,21 @@ const userSlice = createSlice({
         state.error = action.payload;
         toast.error(action.payload);
       })
+      // logout user
+      .addCase(logoutUser.pending, state => {
+        state.isLoggingOut = true;
+        state.error = null;
+      })
+      .addCase(logoutUser.fulfilled, (state, action) => {
+        state.isLoggingOut = false;
+        toast.success(action?.payload);
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.isLoggingOut = false;
+        toast.error(action?.payload);
+      })
   }
 });
 
-export { loginUser, getMe };
+export { loginUser, getMe, logoutUser };
 export default userSlice.reducer;

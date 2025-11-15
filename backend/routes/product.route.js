@@ -9,8 +9,8 @@ import { uploadProductImages } from "../middlewares/upload.js";
 const router = Router();
 
 router.post("/", /*adminRateLimiter,*/ protectRoute, isAdmin, uploadProductImages, productValidation, createProduct);
-router.get("/", /*adminRateLimiter,*/ protectRoute, isAdmin, getAllProducts);
-router.get("/:id", /*adminRateLimiter,*/ protectRoute, isAdmin, getProductById);
+router.get("/", /*adminRateLimiter,*/ getAllProducts);
+router.get("/:id", /*adminRateLimiter,*/ getProductById);
 router.post("/:id", protectRoute, isAdmin, uploadProductImages, productValidation, updateProductById);
 router.delete("/:id", protectRoute, isAdmin, deleteProduct);
 

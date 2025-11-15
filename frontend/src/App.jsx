@@ -3,6 +3,7 @@ import Footer from "./components/common/Footer"
 import Navbar from "./components/common/Navbar"
 import HomePage from "./pages/HomePage"
 import LoginPage from "./pages/LoginPage"
+import AllProductsPage from "./pages/AllProductsPage"
 import Profile from "./components/common/Profile"
 import { useEffect, useState } from "react"
 import { ToastContainer } from "react-toastify"
@@ -29,6 +30,8 @@ import CreateAdmin from "./dashboards/admin/components/admin/CreateAdmin"
 import UpdateAdmin from "./dashboards/admin/components/admin/UpdateAdmin"
 import CreateProduct from "./dashboards/admin/components/product/CreateProduct"
 import UpdateProduct from "./dashboards/admin/components/product/UpdateProduct"
+import NewProductsPage from "./pages/NewProductsPage.jsx"
+import BestProductsPage from "./pages/BestProductsPage.jsx"
 
 
 const App = () => {
@@ -56,11 +59,14 @@ const App = () => {
     <>
       <div className="w-full min-h-screen flex flex-col items-center justify-between bg-linear-to-br from-warning via-primary to-warning transition duration-1000">
         {/* navbar */}
-        <Navbar toggleTheme={toggleTheme} isDark={isDark} role={role} />
+        <Navbar toggleTheme={toggleTheme} isDark={isDark} role={role} image={user?.image ?? "/avatar.png"} />
         <Routes>
           <Route path="/" element={<HomePage role={role} />} />
           <Route path="/login" element={<LoginPage role={role} />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/all" element={<AllProductsPage />} />
+          <Route path="/new" element={<NewProductsPage />} />
+          <Route path="/best" element={<BestProductsPage />} />
           {/* routes for employee */}
           <Route path="/employee/dashboard" element={<EmployeeDashboard role={role} />} />
           {/* routes for admin */}
