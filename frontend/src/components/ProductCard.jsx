@@ -9,7 +9,7 @@ const ProductCard = ({ product }) => {
   return (
     // product card starts
     <div onMouseOver={() => setIsMouseOver(true)} onMouseOut={() => setIsMouseOver(false)} className="flex flex-col border border-warning p-1 rounded myCardShadow relative">
-      <span className={`absolute -left-1 -top-1 bg-primary text-red-500 rounded border ${!isMouseOver ? "p-1" : "opacity-0"}`}>{giveMeDiscount(product)}</span>
+      <span className={`absolute -left-1 -top-1 bg-red-900 text-success rounded border border-success ${!isMouseOver ? "p-1" : "opacity-0"}`}>{giveMeDiscount(product)}</span>
       <div className={`capitalize flex justify-evenly pb-1 transition-all ${isMouseOver ? "opacity-100 h-8" : "opacity-0 h-0"}`}>
         <p className="productCardTag">{product?.category}</p>
         <p className="productCardTag">{product?.material}</p>

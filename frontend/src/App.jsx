@@ -4,7 +4,6 @@ import Navbar from "./components/common/Navbar"
 import HomePage from "./pages/HomePage"
 import LoginPage from "./pages/LoginPage"
 import AllProductsPage from "./pages/AllProductsPage"
-import Profile from "./components/common/Profile"
 import { useEffect, useState } from "react"
 import { ToastContainer } from "react-toastify"
 import { useDispatch, useSelector } from "react-redux"
@@ -32,6 +31,7 @@ import CreateProduct from "./dashboards/admin/components/product/CreateProduct"
 import UpdateProduct from "./dashboards/admin/components/product/UpdateProduct"
 import NewProductsPage from "./pages/NewProductsPage.jsx"
 import BestProductsPage from "./pages/BestProductsPage.jsx"
+import ProfilePage from "./pages/ProfilePage.jsx"
 
 
 const App = () => {
@@ -63,7 +63,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage role={role} />} />
           <Route path="/login" element={<LoginPage role={role} />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/all" element={<AllProductsPage />} />
           <Route path="/new" element={<NewProductsPage />} />
           <Route path="/best" element={<BestProductsPage />} />

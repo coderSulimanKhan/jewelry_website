@@ -6,7 +6,7 @@ import { logoutUser } from "../../store/slices/user.slice"
 
 const Navbar = ({ toggleTheme, isDark, role, image }) => {
   const [isPopOver, setIsPopOver] = useState(false);
-  const [isHover, setIsHover] = useState(false);
+  const [isHover, setIsHover] = useState(true);
   const dispatch = useDispatch();
   const togglePopOver = () => {
     setIsPopOver(p => !p);

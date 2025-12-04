@@ -27,7 +27,7 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ username });
     if (!user) return res.status(404).json({ success: false, message: "user not found" });
     if (user.isDeleted) return res.status(404).json({ success: false, message: "User not found" });
-    if (!user.isVerified) return res.status(400).json({ success: false, message: "user is not verified" });
+    // if (!user.isVerified) return res.status(400).json({ success: false, message: "user is not verified" });
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) return res.status(400).json({ success: false, message: "password is not correct" });
     const token = generateTokenAndSetCookie(user._id, user.role, res);
