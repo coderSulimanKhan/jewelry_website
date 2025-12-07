@@ -1,357 +1,361 @@
-[{
-  "_id": {
-    "$oid": "68f2196197d87f5baabbfba6"
+[
+  {
+    "_id": {
+      "$oid": "68f2196197d87f5baabbfba6"
+    },
+    "name": "Suliman Khan",
+    "username": "sulimankhan001",
+    "email": "suliman@gmail.com",
+    "password": "$2b$10$X1Olnxjz4ieAns8smkQGAuCtGtBjSMRZvbpzOVOH7iCBoGFYvV1/.",
+    "role": "admin",
+    "address": {
+      "country": "Pakistan",
+      "city": "Swat",
+      "street": "Bandai Maira",
+      "postalCode": "123456"
+    },
+    "phone": "03167769831",
+    "image": "/api/v1/uploads/admins/1764145866241.png",
+    "isVerified": true,
+    "isDeleted": false,
+    "createdAt": {
+      "$date": "2025-10-17T10:24:33.152Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-26T08:31:06.279Z"
+    },
+    "__v": 0
   },
-  "name": "Suliman Khan",
-  "username": "sulimankhan001",
-  "email": "suliman@gmail.com",
-  "password": "$2b$10$X1Olnxjz4ieAns8smkQGAuCtGtBjSMRZvbpzOVOH7iCBoGFYvV1/.",
-  "role": "admin",
-  "address": {
-    "country": "Pakistan",
-    "city": "Swat",
-    "street": "Bandai Maira",
-    "postalCode": "123456"
+  {
+    "_id": {
+      "$oid": "68f4deeda54de58f899ba577"
+    },
+    "name": "Suliman Khan 01",
+    "username": "suliman_khan_01",
+    "email": "suliman_khan_01@gmail.com",
+    "password": "$2b$10$qSsRjRN9w2NLKpUETYCJDuvmgdt3N1P1OnNdlqOhPfgjJZq.KwIJu",
+    "role": "customer",
+    "address": {
+      "country": "Pakistan 01",
+      "city": "Peshawer 01",
+      "street": "Nana Market 01",
+      "postalCode": "101010"
+    },
+    "phone": "03167769831",
+    "image": "/api/v1/uploads/customers/1764878050265.png",
+    "createdBy": {
+      "$oid": "68f2196197d87f5baabbfba6"
+    },
+    "isVerified": false,
+    "isDeleted": false,
+    "createdAt": {
+      "$date": "2025-10-19T12:51:57.628Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-04T19:54:10.298Z"
+    },
+    "__v": 0
   },
-  "phone": "03167769831",
-  "image": "/api/v1/uploads/admins/1764145866241.png",
-  "isVerified": true,
-  "isDeleted": false,
-  "createdAt": {
-    "$date": "2025-10-17T10:24:33.152Z"
+  {
+    "_id": {
+      "$oid": "68f4df0ca54de58f899ba57c"
+    },
+    "name": "Suliman Khan 02",
+    "username": "suliman_khan_02",
+    "email": "suliman_khan_02@gmail.com",
+    "password": "$2b$10$bt5OsvN07TQ6XkzOvaqkYed8IKlq/RLPgjex3Gbk3srq4JAdOAD3e",
+    "role": "customer",
+    "address": {
+      "country": "Pakistan 02",
+      "city": "Peshawer 02",
+      "street": "Nana Market 02",
+      "postalCode": "202020"
+    },
+    "phone": "03167769831",
+    "image": "/avatar.png",
+    "createdBy": {
+      "$oid": "68f2196197d87f5baabbfba6"
+    },
+    "isVerified": false,
+    "isDeleted": false,
+    "createdAt": {
+      "$date": "2025-10-19T12:52:28.133Z"
+    },
+    "updatedAt": {
+      "$date": "2025-10-19T12:52:28.133Z"
+    },
+    "__v": 0
   },
-  "updatedAt": {
-    "$date": "2025-11-26T08:31:06.279Z"
+  {
+    "_id": {
+      "$oid": "68f4df37a54de58f899ba768"
+    },
+    "name": "Suliman Khan 03",
+    "username": "suliman_khan_03",
+    "email": "suliman_khan_03@gmail.com",
+    "password": "$2b$10$gY/L2.ywo/dmTrXKFtizA.eDKo6SejMdYaHuHQ5LoNqoVt3vIxibS",
+    "role": "customer",
+    "address": {
+      "country": "Pakistan 03",
+      "city": "Peshawer 03",
+      "street": "Nana Market 03",
+      "postalCode": "303030"
+    },
+    "phone": "",
+    "image": "/avatar.png",
+    "createdBy": {
+      "$oid": "68f2196197d87f5baabbfba6"
+    },
+    "isVerified": false,
+    "isDeleted": false,
+    "createdAt": {
+      "$date": "2025-10-19T12:53:11.328Z"
+    },
+    "updatedAt": {
+      "$date": "2025-10-19T12:53:11.328Z"
+    },
+    "__v": 0
   },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "68f4deeda54de58f899ba577"
+  {
+    "_id": {
+      "$oid": "68f4df59a54de58f899ba76c"
+    },
+    "name": "Suliman Khan 04",
+    "username": "suliman_khan_04",
+    "email": "suliman_khan_04@gmail.com",
+    "password": "$2b$10$MrGpc9m8R7GX6FrfsbIV4.8rg/.t72UwUv9mVCZi.ihSH2w7g.7Zy",
+    "role": "customer",
+    "address": {
+      "country": "Pakistan 04",
+      "city": "Peshawer 04",
+      "street": "Nana Market 04",
+      "postalCode": "404040"
+    },
+    "phone": "03167769831",
+    "image": "/api/v1/uploads/customers/1760878425677.png",
+    "createdBy": {
+      "$oid": "68f2196197d87f5baabbfba6"
+    },
+    "isVerified": false,
+    "isDeleted": true,
+    "createdAt": {
+      "$date": "2025-10-19T12:53:45.839Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-09T07:31:24.960Z"
+    },
+    "__v": 0
   },
-  "name": "Suliman Khan 01",
-  "username": "suliman_khan_01",
-  "email": "suliman_khan_01@gmail.com",
-  "password": "$2b$10$qSsRjRN9w2NLKpUETYCJDuvmgdt3N1P1OnNdlqOhPfgjJZq.KwIJu",
-  "role": "customer",
-  "address": {
-    "country": "Pakistan 01",
-    "city": "Peshawer 01",
-    "street": "Nana Market 01",
-    "postalCode": "101010"
+  {
+    "_id": {
+      "$oid": "68f4df8ea54de58f899ba9f5"
+    },
+    "name": "Employee 01",
+    "username": "employee_01",
+    "email": "employee_01@gmail.com",
+    "password": "$2b$10$ZfQf69xUHvHoAywLABgVmOSJB6.JgHzM0f6aV5yH1LLeGsyuHpbl2",
+    "role": "employee",
+    "address": {
+      "country": "C 01",
+      "city": "C 01",
+      "street": "S 01",
+      "postalCode": "111111"
+    },
+    "phone": "03167769831",
+    "image": "/api/v1/uploads/employees/1761221572761.png",
+    "createdBy": {
+      "$oid": "68f2196197d87f5baabbfba6"
+    },
+    "isVerified": false,
+    "isDeleted": true,
+    "createdAt": {
+      "$date": "2025-10-19T12:54:38.357Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-09T11:22:36.486Z"
+    },
+    "__v": 0
   },
-  "phone": "03167769831",
-  "image": "/api/v1/uploads/customers/1764878050265.png",
-  "createdBy": {
-    "$oid": "68f2196197d87f5baabbfba6"
+  {
+    "_id": {
+      "$oid": "68f4dfa7a54de58f899ba9f9"
+    },
+    "name": "Employee 02",
+    "username": "employee_02",
+    "email": "employee_02@gmail.com",
+    "password": "$2b$10$aLhMp.fQsIGJA.1m0HEvk.x7kkIP1YkDgfuehTEBJgY7yFCm..Q8u",
+    "role": "employee",
+    "address": {
+      "country": "C 02",
+      "city": "C 02",
+      "street": "S 02",
+      "postalCode": "222222"
+    },
+    "phone": "03167769800",
+    "image": "/api/v1/uploads/employees/1761221585419.png",
+    "createdBy": {
+      "$oid": "68f2196197d87f5baabbfba6"
+    },
+    "isVerified": false,
+    "isDeleted": true,
+    "createdAt": {
+      "$date": "2025-10-19T12:55:03.924Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-09T11:22:37.072Z"
+    },
+    "__v": 0
   },
-  "isVerified": false,
-  "isDeleted": false,
-  "createdAt": {
-    "$date": "2025-10-19T12:51:57.628Z"
+  {
+    "_id": {
+      "$oid": "68f4dfb6a54de58f899ba9ff"
+    },
+    "name": "Employee 03",
+    "username": "employee_03",
+    "email": "employee_03@gmail.com",
+    "password": "$2b$10$06e5QFW3Cj.Oqck82A5jEuJStKEz/W2Z3Axm2q4lL5W/0VrNutP22",
+    "role": "employee",
+    "address": {
+      "country": "C 02",
+      "city": "C 02",
+      "street": "S 02",
+      "postalCode": "222222"
+    },
+    "phone": "03167769800",
+    "image": "/api/v1/uploads/employees/1760878518057.png",
+    "createdBy": {
+      "$oid": "68f2196197d87f5baabbfba6"
+    },
+    "isVerified": false,
+    "isDeleted": false,
+    "createdAt": {
+      "$date": "2025-10-19T12:55:18.204Z"
+    },
+    "updatedAt": {
+      "$date": "2025-10-19T15:52:58.476Z"
+    },
+    "__v": 0
   },
-  "updatedAt": {
-    "$date": "2025-12-04T19:54:10.298Z"
+  {
+    "_id": {
+      "$oid": "68f5094c7a0118ee5da2d735"
+    },
+    "name": "Admin 01 updated",
+    "username": "admin_01_updated",
+    "email": "admin_01_updated@gmail.com",
+    "password": "$2b$10$vP7YrfIkxTbpx2oDr2.G0uPiWThkp5oXyOC4Z5hdWwz05no85GRLu",
+    "role": "admin",
+    "address": {
+      "country": "AA",
+      "city": "AA",
+      "street": "AA",
+      "postalCode": "11"
+    },
+    "phone": "03167769831",
+    "image": "/api/v1/uploads/admins/1760889761854.png",
+    "createdBy": {
+      "$oid": "68f2196197d87f5baabbfba6"
+    },
+    "isVerified": false,
+    "isDeleted": true,
+    "createdAt": {
+      "$date": "2025-10-19T15:52:44.154Z"
+    },
+    "updatedAt": {
+      "$date": "2025-10-19T16:02:52.912Z"
+    },
+    "__v": 0
   },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "68f4df0ca54de58f899ba57c"
+  {
+    "_id": {
+      "$oid": "68f50cd03d4272f7b8a44a53"
+    },
+    "name": "Suliman Khan 05",
+    "username": "suliman_khan_05",
+    "email": "suliman_khan_05@gmail.com",
+    "password": "$2b$10$Dc/UwS2uWV.3Ivcz8ga1yuu7JR.UilSaKYu.dQ8OYPfFeKaB5s1xS",
+    "role": "customer",
+    "address": {
+      "country": "",
+      "city": "",
+      "street": "",
+      "postalCode": ""
+    },
+    "phone": "",
+    "image": "/api/v1/uploads/customers/1760890063845.png",
+    "createdBy": {
+      "$oid": "68f2196197d87f5baabbfba6"
+    },
+    "isVerified": false,
+    "isDeleted": true,
+    "createdAt": {
+      "$date": "2025-10-19T16:07:44.099Z"
+    },
+    "updatedAt": {
+      "$date": "2025-10-26T16:52:45.553Z"
+    },
+    "__v": 0
   },
-  "name": "Suliman Khan 02",
-  "username": "suliman_khan_02",
-  "email": "suliman_khan_02@gmail.com",
-  "password": "$2b$10$bt5OsvN07TQ6XkzOvaqkYed8IKlq/RLPgjex3Gbk3srq4JAdOAD3e",
-  "role": "customer",
-  "address": {
-    "country": "Pakistan 02",
-    "city": "Peshawer 02",
-    "street": "Nana Market 02",
-    "postalCode": "202020"
+  {
+    "_id": {
+      "$oid": "68ff90adfc8cb0ceeff9172a"
+    },
+    "name": "Arifullah",
+    "username": "arifullah",
+    "email": "arif@gmail.com",
+    "password": "$2b$10$3S.tKjKi44rnFlw0xOwnteksDcpfFiGin5J4gw96f8KvM.gq7nTNS",
+    "role": "admin",
+    "address": {
+      "country": "",
+      "city": "",
+      "street": "",
+      "postalCode": ""
+    },
+    "phone": "",
+    "image": "/avatar.png",
+    "createdBy": {
+      "$oid": "68f2196197d87f5baabbfba6"
+    },
+    "isVerified": false,
+    "isDeleted": true,
+    "createdAt": {
+      "$date": "2025-10-27T15:33:01.317Z"
+    },
+    "updatedAt": {
+      "$date": "2025-11-15T12:06:59.694Z"
+    },
+    "__v": 0
   },
-  "phone": "03167769831",
-  "image": "/avatar.png",
-  "createdBy": {
-    "$oid": "68f2196197d87f5baabbfba6"
-  },
-  "isVerified": false,
-  "isDeleted": false,
-  "createdAt": {
-    "$date": "2025-10-19T12:52:28.133Z"
-  },
-  "updatedAt": {
-    "$date": "2025-10-19T12:52:28.133Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "68f4df37a54de58f899ba768"
-  },
-  "name": "Suliman Khan 03",
-  "username": "suliman_khan_03",
-  "email": "suliman_khan_03@gmail.com",
-  "password": "$2b$10$gY/L2.ywo/dmTrXKFtizA.eDKo6SejMdYaHuHQ5LoNqoVt3vIxibS",
-  "role": "customer",
-  "address": {
-    "country": "Pakistan 03",
-    "city": "Peshawer 03",
-    "street": "Nana Market 03",
-    "postalCode": "303030"
-  },
-  "phone": "",
-  "image": "/avatar.png",
-  "createdBy": {
-    "$oid": "68f2196197d87f5baabbfba6"
-  },
-  "isVerified": false,
-  "isDeleted": false,
-  "createdAt": {
-    "$date": "2025-10-19T12:53:11.328Z"
-  },
-  "updatedAt": {
-    "$date": "2025-10-19T12:53:11.328Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "68f4df59a54de58f899ba76c"
-  },
-  "name": "Suliman Khan 04",
-  "username": "suliman_khan_04",
-  "email": "suliman_khan_04@gmail.com",
-  "password": "$2b$10$MrGpc9m8R7GX6FrfsbIV4.8rg/.t72UwUv9mVCZi.ihSH2w7g.7Zy",
-  "role": "customer",
-  "address": {
-    "country": "Pakistan 04",
-    "city": "Peshawer 04",
-    "street": "Nana Market 04",
-    "postalCode": "404040"
-  },
-  "phone": "03167769831",
-  "image": "/api/v1/uploads/customers/1760878425677.png",
-  "createdBy": {
-    "$oid": "68f2196197d87f5baabbfba6"
-  },
-  "isVerified": false,
-  "isDeleted": true,
-  "createdAt": {
-    "$date": "2025-10-19T12:53:45.839Z"
-  },
-  "updatedAt": {
-    "$date": "2025-11-09T07:31:24.960Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "68f4df8ea54de58f899ba9f5"
-  },
-  "name": "Employee 01",
-  "username": "employee_01",
-  "email": "employee_01@gmail.com",
-  "password": "$2b$10$ZfQf69xUHvHoAywLABgVmOSJB6.JgHzM0f6aV5yH1LLeGsyuHpbl2",
-  "role": "employee",
-  "address": {
-    "country": "C 01",
-    "city": "C 01",
-    "street": "S 01",
-    "postalCode": "111111"
-  },
-  "phone": "03167769831",
-  "image": "/api/v1/uploads/employees/1761221572761.png",
-  "createdBy": {
-    "$oid": "68f2196197d87f5baabbfba6"
-  },
-  "isVerified": false,
-  "isDeleted": true,
-  "createdAt": {
-    "$date": "2025-10-19T12:54:38.357Z"
-  },
-  "updatedAt": {
-    "$date": "2025-11-09T11:22:36.486Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "68f4dfa7a54de58f899ba9f9"
-  },
-  "name": "Employee 02",
-  "username": "employee_02",
-  "email": "employee_02@gmail.com",
-  "password": "$2b$10$aLhMp.fQsIGJA.1m0HEvk.x7kkIP1YkDgfuehTEBJgY7yFCm..Q8u",
-  "role": "employee",
-  "address": {
-    "country": "C 02",
-    "city": "C 02",
-    "street": "S 02",
-    "postalCode": "222222"
-  },
-  "phone": "03167769800",
-  "image": "/api/v1/uploads/employees/1761221585419.png",
-  "createdBy": {
-    "$oid": "68f2196197d87f5baabbfba6"
-  },
-  "isVerified": false,
-  "isDeleted": true,
-  "createdAt": {
-    "$date": "2025-10-19T12:55:03.924Z"
-  },
-  "updatedAt": {
-    "$date": "2025-11-09T11:22:37.072Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "68f4dfb6a54de58f899ba9ff"
-  },
-  "name": "Employee 03",
-  "username": "employee_03",
-  "email": "employee_03@gmail.com",
-  "password": "$2b$10$06e5QFW3Cj.Oqck82A5jEuJStKEz/W2Z3Axm2q4lL5W/0VrNutP22",
-  "role": "employee",
-  "address": {
-    "country": "C 02",
-    "city": "C 02",
-    "street": "S 02",
-    "postalCode": "222222"
-  },
-  "phone": "03167769800",
-  "image": "/api/v1/uploads/employees/1760878518057.png",
-  "createdBy": {
-    "$oid": "68f2196197d87f5baabbfba6"
-  },
-  "isVerified": false,
-  "isDeleted": false,
-  "createdAt": {
-    "$date": "2025-10-19T12:55:18.204Z"
-  },
-  "updatedAt": {
-    "$date": "2025-10-19T15:52:58.476Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "68f5094c7a0118ee5da2d735"
-  },
-  "name": "Admin 01 updated",
-  "username": "admin_01_updated",
-  "email": "admin_01_updated@gmail.com",
-  "password": "$2b$10$vP7YrfIkxTbpx2oDr2.G0uPiWThkp5oXyOC4Z5hdWwz05no85GRLu",
-  "role": "admin",
-  "address": {
-    "country": "AA",
-    "city": "AA",
-    "street": "AA",
-    "postalCode": "11"
-  },
-  "phone": "03167769831",
-  "image": "/api/v1/uploads/admins/1760889761854.png",
-  "createdBy": {
-    "$oid": "68f2196197d87f5baabbfba6"
-  },
-  "isVerified": false,
-  "isDeleted": true,
-  "createdAt": {
-    "$date": "2025-10-19T15:52:44.154Z"
-  },
-  "updatedAt": {
-    "$date": "2025-10-19T16:02:52.912Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "68f50cd03d4272f7b8a44a53"
-  },
-  "name": "Suliman Khan 05",
-  "username": "suliman_khan_05",
-  "email": "suliman_khan_05@gmail.com",
-  "password": "$2b$10$Dc/UwS2uWV.3Ivcz8ga1yuu7JR.UilSaKYu.dQ8OYPfFeKaB5s1xS",
-  "role": "customer",
-  "address": {
-    "country": "",
-    "city": "",
-    "street": "",
-    "postalCode": ""
-  },
-  "phone": "",
-  "image": "/api/v1/uploads/customers/1760890063845.png",
-  "createdBy": {
-    "$oid": "68f2196197d87f5baabbfba6"
-  },
-  "isVerified": false,
-  "isDeleted": true,
-  "createdAt": {
-    "$date": "2025-10-19T16:07:44.099Z"
-  },
-  "updatedAt": {
-    "$date": "2025-10-26T16:52:45.553Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "68ff90adfc8cb0ceeff9172a"
-  },
-  "name": "Arifullah",
-  "username": "arifullah",
-  "email": "arif@gmail.com",
-  "password": "$2b$10$3S.tKjKi44rnFlw0xOwnteksDcpfFiGin5J4gw96f8KvM.gq7nTNS",
-  "role": "admin",
-  "address": {
-    "country": "",
-    "city": "",
-    "street": "",
-    "postalCode": ""
-  },
-  "phone": "",
-  "image": "/avatar.png",
-  "createdBy": {
-    "$oid": "68f2196197d87f5baabbfba6"
-  },
-  "isVerified": false,
-  "isDeleted": true,
-  "createdAt": {
-    "$date": "2025-10-27T15:33:01.317Z"
-  },
-  "updatedAt": {
-    "$date": "2025-11-15T12:06:59.694Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6926b78b212f9ea39029f7c8"
-  },
-  "name": "Suliman Khan 01",
-  "username": "emp_01",
-  "email": "suliman_emp@gmail.com",
-  "password": "$2b$10$fWjHFPYfc/UjKG94RxP.Je/wIT5msnKPCluCPRIBm.J3s3eJKkIt2",
-  "role": "employee",
-  "address": {
-    "country": "",
-    "city": "",
-    "street": "",
-    "postalCode": ""
-  },
-  "phone": "",
-  "image": "/api/v1/uploads/employees/1764935125721.png",
-  "createdBy": {
-    "$oid": "68f2196197d87f5baabbfba6"
-  },
-  "isVerified": false,
-  "isDeleted": true,
-  "createdAt": {
-    "$date": "2025-11-26T08:17:15.549Z"
-  },
-  "updatedAt": {
-    "$date": "2025-12-05T11:45:36.532Z"
-  },
-  "__v": 0
-}]
+  {
+    "_id": {
+      "$oid": "6926b78b212f9ea39029f7c8"
+    },
+    "name": "Suliman Khan 01",
+    "username": "emp_01",
+    "email": "suliman_emp@gmail.com",
+    "password": "$2b$10$fWjHFPYfc/UjKG94RxP.Je/wIT5msnKPCluCPRIBm.J3s3eJKkIt2",
+    "role": "employee",
+    "address": {
+      "country": "",
+      "city": "",
+      "street": "",
+      "postalCode": ""
+    },
+    "phone": "",
+    "image": "/api/v1/uploads/employees/1764935125721.png",
+    "createdBy": {
+      "$oid": "68f2196197d87f5baabbfba6"
+    },
+    "isVerified": false,
+    "isDeleted": true,
+    "createdAt": {
+      "$date": "2025-11-26T08:17:15.549Z"
+    },
+    "updatedAt": {
+      "$date": "2025-12-05T11:45:36.532Z"
+    },
+    "__v": 0
+  }
+]
+
+// fajf&&9343ijfkj,sd{]/\-fjdfja((**^^$$j
