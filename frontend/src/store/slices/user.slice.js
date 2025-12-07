@@ -22,7 +22,20 @@ const loginUser = createAsyncThunk("user/loginUser", async (credentials, { rejec
       body: JSON.stringify(credentials)
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data?.message || "Failed...");
+    if (!res.ok) {
+      if (data.error) {
+        data.error.forEach(error => {
+          if (error.msg === "Invalid value") {
+            console.log(error.msg);
+          } else {
+            toast.error(error.msg);
+          }
+        });
+      } else if (!data.success && data.message) {
+        toast.error(data.message);
+      }
+      throw new Error("Failed to login");
+    };
     return data.user;
   } catch (error) {
     return rejectWithValue(error.message);

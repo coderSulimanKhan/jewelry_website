@@ -9,7 +9,10 @@ const ProductCard = ({ product }) => {
   return (
     // product card starts
     <div onMouseOver={() => setIsMouseOver(true)} onMouseOut={() => setIsMouseOver(false)} className="flex flex-col border border-warning p-1 rounded myCardShadow relative">
-      <span className={`absolute -left-1 -top-1 bg-red-900 text-success rounded border border-success ${!isMouseOver ? "p-1" : "opacity-0"}`}>{giveMeDiscount(product)}</span>
+        {
+            giveMeDiscount(product) &&
+            <span className={`absolute -left-1 -top-1 bg-warning text-black rounded-full border border-black ${!isMouseOver ? "p-1" : "opacity-0"}`}>{giveMeDiscount(product)}</span>
+        }
       <div className={`capitalize flex justify-evenly pb-1 transition-all ${isMouseOver ? "opacity-100 h-8" : "opacity-0 h-0"}`}>
         <p className="productCardTag">{product?.category}</p>
         <p className="productCardTag">{product?.material}</p>
@@ -20,7 +23,7 @@ const ProductCard = ({ product }) => {
       <div>
         <div className="flex justify-between items-center p-1">
           <h1 className="text-lg font-bold text-warning">{product?.name || ""}</h1>
-          <p><span className="text-success bg-success/20 rounded-full px-1 border">{calculateTotalPrice(product?.price, product?.discountFee, product?.discountPercentage)}<span className="text-xs text-warning">{currency}</span></span><span className="text-red-500 text-xs line-through">{product?.price}</span></p>
+          <p><span className="text-success bg-success/20 rounded-full px-1 border">{calculateTotalPrice(product?.price, product?.discountFee, product?.discountPercentage)}<span className="text-xs text-warning">{currency}</span></span>{(product.discountFee || product.discountPercentage) ? <span className="text-red-500 text-xs line-through">{product?.price}</span> : "" }</p>
         </div>
         <p className="text-sm text-accent">{product?.description || ""}</p>
       </div>

@@ -8,7 +8,7 @@ const giveMeDiscount = product => {
   if (product?.discountPercentage) {
     return `-${product?.discountPercentage}%`;
   }
-  return "No discount";
+  return "";
 }
 
 export { giveMeDiscount }

@@ -32,6 +32,8 @@ import UpdateProduct from "./dashboards/admin/components/product/UpdateProduct"
 import NewProductsPage from "./pages/NewProductsPage.jsx"
 import BestProductsPage from "./pages/BestProductsPage.jsx"
 import ProfilePage from "./pages/ProfilePage.jsx"
+import CreateSale from "./dashboards/admin/components/sale/CreateSale.jsx";
+import UpdateSale from "./dashboards/admin/components/sale/UpdateSale.jsx";
 
 
 const App = () => {
@@ -88,8 +90,11 @@ const App = () => {
             <Route path="products" element={<ProductsPage />} />
             <Route path="products/create" element={<CreateProduct />} />
             <Route path="products/update/:id" element={<UpdateProduct />} />
-
+            {/* sales */}
             <Route path="sales" element={<SalesPage />} />
+            <Route path="sales/create" element={<CreateSale />} />
+            <Route path="sales/update/:id" element={<UpdateSale />} />
+
             <Route path="cuts" element={<CutsPage />} />
             <Route path="orders" element={<OrdersPage />} />
             <Route path="bills" element={<BillsPage />} />
