@@ -7,20 +7,19 @@ import { getAllProducts } from "../../../../store/slices/admin/product.slice.js"
 import { createSale } from "../../../../store/slices/admin/sale.slice.js"
 
 const CreateSale = () => {
-    const loading = false;
     const [allCustomers, setAllCustomers] = useState([]);
     const [allProducts, setAllProducts] = useState([]);
     const [addedItems, setAddedItems] = useState([]);
     const [isProductsBoxOpen, setIsProductBoxOpen] = useState(false);
     const customers = useSelector(state => state.customer.allCustomers);
     const products = useSelector(state => state.product.allProducts);
+    const { loading } = useSelector(state => state.sale);
     const [totalPrice, setTotalPrice] = useState(0);
     const isDefaultDiscountCheckedRef = useRef();
     const [moreDiscountFee, setMoreDiscountFee] = useState(null);
     const [moreDiscountPer, setMoreDiscountPer] = useState(null);
     const [cash, setCash] = useState(null);
     const [another, setAnother] = useState(null);
-    const [remainingFee, setRemainingFee] = useState(0);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getAllCustomers());

@@ -22,7 +22,6 @@ const createSale = createAsyncThunk("sale/create", async (formData, { rejectWith
       }
       throw new Error("Failed to create sale");
     };
-    if(data?.success) toast.success("Sale created successfully.");
   } catch (error) {
     return rejectWithValue(error?.message || "Failed to create sale.");
   }
