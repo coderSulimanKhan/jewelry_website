@@ -69,13 +69,13 @@ const CreateSale = () => {
         setTotalPrice(calculateTotalPrice());
     }
 
-    const handleProductChange = (e, productId, name, price, f, p) => {
+    const handleProductChange = (e, id, name, price, f, p) => {
         if (e.target.checked) {
-            if (!addedItems.some(item => item?.productId == productId)) {
-                setAddedItems([...addedItems, { productId, quantity: 1, name, price, f, p }]);
+            if (!addedItems.some(item => item?.id == id)) {
+                setAddedItems([...addedItems, { id, quantity: 1, name, price, f, p }]);
             };
         } else {
-            setAddedItems(addedItems.filter(item => item?.productId !== productId));
+            setAddedItems(addedItems.filter(item => item?.id !== id));
         }
     }
 
@@ -88,11 +88,11 @@ const CreateSale = () => {
         }
     };
 
-    const handleQuantityChange = (e, productId) => {
+    const handleQuantityChange = (e, id) => {
         const value = Number(e.target.value);
         setAddedItems(prev =>
             prev.map(item =>
-                item.productId === productId
+                item.id === id
                     ? { ...item, quantity: value }
                     : item
             )
@@ -100,13 +100,13 @@ const CreateSale = () => {
     };
 
     const handleDeleteAddedItem = id => {
-        setAddedItems(addedItems.filter(item => item.productId !== id));
+        setAddedItems(addedItems.filter(item => item.id !== id));
     }
 
     const calculateTotalPrice = () => {
         let totalPrice = 0;
         addedItems?.forEach(item => {
-            const product = products?.find(p => p._id === item.productId);
+            const product = products?.find(p => p._id === item.id);
             if (product) {
                 totalPrice += product?.price * item?.quantity;
             }
@@ -117,7 +117,7 @@ const CreateSale = () => {
     const calculateTotalPriceWithDiscounts = () => {
         let totalPrice = 0;
         addedItems?.forEach(item => {
-            const product = products?.find(p => p._id === item.productId);
+            const product = products?.find(p => p._id === item.id);
             if (product) {
                 let itemPrice = 0;
                 const price = product?.price || 0;
@@ -170,7 +170,7 @@ const CreateSale = () => {
         formData.append("isDefaultProductsDiscounts", isDefaultDiscountCheckedRef.current.checked);
         console.log(isDefaultDiscountCheckedRef.current.checked);
         formData.append("discountFee", moreDiscountFee);
-        formData.append("discountPer", moreDiscountPer);
+        formData.append("discountPercentage", moreDiscountPer);
         dispatch(createSale(formData));
     };
 
@@ -179,7 +179,7 @@ const CreateSale = () => {
             {/* first section starts */}
             <div className="flex items-center justify-between pr-10">
                 <h1 className="adminCardH1">Create Sale</h1>
-                <Link to={"/admin/dashboard/admins"}><X className="size-10 text-warning hover:scale-110 active:scale-90 transition" /></Link>
+                <Link to={"/admin/dashboard/sales"}><X className="size-10 text-warning hover:scale-110 active:scale-90 transition" /></Link>
             </div>
             {/* first section ends */}
             {/* second section starts */}
@@ -201,13 +201,13 @@ const CreateSale = () => {
                             {
                                 addedItems.length > 0 ?
                                     addedItems.map(item => (
-                                        <div key={item?.productId} className="flex justify-between  items-center">
+                                        <div key={item?.id} className="flex justify-between  items-center">
                                             <h2 className="adminCardH1">{item?.name}</h2>
                                             <h2 className="bg-warning/20 border border-success text-warning rounded-full px-2 h-fit">{item?.price} <span className="text-xs">PKR</span></h2>
                                             <h2 className="text-3xl text-warning border bg-error/20 rounded-full px-2">{item?.quantity}</h2>
                                             <p className="text-2xl text-success">-{item?.f ? item?.f : "--"}{item?.f ? <span className="text-sm text-warning">PKR</span> : ""}</p>
                                             <p className="text-2xl text-success">-{item?.p ? item?.p : "--"}{item?.p ? <span className="text-sm text-warning">%</span> : ""}</p>
-                                            <button className="text-red-400 hover:text-red-500 hover:scale-110 active:scale-90 transition" type="button" onClick={() => handleDeleteAddedItem(item?.productId)}><Trash /></button>
+                                            <button className="text-red-400 hover:text-red-500 hover:scale-110 active:scale-90 transition" type="button" onClick={() => handleDeleteAddedItem(item?.id)}><Trash /></button>
                                         </div>
                                     )) :
                                     <span className="text-warning">No items added</span>
@@ -240,7 +240,7 @@ const CreateSale = () => {
                                                         <p className="text-2xl text-success">-{product?.discountPercentage ? product?.discountPercentage : "--"}{product?.discountPercentage ? <span className="text-sm text-warning">%</span> : ""}</p>
                                                         <input type="checkbox" onChange={(e) => handleProductChange(e, product?._id, product?.name, product?.price, product?.discountFee, product?.discountPercentage)} className="checkbox checkbox-xl checkbox-warning" />
                                                     </div>
-                                                    {addedItems.some(item => item.productId === product._id) && (
+                                                    {addedItems.some(item => item.id === product._id) && (
                                                         <input onChange={(e) => handleQuantityChange(e, product._id)} defaultValue={1} type="number" min={1} placeholder="Quantity..." className="adminTextField m-1" />
                                                     )}
                                                 </div>
@@ -287,7 +287,6 @@ const CreateSale = () => {
             </div>
             {/* second section ends */}
         </div>
-        // create employee form ends
     )
 }
 

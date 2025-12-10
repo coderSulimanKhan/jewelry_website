@@ -27,17 +27,60 @@ const createSale = createAsyncThunk("sale/create", async (formData, { rejectWith
   }
 });
 
+const getAllSales = createAsyncThunk("sale/allSales", async (_, { rejectWithValue }) => {
+  try {
+    const res = await fetch("/api/v1/sales");
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.message || "Failed to get all sales");
+    return data.data;
+  } catch (error) {
+    return rejectWithValue(error?.message || "Failed to get all sales");
+  }
+});
+
+const deleteSale = createAsyncThunk("sale/delete", async (saleId, { rejectWithValue }) => {
+  try {
+    const res = await fetch(`/api/v1/sales/${saleId}`, {
+      method: "DELETE",
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.message || "Failed to delete sale");
+    return data?.success;
+  } catch (error) {
+    return rejectWithValue(error?.message || "Failed to delete sale");
+  }
+});
+
+const getSale = createAsyncThunk("sale/getSale", async (id, { rejectWithValue }) => {
+  try {
+    const res = await fetch(`/api/v1/sales/${id}`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.message || "Failed to get sale");
+    return data.data;
+  } catch (error) {
+    return rejectWithValue(error?.message || "Failed to get sale");
+  }
+})
 
 const saleSlice = createSlice({
   name: "sale",
   initialState: {
-    allSales: [],
+    // create sale
     loading: false,
+    // get all sales
+    getting: false,
+    allSales: [],
+    // delete sale
+    isDeleting: false,
+    // get salek
+    isGettingSale: false,
+    sale: {},
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // create sale
       .addCase(createSale.pending, state => {
         state.loading = true;
         state.error = null;
@@ -52,8 +95,48 @@ const saleSlice = createSlice({
         state.error = action.payload || "Failed to create sale";
         toast.error(action.payload || "Failed to create sale");
       })
+      // get all sales
+      .addCase(getAllSales.pending, state => {
+        state.getting = true;
+        state.error = null;
+      })
+      .addCase(getAllSales.fulfilled, (state, action) => {
+        state.getting = false;
+        state.allSales = action?.payload || [];
+      })
+      .addCase(getAllSales.rejected, (state, action) => {
+        state.getting = false;
+        state.error = action?.payload;
+        toast.error("Failed to get all sales");
+      })
+      // delete sale
+      .addCase(deleteSale.pending, state => {
+        state.isDeleting = true;
+        state.error = null;
+      })
+      .addCase(deleteSale.fulfilled, state => {
+        state.isDeleting = false;
+        toast.success("Sale deleted successfully");
+      })
+      .addCase(deleteSale.rejected, (state, action) => {
+        state.isDeleting = false;
+        toast.error(action?.payload || "Failed to delete sale");
+      })
+      // get sale
+      .addCase(getSale.pending, state => {
+        state.isGettingSale = true;
+        state.error = null;
+      })
+      .addCase(getSale.fulfilled, (state, action) => {
+        state.isGettingSale = false;
+        state.sale = action.payload;
+      })
+      .addCase(getSale.rejected, (state, action) => {
+        state.isGettingSale = false;
+        state.error = action.payload;
+      })
   }
 });
 
-export { createSale }
+export { createSale, getAllSales, deleteSale, getSale }
 export default saleSlice.reducer;
