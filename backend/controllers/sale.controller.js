@@ -56,4 +56,21 @@ const getSale = async (req, res) => {
   }
 }
 
-export { createSale, getAllSales, deleteSale, getSale }
+const updateSale = async (req, res) => {
+  const { id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ success: false, message: "Invalid id" });
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({ success: false, error: errors.array() });
+  try {
+    // const { user, items, totalPrice, cash, another, remainingFee, createdBy, isDefaultProductsDiscounts, discountFee, discountPer } = req.body;
+    req.body.items = JSON.parse(req.body.items);
+    const sale = await Sale.findById(id);
+    if (!sale) return res.status(404).json({ succes: false, message: "Sale not found" });
+    await Sale.findByIdAndUpdate(id, req?.body);
+    res.status(200).json({ success: true, message: "Sale updated successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+}
+
+export { createSale, getAllSales, deleteSale, getSale,updateSale }

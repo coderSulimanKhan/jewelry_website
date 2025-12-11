@@ -60,6 +60,32 @@ const getSale = createAsyncThunk("sale/getSale", async (id, { rejectWithValue })
   } catch (error) {
     return rejectWithValue(error?.message || "Failed to get sale");
   }
+});
+
+const updateSale = createAsyncThunk("sale/update", async ({ formData, id }, { rejectWithValue }) => {
+  try {
+    const res = await fetch(`/api/v1/sales/${id}`, {
+      method: "PUT",
+      body: formData
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      if (data.error) {
+        data.error.forEach(error => {
+          if (error.msg === "Invalid value") {
+            console.log(error.msg);
+          } else {
+            toast.error(error.msg);
+          }
+        });
+      } else if (!data.success && data.message) {
+        toast.error(data.message);
+      }
+      throw new Error("Failed to update sale");
+    };
+  } catch (error) {
+    return rejectWithValue(error?.message || "Failed to update sale");
+  }
 })
 
 const saleSlice = createSlice({
@@ -72,9 +98,11 @@ const saleSlice = createSlice({
     allSales: [],
     // delete sale
     isDeleting: false,
-    // get salek
+    // get sale
     isGettingSale: false,
     sale: {},
+    // update sale
+    isUpdating: false,
     error: null,
   },
   reducers: {},
@@ -135,8 +163,23 @@ const saleSlice = createSlice({
         state.isGettingSale = false;
         state.error = action.payload;
       })
+      // update sale
+      .addCase(updateSale.pending, state => {
+        state.isUpdating = true;
+        state.error = null;
+      })
+      .addCase(updateSale.fulfilled, state => {
+        state.isUpdating = false;
+        state.error = null;
+        toast.success("Sale updated successfully");
+      })
+      .addCase(updateSale.rejected, (state, action) => {
+        state.isUpdating = false;
+        state.error = action.payload || "Failed to update sale";
+        toast.error(action.payload || "Failed to update sale");
+      })
   }
 });
 
-export { createSale, getAllSales, deleteSale, getSale }
+export { createSale, getAllSales, deleteSale, getSale, updateSale }
 export default saleSlice.reducer;

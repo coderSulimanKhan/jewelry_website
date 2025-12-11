@@ -15,7 +15,7 @@ const AdminHomePage = () => {
     <div className="flex flex-col p-2 gap-5 items-center w-full">
       {/* first section starts*/}
       <div className="">
-        <h1 className="text-4xl font-bold bg-gradient-to-b from-warning via-warning to-success text-transparent bg-clip-text">Admin Dashboard</h1>
+        <h1 className="text-4xl font-bold bg-gradient-to-b from-warning to-warning/30 text-transparent bg-clip-text">Admin Dashboard</h1>
       </div>
       {/* first sections ends */}
       {/* second section starts */}

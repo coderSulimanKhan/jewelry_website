@@ -111,7 +111,7 @@ const CreateSale = () => {
                 totalPrice += product?.price * item?.quantity;
             }
         });
-        return totalPrice;
+        return Math.round(totalPrice);
     }
 
     const calculateTotalPriceWithDiscounts = () => {
@@ -139,7 +139,7 @@ const CreateSale = () => {
                 totalPrice += itemPrice * item?.quantity;
             }
         });
-        return totalPrice;
+        return Math.round(totalPrice);
     }
 
     const handleDefaultDiscounts = e => {

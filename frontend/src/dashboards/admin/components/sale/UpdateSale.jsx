@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router"
 import { useDispatch, useSelector } from "react-redux"
 import { getAllCustomers } from "../../../../store/slices/admin/customer.slice.js"
 import { getAllProducts } from "../../../../store/slices/admin/product.slice.js"
-import { createSale, getSale } from "../../../../store/slices/admin/sale.slice.js"
+import { updateSale, getSale } from "../../../../store/slices/admin/sale.slice.js"
 
 const UpdateSale = () => {
     const { id } = useParams();
@@ -108,32 +108,8 @@ const UpdateSale = () => {
             }
             price -= newValue;
         }
-        setTotalPrice(price);
+        setTotalPrice(Math.floor(price));
     }, [addedItems, isDefaultProductsDiscounts, moreDiscountFee, moreDiscountPer]);
-
-    // useEffect(() => {
-    //     if (moreDiscountFee > -1) {
-    //         if (isDefaultDiscountCheckedRef.current?.checked) {
-    //             setTotalPrice(calculateTotalPriceWithDiscounts() - moreDiscountFee);
-    //         } else {
-    //             setTotalPrice(calculateTotalPrice() - moreDiscountFee);
-    //         }
-    //     }
-    //     if (moreDiscountPer > -1) {
-    //         if (isDefaultDiscountCheckedRef.current.checked) {
-    //             setTotalPrice(calculateTotalPriceWithDiscounts() - (calculateTotalPriceWithDiscounts() * moreDiscountPer) / 100);
-    //         } else {
-    //             setTotalPrice(calculateTotalPrice() - (calculateTotalPrice() * moreDiscountPer) / 100);
-    //         }
-    //     }
-    //     if (moreDiscountFee > -1 && moreDiscountPer > -1) {
-    //         if (isDefaultDiscountCheckedRef.current.checked) {
-    //             setTotalPrice(calculateTotalPriceWithDiscounts() - moreDiscountFee - (calculateTotalPriceWithDiscounts() * moreDiscountPer) / 100);
-    //         } else {
-    //             setTotalPrice(calculateTotalPrice() - moreDiscountFee - (calculateTotalPrice() * moreDiscountPer) / 100);
-    //         }
-    //     }
-    // }, [moreDiscountFee, moreDiscountPer]);
 
     const openProductsBox = () => {
         setAddedItems([]);
@@ -142,18 +118,7 @@ const UpdateSale = () => {
 
     const closeProductsBox = () => {
         setIsProductBoxOpen(false);
-        // setTotalPrice(calculateTotalPrice());
     }
-
-    // const handleProductChange = (e, id, name, price, f, p) => {
-    //     if (e.target.checked) {
-    //         if (!addedItems.some(item => item?.id == id)) {
-    //             setAddedItems([...addedItems, { id, quantity: 1, name, price, f, p }]);
-    //         };
-    //     } else {
-    //         setAddedItems(addedItems.filter(item => item?.id !== id));
-    //     }
-    // }
 
     const handleProductChange = (e, id, name, price, f, p) => {
         if (e.target.checked) {
@@ -192,61 +157,6 @@ const UpdateSale = () => {
         setAddedItems(addedItems.filter(item => item.id !== id));
     }
 
-    // const calculateTotalPrice = () => {
-    //     let totalPrice = 0;
-    //     addedItems?.forEach(item => {
-    //         const product = products?.find(p => p._id === item.id);
-    //         if (product) {
-    //             totalPrice += product?.price * item?.quantity;
-    //         }
-    //     });
-    //     return totalPrice;
-    // }
-
-    // const calculateTotalPriceWithDiscounts = () => {
-    //     let totalPrice = 0;
-    //     addedItems?.forEach(item => {
-    //         const product = products?.find(p => p._id === item.id);
-    //         if (product) {
-    //             let itemPrice = 0;
-    //             const price = product?.price || 0;
-    //             const dFee = product?.discountFee || 0;
-    //             const dPer = product?.discountPercentage || 0;
-
-    //             if (dFee > 0) {
-    //                 itemPrice = price - dFee;
-    //             }
-
-    //             if (dPer > 0) {
-    //                 itemPrice = price - (price * dPer / 100);
-    //             }
-
-    //             if (dFee > 0 && dPer > 0) {
-    //                 itemPrice = price - (price * dPer / 100) - dFee;
-    //             }
-
-    //             totalPrice += itemPrice * item?.quantity;
-    //         }
-    //     });
-    //     return totalPrice;
-    // }
-
-    // const handleDefaultDiscounts = e => {
-    //     if (e.target.checked) {
-    //         if (moreDiscountFee > -1) {
-    //             setTotalPrice(calculateTotalPriceWithDiscounts() - moreDiscountFee);
-    //         }
-    //         if (moreDiscountPer > -1) {
-    //             setTotalPrice(calculateTotalPriceWithDiscounts() - (calculateTotalPriceWithDiscounts() * moreDiscountPer) / 100);
-    //         }
-    //         if (moreDiscountFee > -1 && moreDiscountPer > -1) {
-    //             setTotalPrice(calculateTotalPriceWithDiscounts() - moreDiscountFee - (calculateTotalPriceWithDiscounts() * moreDiscountPer) / 100);
-    //         }
-    //     } else {
-    //         setTotalPrice(calculateTotalPrice());
-    //     }
-    // }
-
     const handleFormSubmit = e => {
         e.preventDefault();
         const formData = new FormData();
@@ -260,7 +170,7 @@ const UpdateSale = () => {
         console.log(isDefaultDiscountCheckedRef.current.checked);
         formData.append("discountFee", moreDiscountFee);
         formData.append("discountPercentage", moreDiscountPer);
-        dispatch(createSale(formData));
+        dispatch(updateSale({ formData, id }));
     };
 
     return (
