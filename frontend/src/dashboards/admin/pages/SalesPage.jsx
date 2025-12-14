@@ -144,7 +144,6 @@ const SalesPage = () => {
         </div>
       }
     </div >
-    // admins page ends
   )
 }
 

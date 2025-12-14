@@ -32,8 +32,10 @@ import UpdateProduct from "./dashboards/admin/components/product/UpdateProduct"
 import NewProductsPage from "./pages/NewProductsPage.jsx"
 import BestProductsPage from "./pages/BestProductsPage.jsx"
 import ProfilePage from "./pages/ProfilePage.jsx"
-import CreateSale from "./dashboards/admin/components/sale/CreateSale.jsx";
-import UpdateSale from "./dashboards/admin/components/sale/UpdateSale.jsx";
+import CreateSale from "./dashboards/admin/components/sale/CreateSale.jsx"
+import UpdateSale from "./dashboards/admin/components/sale/UpdateSale.jsx"
+import CreateCut from "./dashboards/admin/components/cuts/CreateCut.jsx"
+import UpdateCut from "./dashboards/admin/components/cuts/UpdateCut.jsx"
 
 
 const App = () => {
@@ -94,8 +96,11 @@ const App = () => {
             <Route path="sales" element={<SalesPage />} />
             <Route path="sales/create" element={<CreateSale />} />
             <Route path="sales/update/:id" element={<UpdateSale />} />
-
+            {/* cuts */}
             <Route path="cuts" element={<CutsPage />} />
+            <Route path="cuts/create" element={<CreateCut />} />
+            <Route path="cuts/update/:id" element={<UpdateCut />} />
+
             <Route path="orders" element={<OrdersPage />} />
             <Route path="bills" element={<BillsPage />} />
           </Route>

@@ -12,6 +12,7 @@ import connectDB from "./config/db.js"
 import userRoutes from "./routes/user.route.js"
 import productRoutes from "./routes/product.route.js"
 import saleRoutes from "./routes/sale.route.js"
+import cutRoutes from "./routes/cut.route.js"
 
 //* Making Database Connection
 connectDB();
@@ -33,6 +34,7 @@ app.use("/api/v1/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/sales", saleRoutes);
+app.use("/api/v1/cuts", cutRoutes);
 
 app.get("/", (req, res) => {
   res.send("I am jewelry server");

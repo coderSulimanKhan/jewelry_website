@@ -254,30 +254,30 @@ const CreateSale = () => {
                     </div>
                     <div className="flex items-center gap-3">
                         <label htmlFor="defaultPercentage" className="text-success">Apply default discounts</label>
-                        <input type="checkbox" onChange={handleDefaultDiscounts} className="checkbox checkbox-xl checkbox-warning" ref={isDefaultDiscountCheckedRef} />
+                        <input id="defaultPercentage" type="checkbox" onChange={handleDefaultDiscounts} className="checkbox checkbox-xl checkbox-warning" ref={isDefaultDiscountCheckedRef} />
                     </div>
                     <div className="flex flex-col">
                         <label htmlFor="discoundFee" className="text-success">Discount Fee</label>
-                        <input type="number" value={moreDiscountFee} onChange={(e) => setMoreDiscountFee(e.target.value)} className="adminTextField" placeholder="@ 2000" min={0} />
+                        <input id="discoundFee" type="number" value={moreDiscountFee} onChange={(e) => setMoreDiscountFee(e.target.value)} className="adminTextField" placeholder="@ 2000" min={0} />
                     </div>
                     <div className="flex flex-col">
                         <label htmlFor="discoundPercentage" className="text-success">Discount Percentage</label>
-                        <input type="number" min={0} max={100} value={moreDiscountPer} onChange={(e) => setMoreDiscountPer(e.target.value)} className="adminTextField" placeholder="@ 3" />
+                        <input id="discoundPercentage" type="number" min={0} max={100} value={moreDiscountPer} onChange={(e) => setMoreDiscountPer(e.target.value)} className="adminTextField" placeholder="@ 3" />
                     </div>
                     <div className="flex flex-col">
-                        <label htmlFor="discoundFee" className="text-success">Cash</label>
-                        <input type="number" value={cash} onChange={(e) => setCash(e.target.value)} className="adminTextField" placeholder="@ 2000" min={0} />
+                        <label htmlFor="cash" className="text-success">Cash</label>
+                        <input id="cash" type="number" value={cash} onChange={(e) => setCash(e.target.value)} className="adminTextField" placeholder="@ 2000" min={0} />
                     </div>
                     <div className="flex flex-col">
-                        <label htmlFor="discoundFee" className="text-success">Another</label>
-                        <input type="number" value={another} onChange={(e) => setAnother(e.target.value)} className="adminTextField" placeholder="@ 2000" min={0} />
+                        <label htmlFor="another" className="text-success">Another</label>
+                        <input id="another" type="number" value={another} onChange={(e) => setAnother(e.target.value)} className="adminTextField" placeholder="@ 2000" min={0} />
                     </div>
                     <div className="flex gap-3">
                         <label htmlFor="totalPrice" className="adminCardH1">Total Price</label>
                         <p className="text-4xl">{totalPrice} <span className="text-warning text-sm">PKR</span></p>
                     </div>
                     <div className="flex gap-3">
-                        <label htmlFor="totalPrice" className="adminCardH1">Remaining Fee</label>
+                        <label htmlFor="remainingPrice" className="adminCardH1">Remaining Fee</label>
                         <p className="text-4xl">{totalPrice - cash - another} <span className="text-warning text-sm">PKR</span></p>
                     </div>
                     <div className="col-span-2 justify-center flex">

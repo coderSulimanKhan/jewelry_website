@@ -9,8 +9,8 @@ const createSale = createAsyncThunk("sale/create", async (formData, { rejectWith
     });
     const data = await res.json();
     if (!res.ok) {
-      if (data.error) {
-        data.error.forEach(error => {
+      if (data.errors) {
+        data.errors.forEach(error => {
           if (error.msg === "Invalid value") {
             console.log(error.msg);
           } else {
