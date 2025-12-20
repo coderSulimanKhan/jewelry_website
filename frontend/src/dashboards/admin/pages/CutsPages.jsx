@@ -63,7 +63,7 @@ const CutsPage = () => {
           isSearchBarOpen &&
           <div className="absolute left-1/2 right-4 flex items-center justify-around p-2 bg-primary gap-5">
             <input type="text" value={searchTerm} autoFocus onChange={handleSearchChange} placeholder="Search by name..." className="adminTextField w-full" />
-            <Link to={"/admin/dashboard/admins"}><X onClick={closeSearchBar} className="size-10 text-warning hover:scale-110 active:scale-90 transition" /></Link>
+            <Link to={"/admin/dashboard/cuts"}><X onClick={closeSearchBar} className="size-10 text-warning hover:scale-110 active:scale-90 transition" /></Link>
           </div>
         }
       </div>

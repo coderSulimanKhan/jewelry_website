@@ -142,8 +142,6 @@ const CreateCut = () => {
                       <h2 className="adminCardH1">{item?.name}</h2>
                       <h2 className="bg-warning/20 border border-success text-warning rounded-full px-2 h-fit">{item?.price} <span className="text-xs">PKR</span></h2>
                       <h2 className="text-3xl text-warning border bg-error/20 rounded-full px-2">{item?.quantity}</h2>
-                      <p className="text-2xl text-success">-{item?.f ? item?.f : "--"}{item?.f ? <span className="text-sm text-warning">PKR</span> : ""}</p>
-                      <p className="text-2xl text-success">-{item?.p ? item?.p : "--"}{item?.p ? <span className="text-sm text-warning">%</span> : ""}</p>
                       <button className="text-red-400 hover:text-red-500 hover:scale-110 active:scale-90 transition" type="button" onClick={() => handleDeleteAddedItem(item?.id)}><Trash /></button>
                     </div>
                   )) :

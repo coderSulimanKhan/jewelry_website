@@ -1,6 +1,7 @@
 import { validationResult } from "express-validator"
 import Cut from "../models/cut.model.js";
-import { Types } from "mongoose";
+import { isValidObjectId } from "mongoose";
+import { error } from "console";
 
 const createCut = async (req, res) => {
   const errors = validationResult(req);
@@ -47,4 +48,35 @@ const deleteCut = async (req, res) => {
   }
 };
 
-export { createCut, getAllCuts, deleteCut }
+const getCutById = async (req, res) => {
+  const { id } = req?.params;
+  if (!isValidObjectId(id)) return res.status(400).json({ success: false, message: "Invalid id" });
+  try {
+    const cut = await Cut.findOne({ _id: id, isDeleted: false })
+      .populate({ path: "items.id", select: "name price" });
+    if (!cut) return res.status(404).json({ success: false, message: "Cut not found" });
+    res.status(200).json({ success: true, data: cut });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+}
+
+const updateCut = async (req, res) => {
+  const { id } = req?.params;
+  if (!isValidObjectId(id)) return res.status(400).json({ success: false, message: "Invalid id" });
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({ success: false, errors: errors.array() });
+  try {
+    const cut = await Cut.findOne({ _id: id, isDeleted: false });
+    if (!cut) return res.status(404).json({ success: false, message: "Cut not found" });
+    req.body.items = JSON.parse(req?.body?.items);
+    const updatedCut = await Cut.findByIdAndUpdate(id, req?.body);
+    if (!updateCut) return res.status(400).json({ success: false, message: "Failed to update" });
+    res.status(200).json({ success: true, message: "Cut updated successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+}
+
+
+export { createCut, getAllCuts, deleteCut, getCutById, updateCut }

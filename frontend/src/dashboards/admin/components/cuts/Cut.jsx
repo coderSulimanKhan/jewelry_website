@@ -65,7 +65,7 @@ const Cut = ({ cut, setCuts, cuts, setMyId, setIsViewBoxOpen }) => {
       <td align="center">
         <div className="flex flex-col items-center justify-center gap-1 py-5">
           <button onClick={() => { handleViewItems(cut?._id); setIsViewBoxOpen(true) }} className="px-2 bg-warning/20 text-warning rounded hover:scale-110 active:scale-90 transition relative text-xl">View <span className="absolute -top-4 -right-3 text-sm border rounded-full px-1 bg-warning/20">{cut?.items?.length == 1 ? "1 Item" : `${cut?.items?.length} Items`}</span></button>
-          <Link to={`/admin/dashboard/sales/update/${cut?._id}`}><SquarePen className="bg-error/10 size-10 text-error px-2 py-1 rounded hover:scale-110 active:scale-90 transition" /></Link>
+          <Link to={`/admin/dashboard/cuts/update/${cut?._id}`}><SquarePen className="bg-error/10 size-10 text-error px-2 py-1 rounded hover:scale-110 active:scale-90 transition" /></Link>
           <button onClick={() => handleDeleteCut(cut?._id)} disabled={isDeleting}><Trash className="bg-red-600/10 size-10 text-red-600 px-2 py-1 rounded hover:scale-110 active:scale-90 transition" /></button>
         </div>
       </td >
