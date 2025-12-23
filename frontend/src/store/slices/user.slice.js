@@ -31,8 +31,6 @@ const loginUser = createAsyncThunk("user/loginUser", async (credentials, { rejec
             toast.error(error.msg);
           }
         });
-      } else if (!data.success && data.message) {
-        toast.error(data.message);
       }
       throw new Error("Failed to login");
     };
