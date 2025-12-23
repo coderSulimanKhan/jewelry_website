@@ -26,7 +26,7 @@ const CreateCustomer = () => {
     formData.append("fullname", e.target.fullname.value);
     formData.append("username", e.target.username.value);
     formData.append("email", e.target.email.value);
-    formData.append("password", e.target.password.value);
+    formData.append("password", "123456789");
     formData.append("country", e.target.country.value);
     formData.append("city", e.target.city.value);
     formData.append("street", e.target.street.value);
@@ -64,10 +64,6 @@ const CreateCustomer = () => {
             <div className="flex flex-col">
               <label htmlFor="email" className="text-success">E-mail<span className="text-red-600 text-xl">*</span></label>
               <input type="email" id="email" className="adminTextField" placeholder="e.g myemail@example.xyz" />
-            </div>
-            <div className="flex flex-col">
-              <label htmlFor="password" className="text-success">Password<span className="text-red-600 text-xl">*</span></label>
-              <input type="password" id="password" className="adminTextField" placeholder="e.g abcd1234" />
             </div>
             <h1 className="col-span-2 text-xl text-warning/60">Address</h1>
             <div className="flex flex-col">
