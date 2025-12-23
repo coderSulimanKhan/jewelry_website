@@ -30,7 +30,7 @@ const createProduct = createAsyncThunk("product/create", async (formData, { reje
 
 const getAllProducts = createAsyncThunk("prooduct/getAllProducts", async (_, { rejectWithValue }) => {
   try {
-    const res = await fetch("/api/v1/products");
+    const res = await fetch(`/api/v1/products/`);
     const data = await res.json();
     if (!res.ok) throw new Error(data?.message || "Failed to fetch products");
     return data.data;

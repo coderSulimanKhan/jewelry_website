@@ -25,6 +25,7 @@ const productSchema = new Schema({
   isSoldOut: { type: Boolean, default: false },
   ratings: [{ type: Schema.Types.ObjectId, ref: "User" }],
   createdBy: { type: Schema.Types.ObjectId, ref: "User" },
+  type: { type: String, enum: ["product", "order", "got"], default: "product" },
   isDeleted: { type: Boolean, default: false }
 }, { timestamps: true });
 

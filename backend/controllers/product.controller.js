@@ -6,7 +6,7 @@ const createProduct = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ success: false, error: errors.array() });
-    const { name, description, category, material, price, color, stock, weightValue, weightUnit, sizeValue, sizeUnit, stones, discountFee, discountPercentage } = req.body;
+    const { name, description, category, material, price, color, stock, weightValue, weightUnit, sizeValue, sizeUnit, stones, discountFee, discountPercentage, type } = req.body;
     // add stone images
     const allStones = await JSON.parse(stones);
     for (let i = 0; i < allStones.length; i++) {
@@ -34,6 +34,7 @@ const createProduct = async (req, res) => {
       discountFee,
       discountPercentage,
       images,
+      type,
       createdBy: req.user._id,
     });
     res.status(201).json({ success: true, newProduct });

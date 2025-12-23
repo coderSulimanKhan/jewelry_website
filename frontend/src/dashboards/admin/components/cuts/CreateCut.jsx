@@ -28,7 +28,7 @@ const CreateCut = () => {
 
   useEffect(() => {
     setAllCustomers(customers);
-    setAllProducts(products);
+    setAllProducts(products?.filter(p => p.type === "got"));
   }, [customers, products]);
 
   useEffect(() => {
@@ -156,7 +156,7 @@ const CreateCut = () => {
             {
               isProductsBoxOpen &&
               <div className="w-[100vw] h-[100vh] bg-warning/25 absolute inset-0 flex items-center justify-center z-100">
-                <div className="w-2/3 bg-primary p-4 rounded-2xl border border-warning shadow-2xl shadow-warning">
+                <div className="w-2/3 max-h-[70vh] bg-primary p-4 rounded-2xl border border-warning shadow-2xl shadow-warning overflow-y-scroll">
                   <div className="flex items-center justify-between">
                     <h1 className="adminCardH1">Select Items</h1>
                     <input type="text" className="adminTextField" placeholder="Search by name..." onChange={handleItemsChange} />

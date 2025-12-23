@@ -93,6 +93,7 @@ const CreateProduct = () => {
     formData.append("sizeUnit", e.target.sizeUnit.value);
     formData.append("discountFee", e.target.discountFee.value);
     formData.append("discountPercentage", e.target.discountPercentage.value);
+    formData.append("type", e.target.type.value);
     if (allStones) {
       formData.append("stones", JSON.stringify(allStones));
     }
@@ -121,6 +122,15 @@ const CreateProduct = () => {
       <div className="flex justify-center">
         <form onSubmit={handleFormSubmit} className="w-4/5 border border-error p-3 rounded h-[80vh] overflow-y-scroll">
           <div className="flex flex-col gap-3">
+            {/* category */}
+            <div className="flex flex-col">
+              <label htmlFor="type" className="text-success">Type<span className="text-red-600 text-xl">*</span></label>
+              <select id="type" className="capitalize adminTextField">
+                <option value={"product"} className="bg-primary">product</option>
+                <option value={"order"} className="bg-primary">order</option>
+                <option value={"got"} className="bg-primary">got</option>
+              </select>
+            </div>
             {/* name */}
             <div className="flex flex-col w-full">
               <label htmlFor="name" className="text-success">Name<span className="text-red-600 text-xl">*</span></label>
