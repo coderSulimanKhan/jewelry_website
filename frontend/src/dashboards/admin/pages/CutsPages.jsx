@@ -54,7 +54,7 @@ const CutsPage = () => {
     <div className="flex flex-col gap-5 p-4 w-full">
       {/* first section starts */}
       <div className="flex items-center justify-between">
-        <h1 className="adminCardH1">Cuts</h1>
+        <h1 className="adminCardH1">Gots</h1>
         <div className="flex gap-2">
           <button className="myAdminBtn" onClick={openSearchBar}><Search className="size-5" />Search</button>
           <Link to={"/admin/dashboard/cuts/create"} className="myAdminBtn"><Plus className="size-5" />Create</Link>

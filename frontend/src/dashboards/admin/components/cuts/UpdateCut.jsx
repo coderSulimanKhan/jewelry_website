@@ -128,7 +128,7 @@ const UpdateCut = () => {
     <div className="flex flex-col gap-10 p-1 w-full">
       {/* first section starts */}
       <div className="flex items-center justify-between pr-10">
-        <h1 className="adminCardH1">Update Cut</h1>
+        <h1 className="adminCardH1">Update Got</h1>
         <Link to={"/admin/dashboard/cuts"}><X className="size-10 text-warning hover:scale-110 active:scale-90 transition" /></Link>
       </div>
       {/* first section ends */}

@@ -33,7 +33,7 @@ const SideBar = () => {
           Manage <span className="font-bold">Sales</span>
         </NavLink>
         <NavLink to={"/admin/dashboard/cuts"} className={({ isActive }) => isActive ? "bg-success/20 text-warning p-2 rounded text-xl" : "bg-warning/15 text-warning p-2 rounded text-xl hover:scale-110 active:scale-90 transition"}>
-          Manage <span className="font-bold">Cuts</span>
+          Manage <span className="font-bold">Gots</span>
         </NavLink>
         <NavLink to={"/admin/dashboard/orders"} className={({ isActive }) => isActive ? "bg-success/20 text-warning p-2 rounded text-xl" : "bg-warning/15 text-warning p-2 rounded text-xl hover:scale-110 active:scale-90 transition"}>
           Manage <span className="font-bold">Orders</span>

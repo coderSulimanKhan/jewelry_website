@@ -20,11 +20,11 @@ const createCut = createAsyncThunk("cut/create", async (formData, { rejectWithVa
       } else if (!data.success && data.message) {
         toast.error(data.message);
       }
-      throw new Error("Failed to create cut");
+      throw new Error("Failed to create got");
     };
     return data?.message;
   } catch (error) {
-    return rejectWithValue(error?.message || "Failed to create cut");
+    return rejectWithValue(error?.message || "Failed to create got");
   }
 })
 
@@ -32,10 +32,10 @@ const getAllCuts = createAsyncThunk("cut/getAll", async (_, { rejectWithValue })
   try {
     const res = await fetch("/api/v1/cuts");
     const data = await res.json();
-    if (!res.ok) throw new Error(data?.message || "Failed to get all cuts");
+    if (!res.ok) throw new Error(data?.message || "Failed to get all gots");
     return data?.data;
   } catch (error) {
-    return rejectWithValue(error?.message || "Failed to get all cuts");
+    return rejectWithValue(error?.message || "Failed to get all gots");
   }
 })
 
@@ -45,10 +45,10 @@ const deleteCut = createAsyncThunk("cut/delete", async (id, { rejectWithValue })
       method: "DELETE"
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data?.message || "Failed to delete cut")
+    if (!res.ok) throw new Error(data?.message || "Failed to delete got")
     return data?.success;
   } catch (error) {
-    return rejectWithValue(error?.message || "Failed to delete cut");
+    return rejectWithValue(error?.message || "Failed to delete got");
   }
 });
 
@@ -56,10 +56,10 @@ const getCutById = createAsyncThunk("cut/getById", async (id, { rejectWithValue 
   try {
     const res = await fetch(`/api/v1/cuts/${id}`);
     const data = await res.json();
-    if (!res.ok) throw new Error(data?.message || "Failed to get cut");
+    if (!res.ok) throw new Error(data?.message || "Failed to get got");
     return data?.data;
   } catch (error) {
-    return rejectWithValue(error?.message || "Failed to get cut");
+    return rejectWithValue(error?.message || "Failed to get got");
   }
 });
 
@@ -82,11 +82,11 @@ const updateCut = createAsyncThunk("cut/update", async ({ id, formData }, { reje
       } else if (!data.success && data.message) {
         toast.error(data.message);
       }
-      throw new Error("Failed to update cut");
+      throw new Error("Failed to update got");
     };
 
   } catch (error) {
-    return rejectWithValue(error?.message || "Failed to update cut");
+    return rejectWithValue(error?.message || "Failed to update got");
   }
 });
 
@@ -117,12 +117,12 @@ const cutSlice = createSlice({
       })
       .addCase(createCut.fulfilled, (state, action) => {
         state.isCreating = false;
-        toast.success(action?.payload || "Cut created successfully");
+        toast.success(action?.payload || "Got created successfully");
       })
       .addCase(createCut.rejected, (state, action) => {
         state.isCreating = false;
-        toast.error(action?.payload || "Failed to create cut");
-        state.error = action?.payload || "Error in creating cut";
+        toast.error(action?.payload || "Failed to create got");
+        state.error = action?.payload || "Error in creating got";
       })
       // get all cuts
       .addCase(getAllCuts.pending, state => {
@@ -135,8 +135,8 @@ const cutSlice = createSlice({
       })
       .addCase(getAllCuts.rejected, (state, action) => {
         state.isGettingAllCuts = false;
-        toast.error(action?.payload || "Failed to get all cuts");
-        state.error = action?.payload || "Failed to get all cuts";
+        toast.error(action?.payload || "Failed to get all gots");
+        state.error = action?.payload || "Failed to get all gots";
       })
       // delete cut
       .addCase(deleteCut.pending, state => {
@@ -145,12 +145,12 @@ const cutSlice = createSlice({
       })
       .addCase(deleteCut.fulfilled, state => {
         state.isDeleting = false;
-        toast.success("Cut deleted successfully");
+        toast.success("Got deleted successfully");
       })
       .addCase(deleteCut.rejected, (state, action) => {
         state.isDeleting = false;
-        toast.error(action?.payload || "Failed to get all cut");
-        state.error = action?.payload || "Failed to get all cut";
+        toast.error(action?.payload || "Failed to get all got");
+        state.error = action?.payload || "Failed to get all got";
       })
       // get cut by id
       .addCase(getCutById.pending, state => {
@@ -163,8 +163,8 @@ const cutSlice = createSlice({
       })
       .addCase(getCutById.rejected, (state, action) => {
         state.isGettingCut = false;
-        toast.error(action?.payload || "Failed to get cut");
-        state.error = action?.payload || "Failed to get cut";
+        toast.error(action?.payload || "Failed to get got");
+        state.error = action?.payload || "Failed to get got";
       })
       // update cut
       .addCase(updateCut.pending, state => {
@@ -173,12 +173,12 @@ const cutSlice = createSlice({
       })
       .addCase(updateCut.fulfilled, (state, action) => {
         state.isUpdating = false;
-        toast.success(action?.payload || "Cut updated successfully");
+        toast.success(action?.payload || "Got updated successfully");
       })
       .addCase(updateCut.rejected, (state, action) => {
         state.isUpdating = false;
-        toast.error(action?.payload || "Failed to update cut");
-        state.error = action?.payload || "Failed to update cut";
+        toast.error(action?.payload || "Failed to update got");
+        state.error = action?.payload || "Failed to update got";
       })
   }
 });
