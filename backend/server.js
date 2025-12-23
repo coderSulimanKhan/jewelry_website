@@ -13,6 +13,7 @@ import userRoutes from "./routes/user.route.js"
 import productRoutes from "./routes/product.route.js"
 import saleRoutes from "./routes/sale.route.js"
 import cutRoutes from "./routes/cut.route.js"
+import orderRoutes from "./routes/order.routes.js"
 
 //* Making Database Connection
 connectDB();
@@ -35,6 +36,7 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/sales", saleRoutes);
 app.use("/api/v1/cuts", cutRoutes);
+app.use("/api/v1/orders", orderRoutes);
 
 app.get("/", (req, res) => {
   res.send("I am jewelry server");

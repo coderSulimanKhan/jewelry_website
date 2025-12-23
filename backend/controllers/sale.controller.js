@@ -48,7 +48,7 @@ const getSale = async (req, res) => {
   const { id } = req.params
   if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ success: false, message: "Invalid id" });
   try {
-    const sale = await Sale.findById(id).populate({ path: "user", select: "name username image" }).populate({ path: "items.id", select: "name images" }).populate({ path: "createdBy", select: "name username image" });
+    const sale = await Sale.findById(id);
     if (!sale) return res.status(404).json({ success: false, message: "Sale not found" });
     res.status(200).json({ success: true, data: sale });
   } catch (error) {

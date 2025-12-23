@@ -36,6 +36,8 @@ import CreateSale from "./dashboards/admin/components/sale/CreateSale.jsx"
 import UpdateSale from "./dashboards/admin/components/sale/UpdateSale.jsx"
 import CreateCut from "./dashboards/admin/components/cuts/CreateCut.jsx"
 import UpdateCut from "./dashboards/admin/components/cuts/UpdateCut.jsx"
+import CreateOrder from "./dashboards/admin/components/orders/CreateOrder.jsx"
+import UpdateOrder from "./dashboards/admin/components/orders/UpdateOrder.jsx"
 
 
 const App = () => {
@@ -43,7 +45,7 @@ const App = () => {
   const user = useSelector(state => state.user.user);
   const role = user?.role;
   const dispatch = useDispatch();
-  console.log(user);
+  
   useEffect(() => {
     dispatch(getMe());
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -100,8 +102,11 @@ const App = () => {
             <Route path="cuts" element={<CutsPage />} />
             <Route path="cuts/create" element={<CreateCut />} />
             <Route path="cuts/update/:id" element={<UpdateCut />} />
-
+            {/* orders */}
             <Route path="orders" element={<OrdersPage />} />
+            <Route path="orders/create" element={<CreateOrder />} />
+            <Route path="orders/update/:id" element={<UpdateOrder />} />
+
             <Route path="bills" element={<BillsPage />} />
           </Route>
         </Routes>
