@@ -84,14 +84,12 @@ const CreateProduct = () => {
     formData.append("description", e.target.description.value);
     formData.append("category", e.target.category.value);
     formData.append("material", e.target.material.value);
-    formData.append("price", e.target.price.value);
     formData.append("making", e.target.making.value);
     formData.append("wastage", e.target.wastage.value);
     formData.append("polish", e.target.polish.value);
     formData.append("color", e.target.color.value);
     formData.append("stock", e.target.stock.value);
     formData.append("weightValue", e.target.weight.value);
-    formData.append("weightUnit", e.target.unit.value);
     formData.append("sizeValue", e.target.size.value);
     formData.append("sizeUnit", e.target.sizeUnit.value);
     formData.append("discountFee", e.target.discountFee.value);
@@ -163,51 +161,37 @@ const CreateProduct = () => {
                 <option value="silver" className="bg-primary">Silver</option>
               </select>
             </div>
-            {/*gold price */}
+            {/* color */}
             <div className="flex flex-col w-full">
-              <label htmlFor="price" className="text-success">Gold Price<span className="text-red-600 text-xl">*</span></label>
-              <input type="number" id="price" className="adminTextField" placeholder="e.g 100" min={1} />
+              <label htmlFor="color" className="text-success">Color<span className="text-red-600 text-xl">*</span></label>
+              <input type="text" id="color" className="adminTextField" placeholder="e.g Golden" />
+            </div>
+            {/* weight */}
+            <div className="flex gap-3 items-center justify-center">
+              <div className="flex flex-col w-full">
+                <label htmlFor="weight" className="text-success">Weight (g) <span className="text-red-600 text-xl">*</span></label>
+                <input type="number" step={"any"} id="weight" className="adminTextField" placeholder="e.g 25" min={1} />
+              </div>
+            </div>
+            {/* polish */}
+            <div className="flex flex-col w-full">
+              <label htmlFor="polish" className="text-success">Polish (g) <span className="text-red-600 text-xl">*</span></label>
+              <input type="number" step={"any"} id="polish" className="adminTextField" placeholder="e.g 2" min={0} />
+            </div>
+            {/* wastage */}
+            <div className="flex flex-col w-full">
+              <label htmlFor="wastage" className="text-success">Wastage (g) <span className="text-red-600 text-xl">*</span></label>
+              <input type="number" step={"any"} id="wastage" className="adminTextField" placeholder="e.g 2" min={0} />
             </div>
             {/* making */}
             <div className="flex flex-col w-full">
               <label htmlFor="making" className="text-success">Making<span className="text-red-600 text-xl">*</span></label>
               <input type="number" id="making" className="adminTextField" placeholder="e.g 100" min={0} />
             </div>
-            {/* color */}
-            <div className="flex flex-col w-full">
-              <label htmlFor="color" className="text-success">Color<span className="text-red-600 text-xl">*</span></label>
-              <input type="text" id="color" className="adminTextField" placeholder="e.g Golden" />
-            </div>
             {/* stock */}
             <div className="flex flex-col w-full">
               <label htmlFor="stock" className="text-success">Stock<span className="text-red-600 text-xl">*</span></label>
               <input type="number" id="stock" className="adminTextField" placeholder="e.g 12" min={1} />
-            </div>
-            {/* weight */}
-            <div className="flex gap-3 items-center justify-center">
-              <div className="flex flex-col w-full">
-                <label htmlFor="weight" className="text-success">Weight<span className="text-red-600 text-xl">*</span></label>
-                <input type="number" id="weight" className="adminTextField" placeholder="e.g 25" min={1} />
-              </div>
-              {/* unit */}
-              <div className="flex flex-col w-1/3">
-                <label htmlFor="unit" className="text-success">Unit<span className="text-red-600 text-xl">*</span></label>
-                <select id="unit" className="adminTextField">
-                  <option value="g" className="bg-primary">Grams</option>
-                  <option value="ct" className="bg-primary">Carats</option>{/* 0.2g */}
-                  <option value="oz" className="bg-primary">Ounces</option>{/* 28.35g */}
-                </select>
-              </div>
-            </div>
-            {/* polish */}
-            <div className="flex flex-col w-full">
-              <label htmlFor="polish" className="text-success">Polish<span className="text-red-600 text-xl">*</span></label>
-              <input type="number" id="polish" className="adminTextField" placeholder="e.g 2" min={0} />
-            </div>
-            {/* wastage */}
-            <div className="flex flex-col w-full">
-              <label htmlFor="wastage" className="text-success">Wastage<span className="text-red-600 text-xl">*</span></label>
-              <input type="number" id="wastage" className="adminTextField" placeholder="e.g 2" min={0} />
             </div>
             {/* size */}
             <div className="flex gap-3 items-center justify-center">

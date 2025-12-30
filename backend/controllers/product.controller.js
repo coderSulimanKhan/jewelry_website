@@ -6,7 +6,7 @@ const createProduct = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ success: false, error: errors.array() });
-    const { name, description, category, material, price, making, wastage, polish, color, stock, weightValue, weightUnit, sizeValue, sizeUnit, stones, discountFee, discountPercentage, type } = req.body;
+    const { name, description, category, material, making, wastage, polish, color, stock, weightValue, weightUnit, sizeValue, sizeUnit, stones, discountFee, discountPercentage, type } = req.body;
     // add stone images
     const allStones = await JSON.parse(stones);
     for (let i = 0; i < allStones.length; i++) {
@@ -25,7 +25,6 @@ const createProduct = async (req, res) => {
       description,
       category,
       material,
-      price,
       making,
       wastage,
       polish,
@@ -78,7 +77,7 @@ const updateProductById = async (req, res) => {
   }
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ success: false, errors: errors.array() });
-  const { name, description, category, material, price, making, wastage, polish, color, stock, weightValue, weightUnit, sizeValue, sizeUnit, stones, discountFee, discountPercentage } = req.body;
+  const { name, description, category, material, making, wastage, polish, color, stock, weightValue, weightUnit, sizeValue, sizeUnit, stones, discountFee, discountPercentage } = req.body;
   // add stone images
   const allStones = await JSON.parse(stones);
   const images = (await JSON.parse(req.body?.images)).filter(image => !image?.includes("blob"));
@@ -105,7 +104,6 @@ const updateProductById = async (req, res) => {
     product.description = description || product.description;
     product.category = category || product.category;
     product.material = material || product.material;
-    product.price = price || product.price;
     product.making = making || product.making;
     product.wastage = wastage || product.wastage;
     product.polish = polish || product.polish;

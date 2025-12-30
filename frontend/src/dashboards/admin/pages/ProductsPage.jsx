@@ -66,14 +66,18 @@ const ProductsPage = () => {
             <div className="loading" /> :
             <table className="w-full">
               <thead className="border-b border-warning/50 p-3 rounded">
-                <tr className="text-accent text-lg font-bold">
-                  <th>Image</th>
-                  <th>Name + Description</th>
-                  <th>Category</th>
-                  <th>Price</th>
-                  <th className="text-sm">Discount Fee</th>
-                  <th className="text-sm">Discount Percentage</th>
-                  <th className="text-sm">Total Price</th>
+                <tr className="text-accent text-sm font-bold">
+                  <th className="text-lg p-2">Image</th>
+                  <th className="text-lg p-2">Name</th>
+                  <th className="p-2">Category</th>
+                  <th className="p-2 truncate">Gold Price</th>
+                  <th className="p-2">Making</th>
+                  <th className="text-sm p-2">Weight</th>
+                  <th className="p-2">Wastage</th>
+                  <th className="p-2">Polish</th>
+                  <th className="text-md p-2">Discount Fee</th>
+                  <th className="text-md p-2">Discount Percentage</th>
+                  <th className="p-2 truncate">Total Price</th>
                   <th colSpan={2}>Actions</th>
                 </tr>
               </thead>
@@ -88,7 +92,7 @@ const ProductsPage = () => {
                     :
                     fProducts.length === 0 && isSearchBarOpen ?
                       <tr className="text-xl text-center">
-                        <td colSpan={8} className="pt-3">No products found <Link to={"/admin/dashboard/products/create"} className="text-warning hover:text-success transition">Create One</Link></td>
+                        <td colSpan={12} className="pt-3">Products not found <Link to={"/admin/dashboard/products/create"} className="text-warning hover:text-success transition">Create One</Link></td>
                       </tr>
                       :
                       allproducts.length > 0 ?
@@ -99,7 +103,7 @@ const ProductsPage = () => {
                         ))
                         :
                         <tr className="text-xl text-center">
-                          <td colSpan={8} className="pt-3">No products found <Link to={"/admin/dashboard/products/create"} className="text-warning hover:text-success transition">Create One</Link></td>
+                          <td colSpan={12} className="pt-3">Products not found <Link to={"/admin/dashboard/products/create"} className="text-warning hover:text-success transition">Create One</Link></td>
                         </tr>
                 }
               </tbody>
