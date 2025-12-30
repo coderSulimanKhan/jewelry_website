@@ -67,17 +67,17 @@ const ProductsPage = () => {
             <table className="w-full">
               <thead className="border-b border-warning/50 p-3 rounded">
                 <tr className="text-accent text-sm font-bold">
-                  <th className="text-lg p-2">Image</th>
-                  <th className="text-lg p-2">Name</th>
-                  <th className="p-2">Category</th>
-                  <th className="p-2 truncate">Gold Price</th>
-                  <th className="p-2">Making</th>
-                  <th className="text-sm p-2">Weight</th>
-                  <th className="p-2">Wastage</th>
-                  <th className="p-2">Polish</th>
-                  <th className="text-md p-2">Discount Fee</th>
-                  <th className="text-md p-2">Discount Percentage</th>
-                  <th className="p-2 truncate">Total Price</th>
+                  <th className="text-lg p-1">Image</th>
+                  <th className="text-lg p-1">Name</th>
+                  <th className="p-1">Category</th>
+                  <th className="p-1 truncate">Gold Price</th>
+                  <th className="p-1">Making</th>
+                  <th className="text-sm p-1">Weight</th>
+                  <th className="p-1">Wastage</th>
+                  <th className="p-1">Polish</th>
+                  <th className="text-md p-1">Discount Fee</th>
+                  <th className="text-md p-1">Discount Percentage</th>
+                  <th className="p-1 truncate">Total Price</th>
                   <th colSpan={2}>Actions</th>
                 </tr>
               </thead>
