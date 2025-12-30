@@ -40,6 +40,7 @@ import CreateOrder from "./dashboards/admin/components/orders/CreateOrder.jsx"
 import UpdateOrder from "./dashboards/admin/components/orders/UpdateOrder.jsx"
 import CreateBill from "./dashboards/admin/components/bill/CreateBill.jsx"
 import UpdateBill from "./dashboards/admin/components/bill/UpdateBill.jsx"
+import { getRate } from "./store/slices/rate.slice.js"
 
 
 const App = () => {
@@ -50,6 +51,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getMe());
+    dispatch(getRate())
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     setIsDark(prefersDark);
   }, [dispatch]);
