@@ -38,6 +38,8 @@ import CreateCut from "./dashboards/admin/components/cuts/CreateCut.jsx"
 import UpdateCut from "./dashboards/admin/components/cuts/UpdateCut.jsx"
 import CreateOrder from "./dashboards/admin/components/orders/CreateOrder.jsx"
 import UpdateOrder from "./dashboards/admin/components/orders/UpdateOrder.jsx"
+import CreateBill from "./dashboards/admin/components/bill/CreateBill.jsx"
+import UpdateBill from "./dashboards/admin/components/bill/UpdateBill.jsx"
 
 
 const App = () => {
@@ -45,7 +47,7 @@ const App = () => {
   const user = useSelector(state => state.user.user);
   const role = user?.role;
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(getMe());
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -107,7 +109,11 @@ const App = () => {
             <Route path="orders/create" element={<CreateOrder />} />
             <Route path="orders/update/:id" element={<UpdateOrder />} />
 
+            {/* bills */}
             <Route path="bills" element={<BillsPage />} />
+            <Route path="bills/create" element={<CreateBill />} />
+            <Route path="bills/update/:id" element={<UpdateBill />} />
+
           </Route>
         </Routes>
         {/* footer */}

@@ -33,6 +33,9 @@ const UpdateProduct = () => {
     category: "",
     material: "",
     price: "",
+    making: "",
+    wastage: "",
+    polish: "",
     color: "",
     stock: "",
     weight: {},
@@ -87,6 +90,9 @@ const UpdateProduct = () => {
     rformData.append("category", e.target.category.value);
     rformData.append("material", e.target.material.value);
     rformData.append("price", e.target.price.value);
+    rformData.append("making", e.target.making.value);
+    rformData.append("wastage", e.target.wastage.value);
+    rformData.append("polish", e.target.polish.value);
     rformData.append("color", e.target.color.value);
     rformData.append("stock", e.target.stock.value);
     rformData.append("weightValue", e.target.weight.value);
@@ -221,10 +227,15 @@ const UpdateProduct = () => {
                 <option value="silver" className="bg-primary">Silver</option>
               </select>
             </div>
-            {/* price */}
+            {/*Gold price */}
             <div className="flex flex-col w-full">
               <label htmlFor="price" className="text-success flex pb-1 gap-1">Price{product?.price !== formData?.price && <span className="bg-error/20 text-error text-xs px-1 py-1 rounded-full">Updated</span>}</label>
               <input type="number" id="price" value={formData?.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} className="adminTextField" placeholder="e.g 100" min={1} />
+            </div>
+            {/* making */}
+            <div className="flex flex-col w-full">
+              <label htmlFor="making" className="text-success">Making{product?.making !== formData?.making && <span className="bg-error/20 text-error text-xs px-1 py-1 rounded-full">Updated</span>}</label>
+              <input type="number" id="making" value={formData?.making} onChange={(e) => setFormData({ ...formData, making: e.target.value })} className="adminTextField" placeholder="e.g 100" min={0} />
             </div>
             {/* color */}
             <div className="flex flex-col w-full">
@@ -251,6 +262,16 @@ const UpdateProduct = () => {
                   <option value="oz" className="bg-primary">Ounces</option>{/* 28.35g */}
                 </select>
               </div>
+            </div>
+            {/* polish */}
+            <div className="flex flex-col w-full">
+              <label htmlFor="polish" className="text-success">Polish{product?.polish !== formData?.polish && <span className="bg-error/20 text-error text-xs px-1 py-1 rounded-full">Updated</span>}</label>
+              <input type="number" id="polish" value={formData?.polish} onChange={(e) => setFormData({ ...formData, polish: e.target.value })} className="adminTextField" placeholder="e.g 100" min={0} />
+            </div>
+            {/* wastage */}
+            <div className="flex flex-col w-full">
+              <label htmlFor="wastage" className="text-success">Wastage{product?.wastage !== formData?.wastage && <span className="bg-error/20 text-error text-xs px-1 py-1 rounded-full">Updated</span>}</label>
+              <input type="number" id="wastage" value={formData?.wastage} onChange={(e) => setFormData({ ...formData, wastage: e.target.value })} className="adminTextField" placeholder="e.g 100" min={0} />
             </div>
             {/* size */}
             <div className="flex gap-3 items-center justify-center">

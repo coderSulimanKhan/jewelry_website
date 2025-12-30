@@ -57,6 +57,7 @@ const updateProductById = createAsyncThunk("product/updateProductById", async ({
       body: rformData
     });
     const data = await res.json();
+    console.log(data);
     if (!res.ok) {
       if (data.error) {
         data.error.forEach(error => {
@@ -161,7 +162,6 @@ const productSlice = createSlice({
       })
       .addCase(updateProductById.fulfilled, state => {
         state.isUpdatingProduct = false;
-        state.error = null;
         toast.success("Product updated successfully");
       })
       .addCase(updateProductById.rejected, (state, action) => {

@@ -6,7 +6,7 @@ const createProduct = async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ success: false, error: errors.array() });
-    const { name, description, category, material, price, color, stock, weightValue, weightUnit, sizeValue, sizeUnit, stones, discountFee, discountPercentage, type } = req.body;
+    const { name, description, category, material, price, making, wastage, polish, color, stock, weightValue, weightUnit, sizeValue, sizeUnit, stones, discountFee, discountPercentage, type } = req.body;
     // add stone images
     const allStones = await JSON.parse(stones);
     for (let i = 0; i < allStones.length; i++) {
@@ -26,6 +26,9 @@ const createProduct = async (req, res) => {
       category,
       material,
       price,
+      making,
+      wastage,
+      polish,
       color,
       stock,
       weight: { value: weightValue, unit: weightUnit },
@@ -46,7 +49,7 @@ const createProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    const allProdcuts = await Product.find({ isDeleted: false });
+    const allProdcuts = await Product.find({ isDeleted: false});
     if (!allProdcuts) return res.status(404).json({ success: false, message: "Products not found" });
     res.status(200).json({ success: true, data: allProdcuts });
   } catch (error) {
@@ -75,7 +78,7 @@ const updateProductById = async (req, res) => {
   }
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).json({ success: false, errors: errors.array() });
-  const { name, description, category, material, price, color, stock, weightValue, weightUnit, sizeValue, sizeUnit, stones, discountFee, discountPercentage } = req.body;
+  const { name, description, category, material, price, making, wastage, polish, color, stock, weightValue, weightUnit, sizeValue, sizeUnit, stones, discountFee, discountPercentage } = req.body;
   // add stone images
   const allStones = await JSON.parse(stones);
   const images = (await JSON.parse(req.body?.images)).filter(image => !image?.includes("blob"));
@@ -103,6 +106,9 @@ const updateProductById = async (req, res) => {
     product.category = category || product.category;
     product.material = material || product.material;
     product.price = price || product.price;
+    product.making = making || product.making;
+    product.wastage = wastage || product.wastage;
+    product.polish = polish || product.polish;
     product.color = color || product.color;
     product.stock = stock || product.stock;
     product.weight = { ...product.weight, unit: weightUnit, value: weightValue };
@@ -128,9 +134,9 @@ const deleteProduct = async (req, res) => {
   try {
     const product = await Product.findById(id);
     if (!product) return res.status(404).json({ success: false, message: "Product not found" });
-    const deleted = await Product.findByIdAndDelete(id);
-    if (deleted) return res.status(200).json({ success: true, message: "Product deleted successfully" });
-    res.status(400).json({ success: false, message: "Product deletion failed" });
+    product.isDeleted = true;
+    await product.save();
+    return res.status(200).json({ success: true, message: "Product deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
