@@ -100,7 +100,7 @@ const SalesPage = () => {
                     :
                     fSales.length === 0 && isSearchBarOpen ?
                       <tr className="text-xl text-center">
-                        <td colSpan={6} className="pt-3">No sales found <Link to={"/admin/dashboard/sales/create"} className="text-warning hover:text-success transition">Create One</Link></td>
+                        <td colSpan={8} className="pt-3">Sales not found <Link to={"/admin/dashboard/sales/create"} className="text-warning hover:text-success transition">Create One</Link></td>
                       </tr>
                       :
                       sales.length > 0 ?
@@ -111,7 +111,7 @@ const SalesPage = () => {
                         ))
                         :
                         <tr className="text-xl text-center">
-                          <td colSpan={6} className="pt-3">No sales found <Link to={"/admin/dashboard/sales/create"} className="text-warning hover:text-success transition">Create One</Link></td>
+                          <td colSpan={8} className="pt-3">Sales not found <Link to={"/admin/dashboard/sales/create"} className="text-warning hover:text-success transition">Create One</Link></td>
                         </tr>
                 }
               </tbody>

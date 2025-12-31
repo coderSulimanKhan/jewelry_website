@@ -21,6 +21,8 @@ const CreateSale = () => {
     const [cash, setCash] = useState(null);
     const [another, setAnother] = useState(null);
     const dispatch = useDispatch();
+    const { gold_t } = useSelector(state => state.rate);
+
     useEffect(() => {
         dispatch(getAllCustomers());
         dispatch(getAllProducts());
@@ -108,7 +110,7 @@ const CreateSale = () => {
         addedItems?.forEach(item => {
             const product = products?.find(p => p._id === item.id);
             if (product) {
-                totalPrice += product?.price * item?.quantity;
+                totalPrice += item?.price * item?.quantity;
             }
         });
         return Math.round(totalPrice);
@@ -120,23 +122,19 @@ const CreateSale = () => {
             const product = products?.find(p => p._id === item.id);
             if (product) {
                 let itemPrice = 0;
-                const price = product?.price || 0;
+                itemPrice += item?.price * item?.quantity;
                 const dFee = product?.discountFee || 0;
                 const dPer = product?.discountPercentage || 0;
 
                 if (dFee > 0) {
-                    itemPrice = price - dFee;
+                    itemPrice -= dFee * item?.quantity;
                 }
 
                 if (dPer > 0) {
-                    itemPrice = price - (price * dPer / 100);
+                    itemPrice -= (itemPrice * dPer / 100);
                 }
 
-                if (dFee > 0 && dPer > 0) {
-                    itemPrice = price - (price * dPer / 100) - dFee;
-                }
-
-                totalPrice += itemPrice * item?.quantity;
+                totalPrice += itemPrice;
             }
         });
         return Math.round(totalPrice);
@@ -157,7 +155,7 @@ const CreateSale = () => {
             setTotalPrice(calculateTotalPrice());
         }
     }
-
+    console.log(addedItems);
     const handleFormSubmit = e => {
         e.preventDefault();
         const formData = new FormData();
@@ -168,10 +166,24 @@ const CreateSale = () => {
         formData.append("another", another);
         formData.append("remainingFee", totalPrice - cash - another);
         formData.append("isDefaultProductsDiscounts", isDefaultDiscountCheckedRef.current.checked);
-        console.log(isDefaultDiscountCheckedRef.current.checked);
         formData.append("discountFee", moreDiscountFee);
         formData.append("discountPercentage", moreDiscountPer);
         dispatch(createSale(formData));
+    };
+
+    const calculateGoldPrice = (w, ws, po, m) => {
+        const pricePerGram = gold_t / 11.6638;
+        let totalWeight = 0;
+        if (w) {
+            totalWeight += w;
+        };
+        if (ws) {
+            totalWeight -= ws;
+        };
+        if (po) {
+            totalWeight += po;
+        };
+        return Math.round(totalWeight * pricePerGram) + (Number(m) || 0);
     };
 
     return (
@@ -233,12 +245,12 @@ const CreateSale = () => {
                                                 <div key={product?._id} className="flex flex-col">
                                                     <div className="flex items-center justify-between">
                                                         <h1 className="text-3xl text-success">{product?.name}</h1>
-                                                        <h2 className="bg-warning/20 border border-success text-warning rounded-full px-2">{product?.price} <span className="text-xs">PKR</span></h2>
+                                                        <h2 className="bg-warning/20 border border-success text-warning rounded-full px-2">{calculateGoldPrice(product?.weight.value, product?.wastage, product?.polish, product?.making)} <span className="text-xs">PKR</span></h2>
                                                         <h3 className="text-3xl text-warning border bg-error/20 rounded-full px-2">{product?.stock} </h3>
                                                         <h4>{product?.soldOut ? "Sold Out" : ""}</h4>
                                                         <p className="text-2xl text-success">-{product?.discountFee ? product?.discountFee : "--"}{product?.discountFee ? <span className="text-sm text-warning">PKR</span> : ""}</p>
                                                         <p className="text-2xl text-success">-{product?.discountPercentage ? product?.discountPercentage : "--"}{product?.discountPercentage ? <span className="text-sm text-warning">%</span> : ""}</p>
-                                                        <input type="checkbox" onChange={(e) => handleProductChange(e, product?._id, product?.name, product?.price, product?.discountFee, product?.discountPercentage)} className="checkbox checkbox-xl checkbox-warning" />
+                                                        <input type="checkbox" onChange={(e) => handleProductChange(e, product?._id, product?.name, calculateGoldPrice(product?.weight.value, product?.wastage, product?.polish, product?.making), product?.discountFee, product?.discountPercentage)} className="checkbox checkbox-xl checkbox-warning" />
                                                     </div>
                                                     {addedItems.some(item => item.id === product._id) && (
                                                         <input onChange={(e) => handleQuantityChange(e, product._id)} defaultValue={1} type="number" min={1} placeholder="Quantity..." className="adminTextField m-1" />

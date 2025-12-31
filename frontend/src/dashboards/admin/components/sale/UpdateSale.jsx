@@ -26,6 +26,7 @@ const UpdateSale = () => {
     const [another, setAnother] = useState(null);
     const [userId, setUserId] = useState("");
     const dispatch = useDispatch();
+    const { gold_t } = useSelector(state => state.rate);
 
     useEffect(() => {
         dispatch(getSale(id));
@@ -54,7 +55,7 @@ const UpdateSale = () => {
         const updated = addedItems.map(item => {
             const product = allProducts.find(p => p._id === item.id || p._id === item.id?._id);
             return product
-                ? { ...item, f: product.discountFee, p: product.discountPercentage, price: product.price, name: product.name }
+                ? { ...item, f: product.discountFee, p: product.discountPercentage, price: calculateGoldPrice(product?.weight.value, product?.wastage, product?.polish, product?.making), name: product.name }
                 : item;
         });
 
@@ -110,7 +111,7 @@ const UpdateSale = () => {
             }
             price -= newValue;
         }
-        setTotalPrice(Math.floor(price));
+        setTotalPrice(Math.round(price));
     }, [addedItems, isDefaultProductsDiscounts, moreDiscountFee, moreDiscountPer]);
 
     const openProductsBox = () => {
@@ -159,6 +160,21 @@ const UpdateSale = () => {
         setAddedItems(addedItems.filter(item => item.id !== id));
     }
 
+    const calculateGoldPrice = (w, ws, po, m) => {
+        const pricePerGram = gold_t / 11.6638;
+        let totalWeight = 0;
+        if (w) {
+            totalWeight += w;
+        };
+        if (ws) {
+            totalWeight -= ws;
+        };
+        if (po) {
+            totalWeight += po;
+        };
+        return Math.round(totalWeight * pricePerGram) + (Number(m) || 0);
+    };
+
     const handleFormSubmit = e => {
         e.preventDefault();
         const formData = new FormData();
@@ -174,7 +190,7 @@ const UpdateSale = () => {
         formData.append("discountPercentage", moreDiscountPer);
         dispatch(updateSale({ formData, id }));
     };
-
+    console.log(addedItems);
     return (
         <div className="flex flex-col gap-10 p-1 w-full">
             {/* first section starts */}
@@ -234,12 +250,12 @@ const UpdateSale = () => {
                                                 <div key={product?._id} className="flex flex-col">
                                                     <div className="flex items-center justify-between">
                                                         <h1 className="text-3xl text-success">{product?.name}</h1>
-                                                        <h2 className="bg-warning/20 border border-success text-warning rounded-full px-2">{product?.price} <span className="text-xs">PKR</span></h2>
+                                                        <h2 className="bg-warning/20 border border-success text-warning rounded-full px-2">{calculateGoldPrice(product?.weight.value, product?.wastage, product?.polish, product?.making)} <span className="text-xs">PKR</span></h2>
                                                         <h3 className="text-3xl text-warning border bg-error/20 rounded-full px-2">{product?.stock} </h3>
                                                         <h4>{product?.soldOut ? "Sold Out" : ""}</h4>
                                                         <p className="text-2xl text-success">-{product?.discountFee ? product?.discountFee : "--"}{product?.discountFee ? <span className="text-sm text-warning">PKR</span> : ""}</p>
                                                         <p className="text-2xl text-success">-{product?.discountPercentage ? product?.discountPercentage : "--"}{product?.discountPercentage ? <span className="text-sm text-warning">%</span> : ""}</p>
-                                                        <input type="checkbox" onChange={(e) => handleProductChange(e, product?._id, product?.name, product?.price, product?.discountFee, product?.discountPercentage)} className="checkbox checkbox-xl checkbox-warning" />
+                                                        <input type="checkbox" onChange={(e) => handleProductChange(e, product?._id, product?.name, calculateGoldPrice(product?.weight.value, product?.wastage, product?.polish, product?.making), product?.discountFee, product?.discountPercentage)} className="checkbox checkbox-xl checkbox-warning" />
                                                     </div>
                                                     {addedItems.some(item => item.id === product._id) && (
                                                         <input onChange={(e) => handleQuantityChange(e, product._id)} defaultValue={1} type="number" min={1} placeholder="Quantity..." className="adminTextField m-1" />
