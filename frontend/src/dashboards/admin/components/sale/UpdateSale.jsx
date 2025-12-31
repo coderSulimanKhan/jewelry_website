@@ -183,7 +183,7 @@ const UpdateSale = () => {
         formData.append("totalPrice", totalPrice);
         formData.append("cash", cash);
         formData.append("another", another);
-        formData.append("remainingFee", totalPrice - cash - another);
+        formData.append("remainingFee", Math.round(totalPrice - cash - another));
         formData.append("isDefaultProductsDiscounts", isDefaultDiscountCheckedRef.current.checked);
         console.log(isDefaultDiscountCheckedRef.current.checked);
         formData.append("discountFee", moreDiscountFee);
