@@ -7,11 +7,11 @@ const createCut = async (req, res) => {
   if (!errors.isEmpty()) return res.status(400).json({ success: false, errors: errors.array() });
   try {
     req.body.items = JSON.parse(req?.body?.items);
+    console.log(req.body.items);
     const newCut = await Cut.create({ ...req?.body, createdBy: req?.user?._id });
     if (!newCut) return res.status(400).json({ success: false, message: "Failed to create got" });
     res.status(201).json({ success: true, message: "Got created successfully" });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 }

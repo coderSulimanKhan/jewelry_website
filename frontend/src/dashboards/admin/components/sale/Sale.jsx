@@ -43,7 +43,7 @@ const Sale = ({ sale, setSales, sales, setMyId, setIsViewBoxOpen }) => {
                 <p className="bg-error/20 border border-error text-error rounded-full w-fit px-2">{sale?.discountPercentage || "--"}%</p>
             </td>
             <td align="center">
-                <p className="bg-warning/20 border border-warning text-warning rounded-full px-2 w-29 text-sm">{sale?.totalPrice || "--"} <span className="text-xs text-error">PKR</span></p>
+                <p className="bg-warning/20 border border-warning text-warning rounded-full px-2 w-29 text-sm mx-5">{sale?.totalPrice || "--"} <span className="text-xs text-error">PKR</span></p>
             </td>
             <td align="center" className="">
                 <p className="bg-error/20 border border-error text-error rounded-full w-29 px-1 text-sm">{sale?.remainingFee || "--"} <span className="text-xs text-warning">PKR</span></p>

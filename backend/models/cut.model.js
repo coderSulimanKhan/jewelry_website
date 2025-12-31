@@ -2,7 +2,7 @@ import { Schema, model, SchemaTypes } from "mongoose"
 
 const cutSchema = new Schema({
   user: { type: SchemaTypes.ObjectId, ref: "User" }, // 1
-  items: [{ id: { type: SchemaTypes.ObjectId, ref: "Product" }, quantity: { type: Number, min: 1 } }],
+  items: [{ id: { type: SchemaTypes.ObjectId, ref: "Product" }, quantity: { type: Number, min: 1 }, price: { type: Number, min: 0 } }],
   cnic: String, // 5
   deductions: Number, // 6
   cash: Number, // 3

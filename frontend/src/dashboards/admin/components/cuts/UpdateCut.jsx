@@ -25,6 +25,8 @@ const UpdateCut = () => {
   const [cash, setCash] = useState(null);
   const [another, setAnother] = useState(null);
   const dispatch = useDispatch();
+  const { gold_t } = useSelector(state => state.rate);
+
   useEffect(() => {
     dispatch(getAllCustomers());
     dispatch(getAllProducts());
@@ -33,7 +35,7 @@ const UpdateCut = () => {
 
   useEffect(() => {
     setAllCustomers(customers);
-    setAllProducts(products);
+    setAllProducts(products?.filter(p => p.type === "got"));
     setCut(myCut);
   }, [customers, products, myCut]);
 
@@ -49,6 +51,7 @@ const UpdateCut = () => {
   }, [products, cut]);
 
   useEffect(() => {
+    console.log(addedItems);
     const basePrice = calculateTotalPrice();
     const finalPrice = basePrice - (Number(deductions) || 0);
     setTotalPrice(finalPrice);
@@ -98,12 +101,22 @@ const UpdateCut = () => {
     setAddedItems(addedItems.filter(item => item.id !== id));
   }
 
+  // const calculateTotalPrice = () => {
+  //   let totalPrice = 0;
+  //   addedItems?.forEach(item => {
+  //     const product = products?.find(p => p._id === item?.id?._id || p._id === item?.id);
+  //     if (product) {
+  //       totalPrice += product?.price * item?.quantity;
+  //     }
+  //   });
+  //   return Math.round(totalPrice);
+  // }
   const calculateTotalPrice = () => {
     let totalPrice = 0;
     addedItems?.forEach(item => {
       const product = products?.find(p => p._id === item?.id?._id || p._id === item?.id);
       if (product) {
-        totalPrice += product?.price * item?.quantity;
+        totalPrice += item?.price * item?.quantity;
       }
     });
     return Math.round(totalPrice);
@@ -122,6 +135,11 @@ const UpdateCut = () => {
     formData.append("totalAmount", totalPrice);
     formData.append("remainingAmount", totalPrice - cash - another);
     dispatch(updateCut({ id, formData }));
+  };
+
+  const calculateGoldPrice = w => {
+    const pricePerGram = gold_t / 11.6638;
+    return Math.round(pricePerGram * w);
   };
 
   return (
@@ -181,12 +199,12 @@ const UpdateCut = () => {
                         <div key={product?._id} className="flex flex-col">
                           <div className="flex items-center justify-between">
                             <h1 className="text-3xl text-success">{product?.name}</h1>
-                            <h2 className="bg-warning/20 border border-success text-warning rounded-full px-2">{product?.price} <span className="text-xs">PKR</span></h2>
+                            <h2 className="bg-warning/20 border border-success text-warning rounded-full px-2">{calculateGoldPrice(product?.weight.value)} <span className="text-xs">PKR</span></h2>
                             <h3 className="text-3xl text-warning border bg-error/20 rounded-full px-2">{product?.stock} </h3>
                             <h4>{product?.soldOut ? "Sold Out" : ""}</h4>
                             <p className="text-2xl text-success">-{product?.discountFee ? product?.discountFee : "--"}{product?.discountFee ? <span className="text-sm text-warning">PKR</span> : ""}</p>
                             <p className="text-2xl text-success">-{product?.discountPercentage ? product?.discountPercentage : "--"}{product?.discountPercentage ? <span className="text-sm text-warning">%</span> : ""}</p>
-                            <input type="checkbox" onChange={(e) => handleProductChange(e, product?._id, product?.name, product?.price, product?.discountFee, product?.discountPercentage)} className="checkbox checkbox-xl checkbox-warning" />
+                            <input type="checkbox" onChange={(e) => handleProductChange(e, product?._id, product?.name, calculateGoldPrice(product?.weight.value), product?.discountFee, product?.discountPercentage)} className="checkbox checkbox-xl checkbox-warning" />
                           </div>
                           {addedItems.some(item => item.id === product._id) && (
                             <input onChange={(e) => handleQuantityChange(e, product._id)} defaultValue={1} type="number" min={1} placeholder="Quantity..." className="adminTextField m-1" />
@@ -206,15 +224,15 @@ const UpdateCut = () => {
           </div>
           <div className="flex flex-col">
             <label htmlFor="deductions" className="text-success">Deductions</label>
-            <input id="deductions" type="number" value={deductions} onChange={(e) => setDeductions(e.target.value)} className="adminTextField" placeholder="@ 2000" min={0} />
+            <input id="deductions" type="number" value={deductions || 0} onChange={(e) => setDeductions(e.target.value)} className="adminTextField" placeholder="@ 2000" min={0} />
           </div>
           <div className="flex flex-col">
             <label htmlFor="cash" className="text-success">Cash</label>
-            <input id="cash" type="number" value={cash} onChange={(e) => setCash(e.target.value)} className="adminTextField" placeholder="@ 2000" min={0} />
+            <input id="cash" type="number" value={cash || 0} onChange={(e) => setCash(e.target.value)} className="adminTextField" placeholder="@ 2000" min={0} />
           </div>
           <div className="flex flex-col">
             <label htmlFor="another" className="text-success">Another</label>
-            <input id="another" type="number" value={another} onChange={(e) => setAnother(e.target.value)} className="adminTextField" placeholder="@ 2000" min={0} />
+            <input id="another" type="number" value={another || 0} onChange={(e) => setAnother(e.target.value)} className="adminTextField" placeholder="@ 2000" min={0} />
           </div>
           <div className="flex flex-col">
             <label htmlFor="note" className="text-success">Note</label>

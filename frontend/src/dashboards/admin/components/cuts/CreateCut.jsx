@@ -21,6 +21,8 @@ const CreateCut = () => {
   const [cash, setCash] = useState(null);
   const [another, setAnother] = useState(null);
   const dispatch = useDispatch();
+  const { gold_t } = useSelector(state => state.rate);
+
   useEffect(() => {
     dispatch(getAllCustomers());
     dispatch(getAllProducts());
@@ -90,7 +92,7 @@ const CreateCut = () => {
     addedItems?.forEach(item => {
       const product = products?.find(p => p._id === item.id);
       if (product) {
-        totalPrice += product?.price * item?.quantity;
+        totalPrice += item?.price * item?.quantity;
       }
     });
     return Math.round(totalPrice);
@@ -100,7 +102,8 @@ const CreateCut = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("user", e.target.users.value);
-    formData.append("items", JSON.stringify(addedItems)); // todo: pass as a string
+    formData.append("items", JSON.stringify(addedItems));
+    console.log(addedItems);
     formData.append("cnic", cnic);
     formData.append("deductions", deductions);
     formData.append("cash", cash);
@@ -109,6 +112,11 @@ const CreateCut = () => {
     formData.append("totalAmount", totalPrice);
     formData.append("remainingAmount", totalPrice - cash - another);
     dispatch(createCut(formData));
+  };
+
+  const calculateGoldPrice = w => {
+    const pricePerGram = gold_t / 11.6638;
+    return Math.round(pricePerGram * w);
   };
 
   return (
@@ -168,12 +176,12 @@ const CreateCut = () => {
                         <div key={product?._id} className="flex flex-col">
                           <div className="flex items-center justify-between">
                             <h1 className="text-3xl text-success">{product?.name}</h1>
-                            <h2 className="bg-warning/20 border border-success text-warning rounded-full px-2">{product?.price} <span className="text-xs">PKR</span></h2>
+                            <h2 className="bg-warning/20 border border-success text-warning rounded-full px-2">{calculateGoldPrice(product?.weight.value)} <span className="text-xs">PKR</span></h2>
                             <h3 className="text-3xl text-warning border bg-error/20 rounded-full px-2">{product?.stock} </h3>
                             <h4>{product?.soldOut ? "Sold Out" : ""}</h4>
                             <p className="text-2xl text-success">-{product?.discountFee ? product?.discountFee : "--"}{product?.discountFee ? <span className="text-sm text-warning">PKR</span> : ""}</p>
                             <p className="text-2xl text-success">-{product?.discountPercentage ? product?.discountPercentage : "--"}{product?.discountPercentage ? <span className="text-sm text-warning">%</span> : ""}</p>
-                            <input type="checkbox" onChange={(e) => handleProductChange(e, product?._id, product?.name, product?.price, product?.discountFee, product?.discountPercentage)} className="checkbox checkbox-xl checkbox-warning" />
+                            <input type="checkbox" onChange={(e) => handleProductChange(e, product?._id, product?.name, calculateGoldPrice(product?.weight.value), product?.discountFee, product?.discountPercentage)} className="checkbox checkbox-xl checkbox-warning" />
                           </div>
                           {addedItems.some(item => item.id === product._id) && (
                             <input onChange={(e) => handleQuantityChange(e, product._id)} defaultValue={1} type="number" min={1} placeholder="Quantity..." className="adminTextField m-1" />

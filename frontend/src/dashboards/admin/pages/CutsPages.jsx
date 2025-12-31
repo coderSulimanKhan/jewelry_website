@@ -99,7 +99,7 @@ const CutsPage = () => {
                     :
                     fCuts.length === 0 && isSearchBarOpen ?
                       <tr className="text-xl text-center">
-                        <td colSpan={10} className="pt-3">No cuts found <Link to={"/admin/dashboard/cuts/create"} className="text-warning hover:text-success transition">Create One</Link></td>
+                        <td colSpan={10} className="pt-3">Gots not found <Link to={"/admin/dashboard/cuts/create"} className="text-warning hover:text-success transition">Create One</Link></td>
                       </tr>
                       :
                       cuts.length > 0 ?
@@ -110,7 +110,7 @@ const CutsPage = () => {
                         ))
                         :
                         <tr className="text-xl text-center">
-                          <td colSpan={10} className="pt-3">No cuts found <Link to={"/admin/dashboard/cuts/create"} className="text-warning hover:text-success transition">Create One</Link></td>
+                          <td colSpan={10} className="pt-3">Gots not found <Link to={"/admin/dashboard/cuts/create"} className="text-warning hover:text-success transition">Create One</Link></td>
                         </tr>
                 }
               </tbody>

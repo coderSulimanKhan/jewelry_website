@@ -190,7 +190,6 @@ const UpdateSale = () => {
         formData.append("discountPercentage", moreDiscountPer);
         dispatch(updateSale({ formData, id }));
     };
-    console.log(addedItems);
     return (
         <div className="flex flex-col gap-10 p-1 w-full">
             {/* first section starts */}
