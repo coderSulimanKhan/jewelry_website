@@ -30,7 +30,7 @@ const CreateSale = () => {
 
     useEffect(() => {
         setAllCustomers(customers);
-        setAllProducts(products);
+        setAllProducts(products?.filter(p => p.type === "product"));
     }, [customers, products]);
 
     useEffect(() => {
